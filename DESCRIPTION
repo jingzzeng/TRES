@@ -1,0 +1,19 @@
+Package: TRES
+Type: Package
+Title: Tensor Regression with Envelope Structure and Three Generic
+        Envelope Estimation Approaches
+Version: 0.1.0
+Author: Wenjing Wang [aut, cre] <wenjing.wang@stat.fsu.edu>, 
+        Xin Zhang [aut, cre] <henry@stat.fsu.edu>
+Maintainer: Wenjing Wang <wenjing.wang@stat.fsu.edu>
+Description: Provides three estimators for tensor response regression (TRR) and tensor predictor regression (TPR) models with tensor envelope structure. The three types of estimation approaches are generic and can be applied to any envelope estimation problems. The full Grassmannian (FG) optimization is often associated with likelihood-based estimation but requires heavy computation and good initialization; the one-directional optimization approaches (1D and ECD algorithms) are faster, stable and does not require carefully chosen initial values; the SIMPLS-type is motivated by the partial least squares regression and is computationally the least expensive.
+License: GPL-3
+Encoding: UTF-8
+Depends: R (>= 3.5.0), ManifoldOptim, rTensor, MASS
+Imports: pracma, mvtnorm, methods
+RcppModules: ManifoldOptim_module
+RoxygenNote: 6.1.0
+NeedsCompilation: no
+Packaged: 2018-11-16 18:32:05 UTC; wenja
+Repository: CRAN
+Date/Publication: 2018-11-26 20:20:06 UTC
