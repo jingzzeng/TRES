@@ -2,19 +2,35 @@
 #'
 
 # This function gives all the estimation of tensor response regression
-TRR <- function(Yn, Xn, u, method) {
-
+TRR <- function(Yn, Xn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, Gamma_init=NULL) {
+  cl <- match.call()
+  method <- match.arg(method)
+  if(!is.matrix(Xn)){
+    if(is.vector(Xn)){
+      Xn <- t(as.matrix(Xn))
+    }
+    else stop("Xn should be vector or matrix.")
+  }
+  if(!inherits(Yn, "Tensor")){
+    if(is.matrix(Yn)){
+      Yn <- as.tensor(Yn)
+    }
+    else stop("Yn should be Tensor or matrix.")
+  }
+  Xn_old <- Xn
+  Yn_old <- Yn
   ss <- dim(Yn)
   len <- length(ss)
   n <- ss[len]
+  if(n != dim(Xn)[2]){stop("Unmatched dimension.")}
   r <- ss[1:(len-1)]
   m <- length(r)
   prodr <- prod(r)
   p <- dim(Xn)[1]
+  ##center the data
   mux <- as.matrix(apply(Xn, 1, mean))
   Xn <- Xn-mux[, rep(1, n)]
   muy <- apply(Yn@data, c(1:m), mean)
-
   tmp1 <- lapply(1:n, function(x) muy)
   tmp1 <- array(unlist(tmp1), c(r, n))
   tmp2 <- Yn@data-tmp1
@@ -31,6 +47,7 @@ TRR <- function(Yn, Xn, u, method) {
     Bhat = Btil
     Gamma1 = NULL
   }else {
+    if(missing(u)){stop("A user-defined u is required.")}
     Sinvhalf <- NULL
     for (i in 1:m) {
       Sinvhalf[[i]] <- pracma::sqrtm(Sig[[i]])$Binv
@@ -49,12 +66,20 @@ TRR <- function(Yn, Xn, u, method) {
       idxprod <- (r[i]/n)/prodr
       YsnYsn <- ttt(Ysn, Ysn, dims=idx)@data*idxprod
       U <- YsnYsn - M
+
       if (method == "1D") {
         Gamma1[[i]] <- OptimballGBB1D(M, U, u[i], opts=NULL)
       }else if(method == "ECD") {
         Gamma1[[i]] <- ECD(M, U, u[i])
       }else if(method == "PLS") {
         Gamma1[[i]] <- EnvMU(M, U, u[i])
+      }else if(method == "FG"){
+        if(missing(Gamma_init)){
+          init <-  OptimballGBB1D(M, U, u[i], opts=NULL)
+        }else{
+          init <- Gamma_init[[i]]
+        }
+        Gamma1[[i]] <- OptStiefelGBB(init, opts=NULL, FGfun, M, U)$X
       }
       PGamma[[i]] <- Gamma1[[i]] %*% t(Gamma1[[i]])
     }
@@ -63,5 +88,8 @@ TRR <- function(Yn, Xn, u, method) {
 
   }
 
-  return(list(Bhat=Bhat, Gamma_hat=Gamma1, Sig=Sig))
+  output <- list(X=Xn_old, Y=Yn_old, coefficients=Bhat, Gamma_hat=Gamma1, Sig=Sig)
+  class(output) <- "Tenv"
+  output$call <- cl
+  output
 }

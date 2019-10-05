@@ -5,23 +5,26 @@
 Tensor response regression
 }
 \description{
-This function is used for estimation of tensor response regression. The avaiable method including standard OLS type estimation, PLS type of estimation as well as envelope estimation with 1D and ECD approaches.
+This function is used for estimation of tensor response regression. The avaiable method including standard OLS type estimation, PLS type of estimation as well as envelope estimation with FG, 1D and ECD approaches.
 }
 \usage{
-TRR(Yn, Xn, u, method)
+TRR(Yn, Xn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'),
+    u=NULL, Gamma_init=NULL)
 }
 
 \arguments{
-  \item{Yn}{The response tensor instance or dimension \eqn{r_1\times r_2\times\cdots\times r_m \times n}, where \eqn{n} is the sample size.}
+  \item{Yn}{The response tensor instance with dimension \eqn{r_1\times r_2\times\cdots\times r_m \times n}, where \eqn{n} is the sample size. A matrix instance with dimension \eqn{r\times n} is also acceptable.}
   \item{Xn}{The predictor matrix of dimension \eqn{p \times n}.}
-  \item{u}{The dimension of envelope subspace. \eqn{u=(u_1,\cdots, u_m)}.}
+  \item{u}{The dimension of envelope subspace. \eqn{u=(u_1,\cdots, u_m)}. Used for methods "1D", "ECD" and "PLS". User can use \code{\link{TensEnv_dim}} to select dimension.}
   \item{method}{The method used for estimation of tensor response regression. There are four possible choices.}
   \itemize{
 \item{\code{"standard"}}: The standard OLS type estimation.
-\item{\code{"1D"}}: Envelope estimation with one dimenaional optimization approaches by 1D algorithm.
-\item{\code{"ECD"}}: Envelope estimation with one dimenaional optimization approaches by ECD algorithm.
-\item{\code{"PLS"}}: The SIMPLS-type estimation without mannifold optimization.
+\item{\code{"FG"}}: Envelope estimation with full Grassmannian (FG) algorithm.
+\item{\code{"1D"}}: Envelope estimation with one dimensional optimization approaches by 1D algorithm.
+\item{\code{"ECD"}}: Envelope estimation with one dimensional optimization approaches by ECD algorithm.
+\item{\code{"PLS"}}: The SIMPLS-type estimation without manifold optimization.
 }
+  \item{Gamma_init}{A list specifying the initial estimation of envelope subspace basis for "FG" method. If unspecified, use the estimation from "1D" algorithm.}
 
 }
 

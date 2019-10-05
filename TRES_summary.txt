@@ -1,0 +1,58 @@
+1.Regression
+FG_TPR(why not included in TPR)
+FG_TRR
+TensPLS_fit(TPR,PLS-env, different from TPR(PLS)?)
+Tenv(TRR-env, TRR(1D)?)
+TPR(OLS, PLS, 1D, ECD): include TenPLS_cv2d3d as the default dimension selection method?
+TRR(OLS, PLS, 1D, ECD): include TenEnv_dim as the default dimension selection method?
+1D used OptManiMultiBallGBB function
+
+2.Dimension selection:
+TensEnv_dim(TRR, change name?)
+TenPLS_cv2d3d(TPR, change name?)
+ballGBB1D_bic(1D)
+
+3.Model-free algorithms:
+ECD
+EnvMU(SIMPLS)
+manifold1D(1D)
+OptimballGBB1D(1D)
+OptManiMultiBallGBB(1D)
+manifoldFG(FG)
+OptStiefelGBB(FG)
+
+4.Others:
+FGfun(objective function and its gradient for FG algorithm)
+fun1D(change to 1Dfun?)
+get_ini1D(initial value for 1D algorithm)
+kroncov
+MenvU_sim
+PMSE
+subspace
+Tenv_Pval(p-val,TRR)
+ttt
+
+5.Bugs:
+MenvU_sim(doc)
+PMSE
+(✅)TRR: default u.
+PMSE(doc): Yn is not a vector(is a p-by-n matrix)
+
+6.Plan:
+  (✅)a.(S3) class methods: coef(), fitted(), predict(), residuals()-TPR, TRR
+  (✅)b.print(), summary(), plot()-TPR, TRR
+  c.formula interface of TRR, TPR
+  d.TRR.fit(x,y) and TPR.fit(x,y)
+  (✅)e.Make TPR and TRR more robust. (X and Y is vector or matrix). 
+  (✅)f.Modify the doc file for TRR. We include ‘FG’ method into the code, and add another default parameter: Gamma_init.
+  g.Change all Y,X to X,Y in parameters.
+  h.Remove PMSE function (replaced with summary(..)$mse)
+
+7.Reimplementation
+  a. print() prints the Bmat as coefficients from TPR and TRR
+  b. fitted() calculates the fitted Y for TPR and TRR separately.
+  c. residuals calculate Y-fitted() for TPR and TRR
+  d. predict() make predictions of newdata. (Can we calculate the standard error for newdata?)
+  e. summary(): add dimensions of X,Y, sample size, mse and p_val into summary()
+  g. plot can draw the plot of coefficients from TRR and TPR, and draw p_val plot from TRR.
+  

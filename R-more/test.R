@@ -1,0 +1,5 @@
+library(alr4)
+data("oldfaith")
+fit <- lm(oldfaith$Duration~oldfaith$Interval, nothing = 1)
+summary(fit)
+plot(fit)

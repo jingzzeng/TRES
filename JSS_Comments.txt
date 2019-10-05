@@ -1,0 +1,32 @@
+The submission "TRES: An R Package for Tensor Regression and Envelope 
+Algorithms" presents an R package that provides the least squares and 
+envelope estimators for the tensor response regression (TRR) and the 
+tensor predictor regression (TPR) models.
+
+In principle, the topic is suitable for JSS. However, the current 
+implementation of the package does not meet the standard expected from 
+successful JSS publications. For details see the specific comments 
+provided below. Therefore, we have decided not to consider the submission 
+for a full review.
+
+* The main functionality consists of a regression implementation. However, 
+both in terms of input and output the functions are rather non-standard. 
+We recommend re-implementation of the package using a standard approach 
+and following related functionality (at least lm, glm, but possibly also 
+other related packages).
+
+* In R regression models are usually specified using a formula interface 
+plus possibly an underlying *.fit() function that operates on 
+vectors/matrices (e.g., lm/lm.fit, glm/glm.fit). The formula interface 
+typically takes formula, data, subset, na.action plus possibly weights and 
+offset.
+
+* The regression output should have a (S3) class with associated methods 
+such as print(), summary(), plot() but also for extracting relevant 
+information such as coef(), vcov(), fitted(), predict(), residuals(). See 
+e.g. methods(class = "lm") and methods(class = "glm").
+
+If the authors re-implement their package (or decide to write a new one) a 
+future submission to JSS would be possible. If this is pursued the style 
+and replication instructions of the journal need to be followed more 
+closely.

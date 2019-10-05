@@ -17,3 +17,5 @@ NeedsCompilation: no
 Packaged: 2018-11-16 18:32:05 UTC; wenja
 Repository: CRAN
 Date/Publication: 2018-11-26 20:20:06 UTC
+Suggests: 
+    testthat
