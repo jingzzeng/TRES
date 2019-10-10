@@ -7,12 +7,12 @@ Envelope dimension by cross-validation for tensor predictor regression
 This function obtain the envelope dimension by cross-validation for tensor predictor regression.
 }
 \usage{
-TensPLS_cv2d3d(X0, Y0, maxdim, nfolds)
+TensPLS_cv2d3d(Xn, Yn, maxdim, nfolds)
 }
 
 \arguments{
-   \item{X0}{A predictor tensor instance.}
-  \item{Y0}{The response vector.}
+   \item{Xn}{A predictor tensor instance.}
+  \item{Yn}{The response vector.}
   \item{maxdim}{The largest dimension to be considered for selection.}
   \item{nfolds}{Number of folds for cross-validation.}
 }

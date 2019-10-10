@@ -23,7 +23,7 @@ ttt(X, Y, dims)
 }
 
 \examples{
- X = as.tensor(array(runif(24), c(3, 4, 2)));
- Y = as.tensor(array(runif(24), c(3, 4, 2)));
+ X = rTensor::as.tensor(array(runif(24), c(3, 4, 2)));
+ Y = rTensor::as.tensor(array(runif(24), c(3, 4, 2)));
  Z = ttt(X, Y, 1:2)
 }

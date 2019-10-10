@@ -1,14 +1,14 @@
 #' @export
 #' @import rTensor
 #' @importFrom pracma kron sqrtm
-TensPLS_cv2d3d <- function(X0, Y0, maxdim, nfolds) {
-  ss <- dim(X0)
+TensPLS_cv2d3d <- function(Xn, Yn, maxdim, nfolds) {
+  ss <- dim(Xn)
   len <- length(ss)
   n <- ss[len]
   p <- ss[1:(len-1)]
-  r <- dim(Y0)[1]
+  r <- dim(Yn)[1]
   m <- length(p)
-  vecX0 <- matrix(X0@data, c(prod(p), r))
+  vecX0 <- matrix(Xn@data, c(prod(p), r))
   idx <- sample(1:n, n, replace = FALSE)
   Ntest <- floor(n/nfolds)
   Ntrain <- n - Ntest
@@ -17,7 +17,7 @@ TensPLS_cv2d3d <- function(X0, Y0, maxdim, nfolds) {
   for (i in 1:nfolds) {
     testid <- c(1:Ntest) + (i-1)*Ntest
     testid <- idx[testid]
-    Ytrain <- Y0
+    Ytrain <- Yn
     vecXtrain <- vecX0
     vecXtrain_cv <- vecXtrain[, -testid]
     Ytrain_cv <- matrix(Ytrain[, -testid], 1, Ntrain)
@@ -28,7 +28,7 @@ TensPLS_cv2d3d <- function(X0, Y0, maxdim, nfolds) {
 
     tp <- array(vecXtrain_cv, c(p, Ntrain))
     Xtrain <- rTensor::as.tensor(tp)
-    Ytest <- matrix(Y0[, testid], 1, Ntest)
+    Ytest <- matrix(Yn[, testid], 1, Ntest)
     vecXtest <- vecX0[, testid]
     Ytest <- Ytest - mu_Y[, rep(1, Ntest)]
     vecXtest <- vecXtest - mu_vecX[, rep(1, Ntest)]

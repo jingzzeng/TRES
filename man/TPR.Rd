@@ -8,27 +8,34 @@ Tensor Predictor Regression
 This function is used for estimation of tensor predictor regression. The avaiable method including standard OLS type estimation, PLS type of estimation as well as envelope estimation with 1D and ECD approaches.
 }
 \usage{
-TPR(Yn, Xn, u, method)
+TPR(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'),
+    u=NULL, Gamma_init=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{Yn}{The response matrix of dimension \eqn{r \times n}, where \eqn{n} is the sample size.}
   \item{Xn}{The response tensor instance or dimension \eqn{p_1\times p_2\times\cdots\times p_m \times n}, where \eqn{n} is the sample size.}
+  \item{Yn}{The response matrix of dimension \eqn{r \times n}, where \eqn{n} is the sample size.}
   \item{u}{The dimension of envelope subspace. \eqn{u=(u_1,\cdots, u_m)}.}
   \item{method}{The method used for estimation of tensor response regression. There are four possible choices.}
   \itemize{
-\item{\code{"standard"}}: The standard OLS type estimation.
-\item{\code{"1D"}}: Envelope estimation with one dimenaional optimization approaches by 1D algorithm.
-\item{\code{"ECD"}}: Envelope estimation with one dimenaional optimization approaches by ECD algorithm.
-\item{\code{"PLS"}}: The SIMPLS-type estimation without mannifold optimization.
+  \item{\code{"standard"}}: The standard OLS type estimation.
+  \item{\code{"FG"}}: Envelope estimation with full Grassmannian (FG) algorithm.
+  \item{\code{"1D"}}: Envelope estimation with one dimenaional optimization approaches by 1D algorithm.
+  \item{\code{"ECD"}}: Envelope estimation with one dimenaional optimization approaches by ECD algorithm.
+  \item{\code{"PLS"}}: The SIMPLS-type estimation without mannifold optimization.
 }
+  \item{Gamma_init}{A list specifying the initial estimation of envelope subspace basis for "FG" method. If unspecified, use the estimation from "1D" algorithm.}
 }
 
 \value{
-\item{Bhat}{The estimation of regression coefficient tensor.}
+\item{Xn}{The input predictor tensor.}
+\item{Yn}{The input response matrix.}
+\item{method}{The method used.}
+\item{coefficients}{The estimation of regression coefficient tensor.}
 \item{Gamma_hat}{The estimation of envelope subspace basis.}
-\item{Sig}{A matrix lists of \eqn{\boldsymbol{\Sigma}_\mathrm{xk}}, where \eqn{\boldsymbol{\Sigma}_\mathrm{x}=\boldsymbol{\Sigma}_\mathrm{xm} \otimes \cdots \otimes \boldsymbol{\Sigma}_\mathrm{x1}.}
-}
+\item{Sig}{A matrix lists of \eqn{\boldsymbol{\Sigma}_\mathrm{xk}}, where \eqn{\boldsymbol{\Sigma}_\mathrm{x}=\boldsymbol{\Sigma}_\mathrm{xm} \otimes \cdots \otimes \boldsymbol{\Sigma}_\mathrm{x1}}.}
+\item{fitted.values}{The fitted response matrix.}
+\item{residuals}{The residuals matrix.}
 }
 
 \note{
@@ -44,7 +51,7 @@ p <- c(10, 10, 10)
 u <- c(1, 1, 1)
 m <- 3; r <- 5; n <- 200
 eta <- array(runif(prod(u,r)), c(u,r))
-eta <- as.tensor(eta)
+eta <- rTensor::as.tensor(eta)
 
 Gamma <- Gamma0 <- Omega <- Omega0 <- Sig <- Sigsqrtm <- NULL
 for(i in 1:m) {
@@ -59,7 +66,7 @@ for(i in 1:m) {
   Sigsqrtm[[i]] <- pracma::sqrtm(Sig[[i]])$B
 }
 
-B <- ttl(eta,Gamma, ms = c(1:m))
+B <- rTensor::ttl(eta,Gamma, ms = c(1:m))
 A <- matrix(runif(r^2), r, r)
 SigY <- A \%*\% t(A)
 SigY <- SigY/norm(SigY, type="F")
@@ -68,8 +75,8 @@ SigY <- SigY/norm(SigY, type="F")
 ##generate data
 Epsilon <- MASS::mvrnorm(n, mu=rep(0, r), Sigma=SigY)
 tmp2 <- array(rnorm(prod(p, n)), c(p, n))
-Xn <- as.tensor(tmp2)
-Xn <- ttl(Xn, Sigsqrtm, ms = c(1:m))
+Xn <- rTensor::as.tensor(tmp2)
+Xn <- rTensor::ttl(Xn, Sigsqrtm, ms = c(1:m))
 vecXn <- matrix(Xn@data, prod(p), n)
 Y_tmp <- matrix(NA, r, 200)
 tmp <- array(NA, c(p, r))
@@ -82,13 +89,15 @@ for (j in 1:n) {
 Yn <-  Y_tmp + t(Epsilon)
 
 
-res_ECD = TPR(Yn, Xn, u, method="ECD")
-res_1D = TPR(Yn, Xn, u, method="1D")
-res_pls = TPR(Yn, Xn, u, method="PLS")
-res_std = TPR(Yn, Xn, u, method="standard")
+res_std = TPR(Xn, Yn, u, method="standard")
+res_FG = TPR(Xn, Yn, u, method="FG")
+res_1D = TPR(Xn, Yn, u, method="1D")
+res_pls = TPR(Xn, Yn, u, method="PLS")
+res_ECD = TPR(Xn, Yn, u, method="ECD")
 
-rTensor::fnorm(B-res_ECD$Bhat)
-rTensor::fnorm(B-res_1D$Bhat)
-rTensor::fnorm(B-res_pls$Bhat)
-rTensor::fnorm(B-res_std$Bhat)
+rTensor::fnorm(B-res_std$coefficients)
+rTensor::fnorm(B-res_FG$coefficients)
+rTensor::fnorm(B-res_1D$coefficients)
+rTensor::fnorm(B-res_pls$coefficients)
+rTensor::fnorm(B-res_ECD$coefficients)
 }

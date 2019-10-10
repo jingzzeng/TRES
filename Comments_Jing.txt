@@ -1,6 +1,0 @@
-Comments:
-
-(1) Is that possible to include FG_TPR and FG_TRR into TPR and TRR?
-(2) How is TensPLS_fit different from TPR(PLS)? They all used PLS-envelope in TPR.
-(3) How is Tenv different from TRR(1D)? They all used 1D-envelope in TRR.
-(4) Is that possible to include TenPLS_cv2d3d and TenEnv_dim as the default dimension selection methods for TPR and TRR? Since there is not default value for u in TRR and TPR.

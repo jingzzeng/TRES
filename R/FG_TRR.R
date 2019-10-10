@@ -1,5 +1,4 @@
-#' @export
-#'
+
 
 # This function gives FG estimation of tensor response regression
 FG_TRR <- function(Yn, Xn, Gamma_init) {

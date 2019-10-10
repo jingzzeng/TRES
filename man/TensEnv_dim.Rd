@@ -8,7 +8,7 @@ Envelope dimension selection for tensor response regression
 This function use the 1D-BIC criterion by by Zhang, X., & Mai, Q. (2018) to select envelope dimensions in tensor response regression.
 }
 \usage{
-TensEnv_dim(Yn, Xn, multiD=1, bic_max=10, opts=NULL)
+TensEnv_dim(Xn, Yn, multiD=1, bic_max=10, opts=NULL)
 }
 
 \arguments{

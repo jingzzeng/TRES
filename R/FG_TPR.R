@@ -1,5 +1,4 @@
-#' @export
-#'
+
 
 # This function gives FG estimation of tensor predictor regression
 FG_TPR <- function(Yn, Xn, Gamma_init) {

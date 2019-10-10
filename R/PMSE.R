@@ -1,4 +1,4 @@
-#' @export
+
 PMSE <- function(Xn, Yn, Bhat) {
   if(inherits(Yn, "Tensor")){
     Yn <- Yn@data

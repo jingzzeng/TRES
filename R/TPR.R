@@ -4,7 +4,7 @@
 # This function gives all the estimation of tensor predictor regression
 # The tensor predictor should be 2-dimensional or 3-dimensional
 
-TPR <- function(Yn, Xn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, Gamma_init=NULL) {
+TPR <- function(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, Gamma_init=NULL) {
   cl <- match.call()
   method <- match.arg(method)
   if(!is.matrix(Yn)){
@@ -61,17 +61,33 @@ TPR <- function(Yn, Xn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, 
   }else{
     if(missing(u)){stop("A user-defined u is required.")}
     if(method == "PLS") {
-      res_PLS <- TensPLS_fit(Xn, Yn, Sigx, u)
-      Gamma1 <- res_PLS$Gamma; pghat <- res_PLS$PGamma
+      Sinvhalf <- NULL
+      for (i in 1:m) {
+        Sinvhalf[[i]] <- pracma::sqrtm(Sigx[[i]])$Binv
+      }
+      SigY <- (n-1)*cov(t(Yn))/n
+      Sinvhalf[[m+1]] <- pracma::sqrtm(SigY)$Binv
 
+      C <- rTensor::ttm(Xn, Yn, m+1)/n
+      Gamma1 <- PGamma <- NULL
+      for (i in 1:m) {
+        M <- Sigx[[i]]
+        idx <- c(1:(m+1))[-i]
+        Ck <- rTensor::ttl(C, Sinvhalf[idx], ms = idx)
+        U <- rTensor::unfold(Ck, row_idx = i, col_idx = idx)@data
+        Uk <- U %*% t(U)
+        Gamma1[[i]] <- EnvMU(M, Uk, u[i])
+        tmp3 <- t(Gamma1[[i]]) %*% Sigx[[i]] %*% Gamma1[[i]]
+        PGamma[[i]] <- Gamma1[[i]] %*% solve(tmp3) %*% t(Gamma1[[i]]) %*% Sigx[[i]]
+      }
       if(length(dim(Xn))==4) {
-        tmp7 <- pracma::kron(pghat[[2]], pghat[[1]])
-        Bhat_pls <- pracma::kron(pghat[[3]], tmp7) %*% vecXn %*% t(Yn)/n
+        tmp7 <- pracma::kron(PGamma[[2]], PGamma[[1]])
+        Bhat_pls <- pracma::kron(PGamma[[3]], tmp7) %*% vecXn %*% t(Yn)/n
       }else if(length(dim(Xn))==3) {
-        tmp7 <- pracma::kron(pghat[[2]], pghat[[1]])
+        tmp7 <- pracma::kron(PGamma[[2]], PGamma[[1]])
         Bhat_pls <- tmp7 %*% vecXn %*% t(Yn)/n
       }else if(length(dim(Xn))==2) {
-        Bhat_pls <- pghat[[1]]%*%vecXn%*%t(Yn)/n
+        Bhat_pls <- PGamma[[1]]%*%vecXn%*%t(Yn)/n
       }
       Bhat <- array(Bhat_pls, c(p, r))
     }
@@ -176,11 +192,14 @@ TPR <- function(Yn, Xn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, 
       }
       Bhat <- array(Bhat_env, c(p, r))
     }
-
   }
 
   Bhat <- as.tensor(Bhat)
-  output <- list(X=Xn_old, Y=Yn_old, coefficients=Bhat, Gamma_hat=Gamma1, Sigx=Sigx)
+  tp1 <- matrix(Bhat@data, nrow = c(prod(p)))
+  tp2 <- matrix(Xn_old@data, c(prod(p), n))
+  fitted.values <- t(tp1) %*% tp2
+  residuals <- Yn_old - fitted.values
+  output <- list(Xn=Xn_old, Yn=Yn_old, method = method, coefficients=Bhat, Gamma_hat=Gamma1, Sigx=Sigx, fitted.values = fitted.values, residuals=residuals)
   class(output) <- "Tenv"
   output$call <- cl
   output

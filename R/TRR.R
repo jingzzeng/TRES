@@ -2,7 +2,7 @@
 #'
 
 # This function gives all the estimation of tensor response regression
-TRR <- function(Yn, Xn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, Gamma_init=NULL) {
+TRR <- function(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, Gamma_init=NULL) {
   cl <- match.call()
   method <- match.arg(method)
   if(!is.matrix(Xn)){
@@ -88,7 +88,10 @@ TRR <- function(Yn, Xn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, 
 
   }
 
-  output <- list(X=Xn_old, Y=Yn_old, coefficients=Bhat, Gamma_hat=Gamma1, Sig=Sig)
+  m <- Bhat@num_modes
+  fitted.values <- ttm(Bhat, t(Xn_old), m)
+  residuals <- Yn_old - fitted.values
+  output <- list(Xn=Xn_old, Yn=Yn_old, method = method, coefficients=Bhat, Gamma_hat=Gamma1, Sig=Sig, fitted.values = fitted.values, residuals = residuals)
   class(output) <- "Tenv"
   output$call <- cl
   output

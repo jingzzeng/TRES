@@ -1,4 +1,4 @@
-#' @export
+
 #' @import rTensor
 #' @importFrom pracma kron sqrtm
 #' @importFrom stats cov

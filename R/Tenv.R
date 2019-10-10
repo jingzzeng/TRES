@@ -1,9 +1,9 @@
 
-#' @export
+
 #' @import rTensor
 #' @import MASS
 
-Tenv <- function(Yn, Xn, u, opts=NULL) {
+Tenv <- function(Xn, Yn, u, opts=NULL) {
   ss <- dim(Yn)
   len <- length(ss)
   n <- ss[len]

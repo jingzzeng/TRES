@@ -9,10 +9,10 @@ Maintainer: Wenjing Wang <wenjing.wang@stat.fsu.edu>
 Description: Provides three estimators for tensor response regression (TRR) and tensor predictor regression (TPR) models with tensor envelope structure. The three types of estimation approaches are generic and can be applied to any envelope estimation problems. The full Grassmannian (FG) optimization is often associated with likelihood-based estimation but requires heavy computation and good initialization; the one-directional optimization approaches (1D and ECD algorithms) are faster, stable and does not require carefully chosen initial values; the SIMPLS-type is motivated by the partial least squares regression and is computationally the least expensive.
 License: GPL-3
 Encoding: UTF-8
-Depends: R (>= 3.5.0), ManifoldOptim, rTensor, MASS
-Imports: pracma, mvtnorm, methods
+Depends: R (>= 3.5.0)
+Imports: ManifoldOptim, MASS, methods, pracma, rTensor, stats, Rcpp
 RcppModules: ManifoldOptim_module
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 NeedsCompilation: no
 Packaged: 2018-11-16 18:32:05 UTC; wenja
 Repository: CRAN

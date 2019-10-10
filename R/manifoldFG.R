@@ -1,6 +1,7 @@
 ##################################################
 # Manifold   function full                       #
 ##################################################
+#' @import Rcpp
 mod <- Module("ManifoldOptim_module", PACKAGE = "ManifoldOptim")
 mani.params <- get.manifold.params(IsCheckParams = TRUE)
 #' @import ManifoldOptim

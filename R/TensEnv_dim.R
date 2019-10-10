@@ -3,7 +3,7 @@
 #' @import MASS
 #' @importFrom pracma kron sqrtm
 
-TensEnv_dim <- function(Yn, Xn, multiD=1, bic_max=10, opts=NULL){
+TensEnv_dim <- function(Xn, Yn, multiD=1, bic_max=10, opts=NULL){
   ss <- dim(Yn)
   len <- length(ss)
   n <- ss[len]

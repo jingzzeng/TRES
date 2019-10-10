@@ -1,11 +1,11 @@
+##################################################
+# Manifold   function 1D                         #
+##################################################
 mod <- Module("ManifoldOptim_module", PACKAGE = "ManifoldOptim")
 mani.params <- get.manifold.params(IsCheckParams = TRUE)
 #' @import ManifoldOptim
 #' @import methods
-##################################################
-# Manifold   function 1D                         #
-##################################################
-
+#' @import Rcpp
 fun1D_mfd <- function(M, U) {
   n <- dim(M)[2]
   mw <- function(w) { matrix(w, n, 1) }
