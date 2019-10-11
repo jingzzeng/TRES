@@ -7,14 +7,17 @@ PMSE <- function(Xn, Yn, Bhat){
     }
     else stop("Yn should be vector or matrix.")
   }
-  if(inherits(Xn, "Tensor")){
-    Xn <- Xn@data
-  }else if(is.matrix(Xn)){
-    Xn <- as.tensor(Xn)
-  }else if(is.vector(Xn)){
-    Xn <- as.tensor(t(as.matrix(Xn)))
-  }else{
-    stop("Xn must be tensor, matrix or vector.")
+  if(!inherits(Xn, "array") && !inherits(Xn, "matrix")){
+    if(inherits(Xn, "Tensor")){
+      Xn <- Xn@data
+    }
+    else stop("Xn should be matrix, array or Tensor.")
+  }
+  if(!inherits(Bhat, "array") && !inherits(Bhat, "matrix")){
+    if(inherits(Bhat, "Tensor")){
+      Bhat <- Bhat@data
+    }else if(is.vector(Bhat)){
+      Bhat <- t(as.matrix(Bhat))
     }
     else stop("Bhat should be vector, matrix, array or Tensor.")
   }
