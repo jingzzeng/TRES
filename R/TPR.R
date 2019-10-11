@@ -14,10 +14,10 @@ TPR <- function(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, 
     else stop("Yn should be vector or matrix.")
   }
   if(!inherits(Xn, "Tensor")){
-    if(is.matrix(Xn)){
+    if(is.matrix(Xn) || inherits(Xn, "array")){
       Xn <- as.tensor(Xn)
     }
-    else stop("Xn should be Tensor or matrix.")
+    else stop("Xn should be matrix, array or Tensor.")
   }
   Xn_old <- Xn
   Yn_old <- Yn

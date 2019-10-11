@@ -1,5 +1,5 @@
 #' @method print Tenv
-#' @export
+#' @importFrom stats coef
 
 print.Tenv <- function(x, ...){
   cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"),

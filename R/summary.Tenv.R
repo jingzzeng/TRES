@@ -1,4 +1,5 @@
 #' @export
+#' @importFrom stats coef residuals
 
 summary.Tenv <- function(object, ...){
   if (!inherits(object, "Tenv"))

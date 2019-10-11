@@ -13,8 +13,8 @@ TPR(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'),
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{Xn}{The response tensor instance or dimension \eqn{p_1\times p_2\times\cdots\times p_m \times n}, where \eqn{n} is the sample size.}
-  \item{Yn}{The response matrix of dimension \eqn{r \times n}, where \eqn{n} is the sample size.}
+  \item{Xn}{The predictor tensor instance of dimension \eqn{p_1\times p_2\times\cdots\times p_m \times n}, where \eqn{n} is the sample size. Array with the same dimensions and matrix with dimension \eqn{p\times n} are acceptable.}
+  \item{Yn}{The response matrix of dimension \eqn{r \times n}, where \eqn{n} is the sample size. Vector of length \eqn{n} is acceptable}
   \item{u}{The dimension of envelope subspace. \eqn{u=(u_1,\cdots, u_m)}.}
   \item{method}{The method used for estimation of tensor response regression. There are four possible choices.}
   \itemize{
@@ -44,15 +44,16 @@ This function supports tensor predictor regression for 1-dimensional, 2-dimensio
 
 
 \examples{
-
 rm(list = ls())
 
 p <- c(10, 10, 10)
+# The envelope dimensions u.
 u <- c(1, 1, 1)
 m <- 3; r <- 5; n <- 200
 eta <- array(runif(prod(u,r)), c(u,r))
 eta <- rTensor::as.tensor(eta)
 
+# Gamma is the list of envelopes.
 Gamma <- Gamma0 <- Omega <- Omega0 <- Sig <- Sigsqrtm <- NULL
 for(i in 1:m) {
   tmp <- matrix(runif(p[i]*u[i]), p[i], u[i])
@@ -70,7 +71,6 @@ B <- rTensor::ttl(eta,Gamma, ms = c(1:m))
 A <- matrix(runif(r^2), r, r)
 SigY <- A \%*\% t(A)
 SigY <- SigY/norm(SigY, type="F")
-
 
 ##generate data
 Epsilon <- MASS::mvrnorm(n, mu=rep(0, r), Sigma=SigY)
@@ -95,9 +95,15 @@ res_1D = TPR(Xn, Yn, u, method="1D")
 res_pls = TPR(Xn, Yn, u, method="PLS")
 res_ECD = TPR(Xn, Yn, u, method="ECD")
 
-rTensor::fnorm(B-res_std$coefficients)
-rTensor::fnorm(B-res_FG$coefficients)
-rTensor::fnorm(B-res_1D$coefficients)
-rTensor::fnorm(B-res_pls$coefficients)
-rTensor::fnorm(B-res_ECD$coefficients)
+rTensor::fnorm(B-stats::coef(res_std))
+rTensor::fnorm(B-stats::coef(res_FG))
+rTensor::fnorm(B-stats::coef(res_1D))
+rTensor::fnorm(B-stats::coef(res_pls))
+rTensor::fnorm(B-stats::coef(res_ECD))
+
+## Use dataset square
+data("square")
+Xn <- square$Xn
+Yn <- square$Yn
+res_std <- TPR(Xn, Yn, method="standard")
 }

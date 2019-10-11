@@ -1,5 +1,4 @@
 #' @export
-#'
 
 # This function gives all the estimation of tensor response regression
 TRR <- function(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, Gamma_init=NULL) {
@@ -12,10 +11,10 @@ TRR <- function(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, 
     else stop("Xn should be vector or matrix.")
   }
   if(!inherits(Yn, "Tensor")){
-    if(is.matrix(Yn)){
+    if(is.matrix(Yn) || inherits(Yn, "array")){
       Yn <- as.tensor(Yn)
     }
-    else stop("Yn should be Tensor or matrix.")
+    else stop("Yn should be matrix, array or Tensor.")
   }
   Xn_old <- Xn
   Yn_old <- Yn
@@ -83,13 +82,12 @@ TRR <- function(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, 
       }
       PGamma[[i]] <- Gamma1[[i]] %*% t(Gamma1[[i]])
     }
-    tp <- ttl(Yn, PGamma, ms=1:m)
-    Bhat <- ttm(tp, Xn_inv, m+1)
+    tp <- rTensor::ttl(Yn, PGamma, ms=1:m)
+    Bhat <- rTensor::ttm(tp, Xn_inv, m+1)
 
   }
-
   m <- Bhat@num_modes
-  fitted.values <- ttm(Bhat, t(Xn_old), m)
+  fitted.values <- rTensor::ttm(Bhat, t(Xn_old), m)
   residuals <- Yn_old - fitted.values
   output <- list(Xn=Xn_old, Yn=Yn_old, method = method, coefficients=Bhat, Gamma_hat=Gamma1, Sig=Sig, fitted.values = fitted.values, residuals = residuals)
   class(output) <- "Tenv"

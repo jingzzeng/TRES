@@ -1,5 +1,5 @@
 #' @method print summary.Tenv
-#' @export
+#' @importFrom stats coef
 
 print.summary.Tenv <- function(x, digits = max(3L, getOption("digits") - 3L), ...){
   cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"),

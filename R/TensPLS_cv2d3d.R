@@ -1,7 +1,7 @@
 #' @export
 #' @import rTensor
 #' @importFrom pracma kron sqrtm
-TensPLS_cv2d3d <- function(Xn, Yn, maxdim, nfolds) {
+TensPLS_cv2d3d <- function(Xn, Yn, maxdim, nfolds=5) {
   ss <- dim(Xn)
   len <- length(ss)
   n <- ss[len]
