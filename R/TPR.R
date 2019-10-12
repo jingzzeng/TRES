@@ -47,13 +47,13 @@ TPR <- function(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, 
 
   if(method == "standard") {
     if(length(dim(Xn))==4){
-      tmp6 <- pracma::kron(ginv(Sigx[[3]]), ginv(Sigx[[2]]))
-      Btil <- pracma::kron(tmp6, ginv(Sigx[[1]])) %*% vecXn %*% t(Yn)/n
+      tmp6 <- pracma::kron(MASS::ginv(Sigx[[3]]), MASS::ginv(Sigx[[2]]))
+      Btil <- pracma::kron(tmp6, MASS::ginv(Sigx[[1]])) %*% vecXn %*% t(Yn)/n
     }else if(length(dim(Xn))==3) {
-      tmp6 <- pracma::kron(ginv(Sigx[[2]]), ginv(Sigx[[1]]))
+      tmp6 <- pracma::kron(MASS::ginv(Sigx[[2]]), MASS::ginv(Sigx[[1]]))
       Btil <- tmp6 %*% vecXn %*% t(Yn)/n
     }else if(length(dim(Xn))==2) {
-      Btil <- ginv(Sigx[[1]])%*%vecXn%*%t(Yn)/n
+      Btil <- MASS::ginv(Sigx[[1]])%*%vecXn%*%t(Yn)/n
     }
     Btil <- array(Btil, c(p, r))
     Bhat <- Btil

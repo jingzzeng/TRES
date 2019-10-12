@@ -91,21 +91,19 @@ Yn <-  Y_tmp + t(Epsilon)
 
 res_std = TPR(Xn, Yn, method="standard")
 res_FG = TPR(Xn, Yn, u, method="FG")
-res_1D = TPR(Xn, Yn, u, method="1D")
 res_pls = TPR(Xn, Yn, u, method="PLS")
-res_ECD = TPR(Xn, Yn, u, method="ECD")
 
 rTensor::fnorm(B-stats::coef(res_std))
 rTensor::fnorm(B-stats::coef(res_FG))
-rTensor::fnorm(B-stats::coef(res_1D))
 rTensor::fnorm(B-stats::coef(res_pls))
-rTensor::fnorm(B-stats::coef(res_ECD))
 
-## Use dataset square
-data("square")
-Xn <- square$Xn
-Yn <- square$Yn
-res_std <- TPR(Xn, Yn, method="standard")
+## Use dataset square, but it is time-consuming
+\dontrun{
+  data("square")
+  Xn <- square$Xn
+  Yn <- square$Yn
+  res_std <- TPR(Xn, Yn, method="standard")
+  }
 }
 
 \seealso{

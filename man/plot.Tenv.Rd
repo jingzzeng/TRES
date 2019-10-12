@@ -32,5 +32,5 @@ from \code{\link{TRR}}, both the coefficients plot and p-value plot is displayed
  Xn <- bat$Xn
  Yn <- bat$Yn
  fit <- TRR(Xn, Yn, method="standard")
- plot(fit)
+ plot(fit, ask=FALSE)
 }
