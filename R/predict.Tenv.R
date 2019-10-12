@@ -1,11 +1,15 @@
-#' Predict method for TRR and TPR Fits.
+#' Predict method for TRR and TPR.
 #'
-#' Predicted response based on Tenv object returned from \code{\link{TRR}} and \code{\link{TPR}} functions.
+#' Predict response for object returned from \code{\link{TRR}} and \code{\link{TPR}} functions.
 #'
-#' @param object Tenv object, result of \code{\link{TRR}} and \code{\link{TPR}}.
+#' @param object an object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.
 #' @param newdata The data to be used for prediction. It can be vector, matrix or tensor for \code{\link{TRR}} fits, and can be matrix
 #' or tensor for \code{\link{TPR}} fits.
 #' @param ... Not used. Arguments passed to or from other methods.
+#' @return
+#' \describe{
+#'  \item{pred}{predicted response.}
+#' }
 #' @examples
 #' data("bat")
 #' Xn <- bat$Xn

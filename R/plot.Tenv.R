@@ -1,12 +1,12 @@
 #' Plot coefficients and p-value for Tenv object.
 #'
-#' plot method for class "Tenv"
+#' plot method for object returned from \code{\link{TRR}} and \code{\link{TPR}} functions.
 #'
 #' \code{coef(x)} must be a mode-2 tensor or a matrix. For the object return from \code{\link{TPR}},
 #' only the coefficients plot is displayed. But for the object return
 #' from \code{\link{TRR}}, both the coefficients plot and p-value plot is displayed.
 #'
-#' @param x Tenv object, typically result of \code{\link{TPR}} or \code{\link{TRR}}.
+#' @param x an object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.
 #' @param thrd significant level of p-value. Default is 0.05.
 #' @param ask logical; if TRUE, the user is asked before the p-value plot. (only used for the object from \code{\link{TRR}}).
 #' @param main title to each plot.

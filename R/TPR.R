@@ -61,25 +61,9 @@ TPR <- function(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, 
   }else{
     if(missing(u)){stop("A user-defined u is required.")}
     if(method == "PLS") {
-      Sinvhalf <- NULL
-      for (i in 1:m) {
-        Sinvhalf[[i]] <- pracma::sqrtm(Sigx[[i]])$Binv
-      }
-      SigY <- (n-1)*cov(t(Yn))/n
-      Sinvhalf[[m+1]] <- pracma::sqrtm(SigY)$Binv
+      res_PLS <- TensPLS_fit(Xn, Yn, Sigx, u)
+      Gamma1 <- res_PLS$Gamma; PGamma <- res_PLS$PGamma
 
-      C <- rTensor::ttm(Xn, Yn, m+1)/n
-      Gamma1 <- PGamma <- NULL
-      for (i in 1:m) {
-        M <- Sigx[[i]]
-        idx <- c(1:(m+1))[-i]
-        Ck <- rTensor::ttl(C, Sinvhalf[idx], ms = idx)
-        U <- rTensor::unfold(Ck, row_idx = i, col_idx = idx)@data
-        Uk <- U %*% t(U)
-        Gamma1[[i]] <- EnvMU(M, Uk, u[i])
-        tmp3 <- t(Gamma1[[i]]) %*% Sigx[[i]] %*% Gamma1[[i]]
-        PGamma[[i]] <- Gamma1[[i]] %*% solve(tmp3) %*% t(Gamma1[[i]]) %*% Sigx[[i]]
-      }
       if(length(dim(Xn))==4) {
         tmp7 <- pracma::kron(PGamma[[2]], PGamma[[1]])
         Bhat_pls <- pracma::kron(PGamma[[3]], tmp7) %*% vecXn %*% t(Yn)/n

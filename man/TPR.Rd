@@ -15,7 +15,7 @@ TPR(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'),
 \arguments{
   \item{Xn}{The predictor tensor instance of dimension \eqn{p_1\times p_2\times\cdots\times p_m \times n}, where \eqn{n} is the sample size. Array with the same dimensions and matrix with dimension \eqn{p\times n} are acceptable.}
   \item{Yn}{The response matrix of dimension \eqn{r \times n}, where \eqn{n} is the sample size. Vector of length \eqn{n} is acceptable}
-  \item{u}{The dimension of envelope subspace. \eqn{u=(u_1,\cdots, u_m)}.}
+  \item{u}{The dimension of envelope subspace. \eqn{u=(u_1,\cdots, u_m)}. Used for methods "FG", "1D", "ECD" and "PLS". User can use \code{\link{TensPLS_cv2d3d}} to select dimension.}
   \item{method}{The method used for estimation of tensor response regression. There are four possible choices.}
   \itemize{
   \item{\code{"standard"}}: The standard OLS type estimation.
@@ -89,7 +89,7 @@ for (j in 1:n) {
 Yn <-  Y_tmp + t(Epsilon)
 
 
-res_std = TPR(Xn, Yn, u, method="standard")
+res_std = TPR(Xn, Yn, method="standard")
 res_FG = TPR(Xn, Yn, u, method="FG")
 res_1D = TPR(Xn, Yn, u, method="1D")
 res_pls = TPR(Xn, Yn, u, method="PLS")
@@ -106,4 +106,8 @@ data("square")
 Xn <- square$Xn
 Yn <- square$Yn
 res_std <- TPR(Xn, Yn, method="standard")
+}
+
+\seealso{
+\code{\link{plot.Tenv}, \link{predict.Tenv}, \link{vcov.Tenv}, \link{summary.Tenv}, \link{TensPLS_cv2d3d}}
 }

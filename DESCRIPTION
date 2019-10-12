@@ -2,7 +2,7 @@ Package: TRES
 Type: Package
 Title: Tensor Regression with Envelope Structure and Three Generic
         Envelope Estimation Approaches
-Version: 0.1.0
+Version: 1.0.0
 Author: Wenjing Wang [aut, cre] <wenjing.wang@stat.fsu.edu>, 
         Xin Zhang [aut, cre] <henry@stat.fsu.edu>
 Maintainer: Wenjing Wang <wenjing.wang@stat.fsu.edu>

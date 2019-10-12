@@ -1,3 +1,18 @@
+#' Calculate standard error for Tenv object.
+#'
+#' Returns the standard error for Tenv object returned from \code{\link{TRR}}. There is no \code{vcov} method for object returned
+#' from \code{\link{TPR}}.
+#'
+#' @param object an object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.
+#' @param ... arguments to be passed to or from other methods.
+#' @return The standard error tensor is returned.
+#' @seealso \code{\link{summary.Tenv}}
+#' @examples
+#' data("bat")
+#' Xn <- bat$Xn
+#' Yn <- bat$Yn
+#' fit <- TRR(Xn, Yn, method="standard")
+#' vcov(fit)
 #' @export
 
 vcov.Tenv <- function(object, ...){

@@ -61,8 +61,18 @@ Epsilon <- rTensor::as.tensor(Epsilon)
 Epsilon <- rTensor::ttl(Epsilon, Sigsqrtm, ms=1:m)
 Yn <- Epsilon + rTensor::ttm(B, t(Xn), m+1)
 
-# The estimated envelope dimensions are the same as u.
-TensEnv_dim(Xn, Yn)
+TensEnv_dim(Xn, Yn) # The estimated envelope dimensions are the same as u.
+
+## Use dataset bat, but it is time-consuming
+\dontrun{
+  data("bat")
+  Xn <- bat$Xn
+  Yn <- bat$Yn
+  # check the dimension of Yn
+  dim(Yn)
+  # use 32 as the maximal envelope dimension
+  TensEnv_dim(Xn, Yn, bic_max=32)
+}
 }
 
 

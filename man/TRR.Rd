@@ -15,7 +15,7 @@ TRR(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'),
 \arguments{
   \item{Xn}{The predictor matrix of dimension \eqn{p \times n}. Vector of length \eqn{n} is acceptable.}
   \item{Yn}{The response tensor instance with dimension \eqn{r_1\times r_2\times\cdots\times r_m \times n}, where \eqn{n} is the sample size. Array with the same dimensions and matrix with dimension \eqn{r\times n} are acceptable.}
-  \item{u}{The dimension of envelope subspace. \eqn{u=(u_1,\cdots, u_m)}. Used for methods "1D", "ECD" and "PLS". User can use \code{\link{TensEnv_dim}} to select dimension.}
+  \item{u}{The dimension of envelope subspace. \eqn{u=(u_1,\cdots, u_m)}. Used for methods "FG", "1D", "ECD" and "PLS". User can use \code{\link{TensEnv_dim}} to select dimension.}
   \item{method}{The method used for estimation of tensor response regression. There are four possible choices.}
   \itemize{
 \item{\code{"standard"}}: The standard OLS type estimation.
@@ -94,4 +94,8 @@ data("bat")
 Xn <- bat$Xn
 Yn <- bat$Yn
 res_std <- TRR(Xn, Yn, method="standard")
+}
+
+\seealso{
+\code{\link{plot.Tenv}, \link{predict.Tenv}, \link{vcov.Tenv}, \link{summary.Tenv}, \link{TensEnv_dim}}
 }

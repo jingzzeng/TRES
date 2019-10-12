@@ -9,7 +9,7 @@
   paste0("P value plot ", "(", x$method, ")")), ...)
 }
 \arguments{
-\item{x}{Tenv object, typically result of \code{\link{TPR}} or \code{\link{TRR}}.}
+\item{x}{an object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.}
 
 \item{thrd}{significant level of p-value. Default is 0.05.}
 
@@ -20,7 +20,7 @@
 \item{...}{other parameters to be passed through to plotting functions.}
 }
 \description{
-plot method for class "Tenv"
+plot method for object returned from \code{\link{TRR}} and \code{\link{TPR}} functions.
 }
 \details{
 \code{coef(x)} must be a mode-2 tensor or a matrix. For the object return from \code{\link{TPR}},
