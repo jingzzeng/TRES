@@ -4,7 +4,11 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of TRES is to ...
+The package **TRES** implements the least squares and envelope estimation under the framework of tensor regression models. The general model-free envelope models can also be flexibly handled by the package via three types of envelope estimation algorithms: 
+- Full Grassmannian (FG) algorithm.
+- 1D algorithm.
+- Envelope coordinate descent (ECD) algorithm
+- Partial least squares (PLS) type algorithm.
 
 ## Installation
 
@@ -16,11 +20,27 @@ install.packages("TRES")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example which shows you how to use function `TRR` in Tensor Response Regression (TRR) model with least square.
 
 ``` r
 library(TRES)
-## basic example code
+## Load data "bat"
+data("bat")
+Xn <- bat$Xn
+Yn <- bat$Yn
+fit <- TRR(Xn, Yn, method="standard")
+
+## Print cofficient
+coef(fit)
+
+## Print the summary
+summary(fit)
+
+## Make the prediction on the original dataset
+predict(fit, Xn)
+
+## Draw the plot of two-way coefficient tensor (or matrix)
+plot(fit, ask=FALSE)
 ```
 
  <!-- badges: start -->
