@@ -15,7 +15,11 @@ The package **TRES** implements the least squares and envelope estimation under 
 You can install the released version of TRES from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
+# Install devtools from CRAN
 install.packages("TRES")
+
+# Or the development version from GitHub:
+devtools::install_github("jerryfsu3333/TRES_code")
 ```
 
 ## Example
