@@ -9,6 +9,11 @@ There was 1 NOTE:
 
 * checking dependencies in R code ... NOTE
 
-installed size is  6.9Mbsub-directories of 1Mb or more:data   6.6Mb
+installed size is  6.9Mb
+sub-directories of 1Mb or more:
+data   6.6Mb
 
 The dataset square.rda in /data consists of a 64 by 64 by 200 tensor. Users can use this dataset check the functions very quickly, instead of build the envelope-structure tensor date from the scratch.
+
+## Downstream dependencies
+No reverse dependence packages.
