@@ -23,7 +23,7 @@
 plot method for object returned from \code{\link{TRR}} and \code{\link{TPR}} functions.
 }
 \details{
-\code{coef(x)} must be a mode-2 tensor or a matrix. For the object return from \code{\link{TPR}},
+\code{coef(x)} must be a two-way tensor or a matrix. For the object return from \code{\link{TPR}},
 only the coefficients plot is displayed. But for the object return
 from \code{\link{TRR}}, both the coefficients plot and p-value plot is displayed.
 }
