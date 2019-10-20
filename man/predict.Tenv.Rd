@@ -7,16 +7,16 @@
 \method{predict}{Tenv}(object, newdata, ...)
 }
 \arguments{
-\item{object}{an object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.}
+\item{object}{An object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.}
 
 \item{newdata}{The data to be used for prediction. It can be vector, matrix or tensor for \code{\link{TRR}} fits, and can be matrix
 or tensor for \code{\link{TPR}} fits.}
 
-\item{...}{Not used. Arguments passed to or from other methods.}
+\item{...}{Arguments passed to or from other methods.}
 }
 \value{
 \describe{
- \item{pred}{predicted response.}
+ \item{pred}{Predicted response.}
 }
 }
 \description{

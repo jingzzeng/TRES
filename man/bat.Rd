@@ -3,18 +3,18 @@
 \docType{data}
 \name{bat}
 \alias{bat}
-\title{Bat dataset}
+\title{Bat simulated data}
 \format{A list consisting of three components:
 \describe{
  \item{Xn}{A \eqn{1 \times 20} matrix}
- \item{Yn}{A \eqn{64\times 64\times 20 tensor}}
+ \item{Yn}{A \eqn{64\times 64\times 20} tensor}
  \item{coeffiicients}{A \eqn{64\times 64 \times 1} tensor with the bat pattern}
 }}
 \usage{
 data(bat)
 }
 \description{
-Dataset used in Tensor Response Regression. The pattern of coefficient is a bat.
+Simulated data used in Tensor Response Regression. The pattern of coefficient is a bat.
 }
 \examples{
 data("bat")

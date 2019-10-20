@@ -3,7 +3,7 @@
 \docType{data}
 \name{square}
 \alias{square}
-\title{Square dataset}
+\title{Square simulated data}
 \format{A list consisting of three components:
 \describe{
  \item{Xn}{A \eqn{64 \times 64 \times 200} tensor}
@@ -14,7 +14,7 @@
 data(square)
 }
 \description{
-Dataset used in Tensor Predictor Regression. The pattern of coefficient is a square.
+Simulated data used in Tensor Predictor Regression. The pattern of coefficient is a square.
 }
 \examples{
 data("square")

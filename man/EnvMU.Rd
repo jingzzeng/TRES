@@ -20,7 +20,7 @@ EnvMU(M, U, u)
 \item{Gamma}{The basis of \code{M}-envelope of \code{span(U)}.}
 }
 \references{
-Cook, R. D., Helland, I. S., & Su, Z. (2013). Envelopes and partial least squares regression. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 75(5), 851-877.
+Cook, R. D., Helland, I. S., Su, Z. (2013). Envelopes and partial least squares regression. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 75(5), 851-877.
 
 De Jong, S. (1993). SIMPLS: an alternative approach to partial least squares regression. Chemometrics and intelligent laboratory systems, 18(3), 251-263.
 }

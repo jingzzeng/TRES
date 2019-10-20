@@ -1,6 +1,6 @@
-#' Square dataset
+#' Square simulated data
 #'
-#' Dataset used in Tensor Predictor Regression. The pattern of coefficient is a square.
+#' Simulated data used in Tensor Predictor Regression. The pattern of coefficient is a square.
 #'
 #' @docType data
 #'

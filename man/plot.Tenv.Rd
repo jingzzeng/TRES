@@ -9,18 +9,18 @@
   paste0("P value plot ", "(", x$method, ")")), ...)
 }
 \arguments{
-\item{x}{an object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.}
+\item{x}{An object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.}
 
-\item{thrd}{significant level of p-value. Default is 0.05.}
+\item{thrd}{Significant level of p-value. Default is 0.05.}
 
-\item{ask}{logical; if TRUE, the user is asked before the p-value plot. (only used for the object from \code{\link{TRR}}).}
+\item{ask}{Logical; if TRUE, the user is asked before the p-value plot. (only used for the object from \code{\link{TRR}}).}
 
-\item{main}{title to each plot.}
+\item{main}{Title to each plot.}
 
-\item{...}{other parameters to be passed through to plotting functions.}
+\item{...}{Other parameters to be passed through to plotting functions.}
 }
 \description{
-plot method for object returned from \code{\link{TRR}} and \code{\link{TPR}} functions.
+Plot method for object returned from \code{\link{TRR}} and \code{\link{TPR}} functions.
 }
 \details{
 \code{coef(x)} must be a two-way tensor or a matrix. For the object return from \code{\link{TPR}},

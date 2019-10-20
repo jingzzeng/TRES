@@ -11,21 +11,21 @@ Summary method for object returned from \code{\link{TRR}} and \code{\link{TPR}} 
 \method{print}{summary.Tenv}(x, ...)
 }
 \arguments{
-\item{object}{an object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.}
+\item{object}{An object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.}
 
-\item{...}{arguments to be passed to or from other methods.}
+\item{...}{Arguments to be passed to or from other methods.}
 
-\item{x}{an object of class "summary.Tenv", usually, a result of a call to summary.Tenv.}
+\item{x}{An object of class "summary.Tenv", usually, a result of a call to summary.Tenv.}
 }
 \value{
-\code{object} with additional components
+\code{object} With additional components
 \describe{
- \item{n}{sample size}
- \item{xdim}{dimensions of predictor}
- \item{ydim}{dimensions of response}
- \item{mse}{mean squared error based on \code{residuals(object)}}
- \item{p_val}{only for object returned from \code{\link{TRR}}, p-value for coefficients}
- \item{se}{only for object returned from \code{\link{TRR}}, standard error for coefficients}
+ \item{n}{Sample size}
+ \item{xdim}{Dimensions of predictor}
+ \item{ydim}{Dimensions of response}
+ \item{mse}{Mean squared error based on \code{residuals(object)}}
+ \item{p_val}{Only for object returned from \code{\link{TRR}}, p-value for coefficients}
+ \item{se}{Only for object returned from \code{\link{TRR}}, standard error for coefficients}
 }
 }
 \description{

@@ -6,18 +6,18 @@
 #' print.summary.Tenv print.summary.lm gives a more readable format of sample size, dimensions of datasets, mse,
 #' and additionally gives \code{p-val} and \code{se} if \code{object} is returend from \code{\link{TRR}}.
 #'
-#' @param object an object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.
-#' @param ... arguments to be passed to or from other methods.
-#' @param x an object of class "summary.Tenv", usually, a result of a call to summary.Tenv.
+#' @param object An object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.
+#' @param ... Arguments to be passed to or from other methods.
+#' @param x An object of class "summary.Tenv", usually, a result of a call to summary.Tenv.
 #' @name summary.Tenv
-#' @return \code{object} with additional components
+#' @return \code{object} With additional components
 #' \describe{
-#'  \item{n}{sample size}
-#'  \item{xdim}{dimensions of predictor}
-#'  \item{ydim}{dimensions of response}
-#'  \item{mse}{mean squared error based on \code{residuals(object)}}
-#'  \item{p_val}{only for object returned from \code{\link{TRR}}, p-value for coefficients}
-#'  \item{se}{only for object returned from \code{\link{TRR}}, standard error for coefficients}
+#'  \item{n}{Sample size}
+#'  \item{xdim}{Dimensions of predictor}
+#'  \item{ydim}{Dimensions of response}
+#'  \item{mse}{Mean squared error based on \code{residuals(object)}}
+#'  \item{p_val}{Only for object returned from \code{\link{TRR}}, p-value for coefficients}
+#'  \item{se}{Only for object returned from \code{\link{TRR}}, standard error for coefficients}
 #' }
 #' @examples
 #' data("bat")

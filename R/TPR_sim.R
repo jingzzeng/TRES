@@ -1,0 +1,79 @@
+#' Generate simulation data for TPR
+#'
+#' This function is used to generate simulation data used in Tensor Prediction Regression.
+#'
+#' The tensor predictor regression model is of the form,
+#' \deqn{\mathbf{Y} = \mathbf{B}_{(m+1)}\mathrm{vec}(\mathbf{X}) +\boldsymbol{\varepsilon}}
+#' where response \eqn{\mathbf{Y} \in R^{r}}, predictor \eqn{\mathbf{X} \in R^{p_1\times \cdots\times p_m}}, and
+#' the error term is multivariate normal distributed. The predictor is tensor normal distributed,
+#' \deqn{\mathbf{X}\sim TN(0;\boldsymbol{\Sigma}_1,\dots,\boldsymbol{\Sigma}_m)}
+#' According to the tensor envelope strucutrue, we have
+#' \deqn{\mathbf{B} = [\Theta;\boldsymbol{\Gamma}_1,\ldots,\boldsymbol{\Gamma}_m,\mathbf{I}_p], \quad \mbox{for some } \boldsymbol{\Theta} \in R^{u_1\times\cdots\times u_m \times p}}
+#' \deqn{\boldsymbol{\Sigma}_k = \boldsymbol{\Gamma}_k\boldsymbol{\Omega}_k\boldsymbol{\Gamma}_k^{T}+\boldsymbol{\Gamma}_{0k}\boldsymbol{\Omega}_{0k}\boldsymbol{\Gamma}_{0k}^\top,
+#' \quad \mbox{for some } \boldsymbol{\Omega}_k, \boldsymbol{\Omega}_{0k},\ k=1,\ldots,m.}
+#'
+#' @note The length of p must match the length of u, and each element of u must be less than the corresponding element in p.
+#'
+#' @param p The dimension of predictor, a vector in the form of \eqn{(p_1,\cdots, p_m)}.
+#' @param r The dimension of response, a scale.
+#' @param u The strucural dimension of envelopes at each mode, a vector with the same length as p.
+#' @param n The sample size.
+#' @return
+#' \describe{
+#' \item{Xn}{The predictor of dimension \eqn{p_1\times \cdots\times p_m \times n}}
+#' \item{Yn}{The response of dimension \eqn{r\times n}}
+#' \item{Gamma}{The envelope subspace basis of dimension \eqn{p_k \times u_k, \ k=1,\ldots,m}}
+#' \item{Bhat}{The coefficient tensor of dimension \eqn{p_1\times \cdots\times p_m \times r}}
+#' \item{Sigma}{The covariance matrix of X}
+#' \item{p, r, u}{The input \code{p,r,u}}
+#' }
+#' @examples
+#' p <- c(10, 10, 10)
+#' u <- c(1, 1, 1)
+#' r <- 5
+#' n <- 200
+#' dat <- TPR_sim(p = p, r = r, u = u, n = n)
+#' Xn <- dat$Xn
+#' Yn <- dat$Yn
+#'
+#' @seealso \code{\link{TRR_sim}}.
+#' @references Zhang, X., Li, L. (2017). Tensor Envelope Partial Least-Squares Regression. Technometrics, 59(4), 426-436.
+
+#' @export
+#' @importFrom stats rnorm
+TPR_sim <- function(p, r, u, n){
+  if(length(p) != length(u)){stop("The length of p must match the length of u.")}
+  if(any(p < u)){stop("u must less than p element-wise.")}
+  m <- length(p)
+  Gamma <- Gamma0 <- Omega <- Omega0 <- Sig <- Sigsqrtm <- NULL
+  for(i in 1:m) {
+    tmp <- matrix(runif(p[i]*u[i]), p[i], u[i])
+    Gamma[[i]] <- qr.Q(qr(tmp))
+    Gamma0[[i]] <- qr.Q(qr(tmp), complete=TRUE)[, (u[i]+1):p[i]]
+    Omega[[i]] <- diag(u[i])
+    Omega0[[i]] <- 0.01*diag(p[i]-u[i])
+    Sig[[i]] <- Gamma[[i]] %*% Omega[[i]] %*% t(Gamma[[i]])+
+      Gamma0[[i]] %*% Omega0[[i]] %*% t(Gamma0[[i]])
+    Sig[[i]] <- 2*Sig[[i]]/norm(Sig[[i]], type="F")
+    Sigsqrtm[[i]] <- pracma::sqrtm(Sig[[i]])$B
+  }
+  A <- matrix(runif(r^2), r, r)
+  SigY <- A %*% t(A)
+  SigY <- SigY/norm(SigY, type="F")
+
+  ##generate data
+  Epsilon <- MASS::mvrnorm(n, mu=rep(0, r), Sigma=SigY)
+  tmp2 <- array(rnorm(prod(p, n)), c(p, n))
+  Xn <- rTensor::as.tensor(tmp2)
+  Xn <- rTensor::ttl(Xn, Sigsqrtm, ms = c(1:m))
+  vecXn <- matrix(Xn@data, prod(p), n)
+  eta <- array(runif(prod(u,r)), c(u,r))
+  eta <- rTensor::as.tensor(eta)
+  B <- rTensor::ttl(eta,Gamma, ms = c(1:m))
+  vecB <- vecB <- matrix(B@data, prod(p), r)
+  Y_tmp <- t(vecB) %*% vecXn
+  Yn <- Y_tmp + t(Epsilon)
+
+  output <- list(Xn = Xn, Yn = Yn, Gamma = Gamma, Bhat = B, Sigma = Sig, p = p, r = r, u = u)
+  output
+}
