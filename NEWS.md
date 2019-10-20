@@ -5,7 +5,7 @@
 - Removed package `mvtnorm` in `DESCRIPTION`, it is not used in the package.
 - Move all the packages in `Depends` in `DESCRIPTION` to `Imports` except for `ManifoldOptim`.
 - Add examples to some functions: `PMSE`, `TensEnv_dim`, `TensPLS_cv2d3d`, `Tenv_Pval`.
-- Add datasets "bat" and "square" with which users can quickly verify the functions in the package.
+- Add simulated data "bat" and "square" with which users can quickly verify the functions in the package.
 ```
 # Usage
 > data("bat")
@@ -20,6 +20,7 @@
 - `Tenv_Pval`: Change the data type of outputs from array to tensor. Change the name `se_mat` to `se`.
 - `PMSE`: Rewrite `PMSE`. `Xn` can be matrix, array or tensor, `Yn` can be vector or matrix, and `Bhat` can be vector, matrix, array or tensor
 as long as the dimensions match the ones of `Xn` and `Yn`.
+- `TRR_sim`, `TPR_sim`: Add two simulation functions to generate data used in TRR and TPR which can help user quickly test the functions.
 
 
 ## S3 methods
