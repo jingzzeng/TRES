@@ -5,7 +5,7 @@
 The \eqn{p}-values of each elements in the tensor response regression coefficient estimator
 }
 \description{
-Obtain \eqn{p}-values of each elements in the tensor regression coefficient estimator. Two-sided t-tests are applied on the coefficent estimator, where the estimator use the asymptotic covariance of the OLS estimator.
+Obtain \eqn{p}-values of each elements in the tensor regression coefficient estimator. Two-sided t-tests are applied on the coefficient estimator, where the estimator use the asymptotic covariance of the OLS estimator.
 }
 \usage{
 Tenv_Pval(Xn, Yn, B_est)

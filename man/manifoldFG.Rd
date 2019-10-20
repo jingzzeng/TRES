@@ -16,7 +16,7 @@ manifoldFG(M, U, u, G_ini, params=NULL)
   \item{G_ini}{The initial value for mannifold optimization.}
   \item{params}{Option structure with fields:\cr
             \code{"max_iter"} -- max number of iterations.\cr
-            \code{"tol"} -- Tolerance used to assess convergence. See Huang et al (2018) for details on
+            \code{"tol"} -- Tolerance used to assess convergence. See Huang et al. (2018) for details on
 how this is used.\cr
             \code{"method"} -- Name of optimization method supported by R package \pkg{ManifoldOptim}.
 \itemize{

@@ -7,7 +7,7 @@
 #' where predictor \eqn{\mathbf{X} \in R^{p}}, response \eqn{\mathbf{Y} \in R^{r_1\times \cdots\times r_m}}, and
 #' the error term is tensor normal distributed
 #' \deqn{\boldsymbol{\varepsilon}\sim TN(0;\boldsymbol{\Sigma}_1,\dots,\boldsymbol{\Sigma}_m)}
-#' According to the tensor envelope strucutrue, we have
+#' According to the tensor envelope structure, we have
 #' \deqn{\mathbf{B} = [\Theta;\boldsymbol{\Gamma}_1,\ldots,\boldsymbol{\Gamma}_m,\mathbf{I}_p], \quad \mbox{for some } \boldsymbol{\Theta} \in R^{u_1\times\cdots\times u_m \times p}}
 #' \deqn{\boldsymbol{\Sigma}_k = \boldsymbol{\Gamma}_k\boldsymbol{\Omega}_k\boldsymbol{\Gamma}_k^{T}+\boldsymbol{\Gamma}_{0k}\boldsymbol{\Omega}_{0k}\boldsymbol{\Gamma}_{0k}^\top,
 #' \quad \mbox{for some } \boldsymbol{\Omega}_k, \boldsymbol{\Omega}_{0k},\ k=1,\ldots,m.}
@@ -16,7 +16,7 @@
 #'
 #' @param r The dimension of response, a vector with length larger than 2.
 #' @param p The dimension of predictor, a scale.
-#' @param u The strucural dimension of envelopes at each mode, a vector with the same length as r.
+#' @param u The structural dimension of envelopes at each mode, a vector with the same length as r.
 #' @param n The sample size.
 #' @return
 #' \describe{

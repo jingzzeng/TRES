@@ -16,7 +16,7 @@
   - Append `fitted.values` and `residuals` into the output.
   - More robust to the input type: `Yn` can be vector or matrix and `Xn` can be matrix, array or tensor for `TPR`, `Xn` can be vector or
   matrix and `Yn` can be matrix, array or tensor for `TRR`.
-  - Incorporate `FG_TRR` and `FG_TPR` into `TRR` and `TPR`. Add one more option for `method`, "FG". ALso add argument `Gamma_init` for "FG" method. 
+  - Incorporate `FG_TRR` and `FG_TPR` into `TRR` and `TPR`. Add one more option for `method`, "FG". Also add argument `Gamma_init` for "FG" method. 
 - `Tenv_Pval`: Change the data type of outputs from array to tensor. Change the name `se_mat` to `se`.
 - `PMSE`: Rewrite `PMSE`. `Xn` can be matrix, array or tensor, `Yn` can be vector or matrix, and `Bhat` can be vector, matrix, array or tensor
 as long as the dimensions match the ones of `Xn` and `Yn`.
@@ -32,9 +32,9 @@ Construct S3 object for `TRR` and `TPR` with `class` attribute "Tenv"
 > [1] "Tenv"
 ```
 - `print.Tenv`: Prints the coefficients from `TPR` and `TRR`
-- `predict.Tenv`: Make predictions of newdata.
+- `predict.Tenv`: Make predictions of new data.
 - `summary.Tenv`: Append dimensions of X,Y, sample size, mse, p_val and s.e. to the output object from `TPR` and `TRR`.
-- `print.summary.Tenv`: Print call, dimensions of X, Y, sample size, mse, the coefficient and p_value. (invoked implicitely when there is 
+- `print.summary.Tenv`: Print call, dimensions of X, Y, sample size, mse, the coefficient and p_value. (invoked implicitly when there is 
 no assignment of `summary.Tenv`)
 - `plot.Tenv`: Draw the plot of coefficients from `TRR` and `TPR`, and draw p_val plot from `TRR`. 
 - `vcov`: No covariance for coefficients. But for `TRR`, we print the standard error for coefficients.

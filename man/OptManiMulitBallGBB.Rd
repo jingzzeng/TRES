@@ -21,7 +21,7 @@ OptManiMulitBallGBB(X, opts=NULL, fun, ...)
 }
 \item{fun}{Objective function and its gradient:\cr
          \code{fun(X,  data1, data2)}\cr
-         \code{data1, data2} are addtional data.
+         \code{data1, data2} are additional data.
          }
 \item{...}{Additional input for \code{fun}, Calling syntax:\cr
         \code{OptManiMulitBallGBB(X0, fun, opts, data1, data2)}.}

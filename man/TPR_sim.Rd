@@ -11,7 +11,7 @@ TPR_sim(p, r, u, n)
 
 \item{r}{The dimension of response, a scale.}
 
-\item{u}{The strucural dimension of envelopes at each mode, a vector with the same length as p.}
+\item{u}{The structural dimension of envelopes at each mode, a vector with the same length as p.}
 
 \item{n}{The sample size.}
 }
@@ -34,7 +34,7 @@ The tensor predictor regression model is of the form,
 where response \eqn{\mathbf{Y} \in R^{r}}, predictor \eqn{\mathbf{X} \in R^{p_1\times \cdots\times p_m}}, and
 the error term is multivariate normal distributed. The predictor is tensor normal distributed,
 \deqn{\mathbf{X}\sim TN(0;\boldsymbol{\Sigma}_1,\dots,\boldsymbol{\Sigma}_m)}
-According to the tensor envelope strucutrue, we have
+According to the tensor envelope structure, we have
 \deqn{\mathbf{B} = [\Theta;\boldsymbol{\Gamma}_1,\ldots,\boldsymbol{\Gamma}_m,\mathbf{I}_p], \quad \mbox{for some } \boldsymbol{\Theta} \in R^{u_1\times\cdots\times u_m \times p}}
 \deqn{\boldsymbol{\Sigma}_k = \boldsymbol{\Gamma}_k\boldsymbol{\Omega}_k\boldsymbol{\Gamma}_k^{T}+\boldsymbol{\Gamma}_{0k}\boldsymbol{\Omega}_{0k}\boldsymbol{\Gamma}_{0k}^\top,
 \quad \mbox{for some } \boldsymbol{\Omega}_k, \boldsymbol{\Omega}_{0k},\ k=1,\ldots,m.}

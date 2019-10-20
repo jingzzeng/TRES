@@ -4,7 +4,7 @@
 #' The p-value and standard error for coefficients are only calculated for the object returned from \code{\link{TRR}}.
 #'
 #' print.summary.Tenv print.summary.lm gives a more readable format of sample size, dimensions of datasets, mse,
-#' and additionally gives \code{p-val} and \code{se} if \code{object} is returend from \code{\link{TRR}}.
+#' and additionally gives \code{p-val} and \code{se} if \code{object} is returned from \code{\link{TRR}}.
 #'
 #' @param object An object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.
 #' @param ... Arguments to be passed to or from other methods.

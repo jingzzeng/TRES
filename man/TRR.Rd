@@ -5,7 +5,7 @@
 Tensor response regression
 }
 \description{
-This function is used for estimation of tensor response regression. The avaiable method including standard OLS type estimation, PLS type of estimation as well as envelope estimation with FG, 1D and ECD approaches.
+This function is used for estimation of tensor response regression. The available method including standard OLS type estimation, PLS type of estimation as well as envelope estimation with FG, 1D and ECD approaches.
 }
 \usage{
 TRR(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'),

@@ -5,7 +5,7 @@
 Tensor Predictor Regression
 }
 \description{
-This function is used for estimation of tensor predictor regression. The avaiable method including standard OLS type estimation, PLS type of estimation as well as envelope estimation with 1D and ECD approaches.
+This function is used for estimation of tensor predictor regression. The available method including standard OLS type estimation, PLS type of estimation as well as envelope estimation with 1D and ECD approaches.
 }
 \usage{
 TPR(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'),

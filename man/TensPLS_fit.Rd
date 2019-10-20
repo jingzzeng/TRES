@@ -13,7 +13,7 @@ TensPLS_fit(Xn, Yn, SigX, u)
 \arguments{
   \item{Xn}{A predictor tensor of dimension \eqn{p_1\times \cdots \times p_m}.}
   \item{Yn}{The response vector of dimension \eqn{r}.}
-  \item{SigX}{A matrix lists \eqn{\boldsymbol{\Sigma}_k, k=1,\cdots, m}, which determins the estimation of covariance matrix \eqn{\boldsymbol{\Sigma}=\boldsymbol{\Sigma}_m \otimes \cdots \otimes \boldsymbol{\Sigma}_1}.}
+  \item{SigX}{A matrix lists \eqn{\boldsymbol{\Sigma}_k, k=1,\cdots, m}, which determines the estimation of covariance matrix \eqn{\boldsymbol{\Sigma}=\boldsymbol{\Sigma}_m \otimes \cdots \otimes \boldsymbol{\Sigma}_1}.}
   \item{u}{The dimension of envelope subspace, \eqn{u=(u_1,\cdots,u_m)}.}
 }
 

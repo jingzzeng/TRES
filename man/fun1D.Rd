@@ -4,7 +4,7 @@
 The 1D objective function and its gradient
 }
 \description{
-The objective function and its gradient value that defined in equation (4.1) of Cook, R. D., & Zhang, X. (2016). A speicial case of \code{FGfun} where \code{W} is a one-dimensional vector.\cr
+The objective function and its gradient value that defined in equation (4.1) of Cook, R. D., & Zhang, X. (2016). A special case of \code{FGfun} where \code{W} is a one-dimensional vector.\cr
 }
 \usage{
 fun1D(W, M, U)

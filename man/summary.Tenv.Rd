@@ -33,7 +33,7 @@ The p-value and standard error for coefficients are only calculated for the obje
 }
 \details{
 print.summary.Tenv print.summary.lm gives a more readable format of sample size, dimensions of datasets, mse,
-and additionally gives \code{p-val} and \code{se} if \code{object} is returend from \code{\link{TRR}}.
+and additionally gives \code{p-val} and \code{se} if \code{object} is returned from \code{\link{TRR}}.
 }
 \examples{
 data("bat")

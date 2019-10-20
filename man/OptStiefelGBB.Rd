@@ -24,7 +24,7 @@ The default values are: \code{"xtol"=1e-08; "gtol"=1e-08; "ftol"=1e-12; "mxitr"=
 }
 \item{fun}{Objective function and its gradient:\cr
          \code{fun(X,  data1, data2)}\cr
-         \code{data1, data2} are addtional data.
+         \code{data1, data2} are additional data.
          }
 \item{...}{Additional input for \code{fun}, Calling syntax:\cr
          \code{OptStiefelGBB(X0, fun, opts, data1, data2)}.}
@@ -32,7 +32,7 @@ The default values are: \code{"xtol"=1e-08; "gtol"=1e-08; "ftol"=1e-12; "mxitr"=
 
 \value{
 \item{X}{Solution}
-\item{Out}{Output information, inclusde estimation error, function value, iteration times etc.}
+\item{Out}{Output information, including estimation error, function value, iteration times etc.}
 }
 \references{
 Wen, Z., & Yin, W. (2013). A feasible method for optimization with orthogonality constraints. Mathematical Programming, 142(1-2), 397-434.
