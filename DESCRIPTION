@@ -14,7 +14,7 @@ Encoding: UTF-8
 LazyData: true
 Depends: R (>= 3.5.0), ManifoldOptim
 Imports: MASS, methods, pracma, rTensor, stats
-URL: https://github.com/jerryfsu3333/TRES
+URL: http://github.com/jerryfsu3333/TRES
 BugReports: https://github.com/jerryfsu3333/TRES/issues
 RcppModules: ManifoldOptim_module
 RoxygenNote: 6.1.1
