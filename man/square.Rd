@@ -6,9 +6,9 @@
 \title{Square simulated data}
 \format{A list consisting of three components:
 \describe{
- \item{Xn}{A \eqn{64 \times 64 \times 200} tensor}
- \item{Yn}{A \eqn{1 \times 200 matrix}}
- \item{coefficients}{A \eqn{64\times 64 \times 1} tensor with the square pattern}
+ \item{Xn}{A \eqn{32 \times 32 \times 200} tensor}
+ \item{Yn}{A \eqn{1 \times 200} matrix}
+ \item{coefficients}{A \eqn{32\times 32 \times 1} tensor with the square pattern}
 }}
 \usage{
 data(square)
