@@ -1,3 +1,6 @@
+# TRES (development version)
+- Add some references in Description field in file DESCRIPTION
+
 # TRES 1.0.0
 
 ## Major changes
