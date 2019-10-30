@@ -11,6 +11,7 @@
 #'  \item{Xn}{A \eqn{32 \times 32 \times 200} tensor}
 #'  \item{Yn}{A \eqn{1 \times 200} matrix}
 #'  \item{coefficients}{A \eqn{32\times 32 \times 1} tensor with the square pattern}
+#'  \item{Gamma}{Two envelope basis: 32\eqn{\times}2 matrices}
 #' }
 #'
 #' @keywords datasets

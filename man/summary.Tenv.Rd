@@ -3,8 +3,7 @@
 \name{summary.Tenv}
 \alias{summary.Tenv}
 \alias{print.summary.Tenv}
-\title{Summarize method for Tenv object.
-Summary method for object returned from \code{\link{TRR}} and \code{\link{TPR}} functions.}
+\title{Summarize method for Tenv object.}
 \usage{
 \method{summary}{Tenv}(object, ...)
 
@@ -29,11 +28,12 @@ Summary method for object returned from \code{\link{TRR}} and \code{\link{TPR}} 
 }
 }
 \description{
-The p-value and standard error for coefficients are only calculated for the object returned from \code{\link{TRR}}.
+Summary method for object returned from \code{\link{TRR}} and \code{\link{TPR}} functions.
 }
 \details{
-print.summary.Tenv print.summary.lm gives a more readable format of sample size, dimensions of datasets, mse,
-and additionally gives \code{p-val} and \code{se} if \code{object} is returned from \code{\link{TRR}}.
+The p-value and standard error for coefficients are only calculated for the object returned from \code{\link{TRR}}.
+
+print.summary.Tenv gives a more readable format of call, sample size, dimensions of datasets, mse. And if the \code{object} is returned from \code{\link{TRR}}, then \code{p-val} and \code{se} are also returned.
 }
 \examples{
 data("bat")

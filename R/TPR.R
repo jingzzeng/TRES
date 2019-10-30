@@ -183,7 +183,7 @@ TPR <- function(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, 
   tp2 <- matrix(Xn_old@data, c(prod(p), n))
   fitted.values <- t(tp1) %*% tp2
   residuals <- Yn_old - fitted.values
-  output <- list(Xn=Xn_old, Yn=Yn_old, method = method, coefficients=Bhat, Gamma_hat=Gamma1, Sigx=Sigx, fitted.values = fitted.values, residuals=residuals)
+  output <- list(Xn=Xn_old, Yn=Yn_old, method = method, coefficients=Bhat, Gamma=Gamma1, Sigx=Sigx, fitted.values = fitted.values, residuals=residuals)
   class(output) <- "Tenv"
   output$call <- cl
   output

@@ -4,7 +4,7 @@
 \alias{plot.Tenv}
 \title{Plot coefficients and p-value for Tenv object.}
 \usage{
-\method{plot}{Tenv}(x, thrd = 0.05, ask = TRUE,
+\method{plot}{Tenv}(x, thrd = 0.05,
   main = c(paste0("Coefficient plot ", "(", x$method, ")"),
   paste0("P value plot ", "(", x$method, ")")), ...)
 }
@@ -12,8 +12,6 @@
 \item{x}{An object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.}
 
 \item{thrd}{Significant level of p-value. Default is 0.05.}
-
-\item{ask}{Logical; if TRUE, the user is asked before the p-value plot. (only used for the object from \code{\link{TRR}}).}
 
 \item{main}{Title to each plot.}
 
@@ -32,5 +30,5 @@ from \code{\link{TRR}}, both the coefficients plot and p-value plot is displayed
  Xn <- bat$Xn
  Yn <- bat$Yn
  fit <- TRR(Xn, Yn, method="standard")
- plot(fit, ask=FALSE)
+ plot(fit)
 }

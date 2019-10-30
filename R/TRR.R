@@ -63,7 +63,7 @@ TRR <- function(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, 
       }
 
       idxprod <- (r[i]/n)/prodr
-      YsnYsn <- ttt(Ysn, Ysn, dims=idx)@data*idxprod
+      YsnYsn <- ttt(Ysn, Ysn, ms=idx)@data*idxprod
       U <- YsnYsn - M
 
       if (method == "1D") {
@@ -89,7 +89,7 @@ TRR <- function(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, 
   m <- Bhat@num_modes
   fitted.values <- rTensor::ttm(Bhat, t(Xn_old), m)
   residuals <- Yn_old - fitted.values
-  output <- list(Xn=Xn_old, Yn=Yn_old, method = method, coefficients=Bhat, Gamma_hat=Gamma1, Sig=Sig, fitted.values = fitted.values, residuals = residuals)
+  output <- list(Xn=Xn_old, Yn=Yn_old, method = method, coefficients=Bhat, Gamma=Gamma1, Sig=Sig, fitted.values = fitted.values, residuals = residuals)
   class(output) <- "Tenv"
   output$call <- cl
   output

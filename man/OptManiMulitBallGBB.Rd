@@ -14,7 +14,7 @@ OptManiMulitBallGBB(X, opts=NULL, fun, ...)
   \item{X}{n by k matrix such that \eqn{X'X = I}}
    \item{opts}{Option structure with fields:\cr
             \code{"record = 0"} -- no print out.\cr
-            \code{"mxitr"} -- max number of iterations.\cr
+            \code{"maxiter"} -- max number of iterations.\cr
             \code{"xtol"} -- stop control for \eqn{||X_k - X_{k-1}||}.\cr
             \code{"gtol"} -- stop control for the projected gradient.\cr
             \code{"ftol"} -- stop control for \eqn{\frac{|F_k - F_{k-1}|}{(1+|F_{k-1}|)}} usually with \code{max{xtol, gtol} > ftol}.

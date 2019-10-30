@@ -1,10 +1,10 @@
 #' Summarize method for Tenv object.
+#'
 #' Summary method for object returned from \code{\link{TRR}} and \code{\link{TPR}} functions.
 #'
 #' The p-value and standard error for coefficients are only calculated for the object returned from \code{\link{TRR}}.
 #'
-#' print.summary.Tenv print.summary.lm gives a more readable format of sample size, dimensions of datasets, mse,
-#' and additionally gives \code{p-val} and \code{se} if \code{object} is returned from \code{\link{TRR}}.
+#' print.summary.Tenv gives a more readable format of call, sample size, dimensions of datasets, mse. And if the \code{object} is returned from \code{\link{TRR}}, then \code{p-val} and \code{se} are also returned.
 #'
 #' @param object An object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.
 #' @param ... Arguments to be passed to or from other methods.
@@ -40,7 +40,7 @@ summary.Tenv <- function(object, ...){
     object$mse <- sum(residuals(object)^2)/n
   }else if(object$call[1] == "TRR()"){
     object$mse <- sum(residuals(object)@data^2)/n
-    tmp <- Tenv_Pval(object$Xn, object$Yn, B_est = coef(object))
+    tmp <- Tenv_Pval(object$Xn, object$Yn, Bhat = coef(object))
     object$p_val <- tmp$P_val
     object$se <- tmp$se
   }
@@ -53,6 +53,7 @@ summary.Tenv <- function(object, ...){
 
 #' @rdname summary.Tenv
 #' @method print summary.Tenv
+#' @export
 #' @importFrom stats coef
 print.summary.Tenv <- function(x, ...){
   cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"),

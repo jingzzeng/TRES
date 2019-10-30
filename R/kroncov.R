@@ -25,7 +25,7 @@ kroncov <- function(Tn) {
          len <- length(idx)
          Tsn <- rTensor::ttl(Tn, Sinvhalf[c(idx[1:(len-1)])], ms=idx[1:(len-1)])
          idxprod <- (r[i]/n)/prodr
-         TsnTsn <- ttt(Tsn, Tsn, dims = idx)@data*idxprod
+         TsnTsn <- ttt(Tsn, Tsn, ms = idx)@data*idxprod
          S[[i]] <- TsnTsn/norm(TsnTsn, type = "F")
          Sinvhalf[[i]] <- sqrtm(S[[i]])$Binv
        }
@@ -36,7 +36,7 @@ kroncov <- function(Tn) {
     }
   }else {
        lambda <- 1
-       S[[m]] <- ttt(Tn, Tn, dims = 2)@data*(1/n)
+       S[[m]] <- ttt(Tn, Tn, ms = 2)@data*(1/n)
   }
   return(list(lambda=lambda, S=S))
 }

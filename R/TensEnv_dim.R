@@ -3,7 +3,7 @@
 #' @import MASS
 #' @importFrom pracma kron sqrtm
 
-TensEnv_dim <- function(Xn, Yn, multiD=1, bic_max=10, opts=NULL){
+TensEnv_dim <- function(Xn, Yn, multiD=1, maxdim=10, opts=NULL){
   ss <- dim(Yn)
   len <- length(ss)
   n <- ss[len]
@@ -39,9 +39,9 @@ TensEnv_dim <- function(Xn, Yn, multiD=1, bic_max=10, opts=NULL){
     }
 
     idxprod <- (r[i]/n)/prodr
-    YsnYsn <- ttt(Ysn, Ysn, dims=idx)@data*idxprod
+    YsnYsn <- ttt(Ysn, Ysn, ms=idx)@data*idxprod
     U <- YsnYsn - M
-    res <- ballGBB1D_bic(M, U, n, multiD, bic_max, opts)
+    res <- ballGBB1D_bic(M, U, n, multiD, maxdim, opts)
     u[i] <- res$u
   }
   return(u)

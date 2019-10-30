@@ -5,21 +5,21 @@
 Inner product of tensor X and Y
 }
 \description{
-\code{ttt(X,Y,dims)} computes the inner product of tensors \code{X} and \code{Y} in the
-dimensions specified by the vector \code{dims}. The sizes of the dimensions specified by \code{dims} must match, which is \code{size(X, dims)} must equal \code{size(Y, dims)}.
+\code{ttt(X,Y,ms)} computes the inner product of tensors \code{X} and \code{Y} in the
+dimensions specified by the vector \code{ms}. The sizes of the dimensions specified by \code{ms} must match, which is \code{size(X, ms)} must equal \code{size(Y, ms)}.
 }
 \usage{
-ttt(X, Y, dims)
+ttt(X, Y, ms)
 }
 
 \arguments{
   \item{X}{A tensor instance.}
   \item{Y}{A tensor instance.}
-  \item{dims}{The indices of the modes to map onto the column space.}
+  \item{ms}{The indices of the modes to map onto the column space.}
 }
 
 \value{
-\item{mat}{The inner product of tensors \eqn{X} and \eqn{Y} in the dimensions specified by the vector dims, which is a matrix.}
+\item{mat}{The inner product of tensors \code{X} and \code{Y} in the dimensions specified by the vector \code{ms}, which is a matrix.}
 }
 
 \examples{

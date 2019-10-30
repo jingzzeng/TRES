@@ -25,9 +25,9 @@ fun1D_mfd <- function(M, U) {
 
 first1D <- function(M, U, params=NULL) {
 
-  if(is.null(params$max_iter))
-    params$max_iter=500 else if (params$max_iter < 0 || params$max_iter > 2^20)
-    params$max_iter=500
+  if(is.null(params$maxiter))
+    params$maxiter=500 else if (params$maxiter < 0 || params$maxiter > 2^20)
+    params$maxiter=500
 
   if(is.null(params$tol))
     params$tol=1e-08 else if (params$tol < 0 || params$tol > 1)
@@ -43,7 +43,7 @@ first1D <- function(M, U, params=NULL) {
   prob <- res$prob
   mani.defn <- res$mani.defn
   mani.params <- get.manifold.params(IsCheckParams = params$check)
-  solver.params <- get.solver.params(Max_Iteration = params$max_iter, Tolerance=params$tol, IsCheckParams = params$check)
+  solver.params <- get.solver.params(Max_Iteration = params$maxiter, Tolerance=params$tol, IsCheckParams = params$check)
 
   W0 <- get_ini1D(M, U)
   gamma <- ManifoldOptim::manifold.optim(prob, mani.defn, method = params$method,
@@ -62,9 +62,9 @@ manifold1D <- function(M, U, u, params=NULL){
   # where M>0 and is symmetric
   # dimension of the envelope is d
   # based on inv(M+U) and M
-  if(is.null(params$max_iter))
-    params$max_iter=500 else if (params$max_iter < 0 || params$max_iter > 2^20)
-      params$max_iter=500
+  if(is.null(params$maxiter))
+    params$maxiter=500 else if (params$maxiter < 0 || params$maxiter > 2^20)
+      params$maxiter=500
 
   if(is.null(params$tol))
       params$tol=1e-08 else if (params$tol < 0 || params$tol > 1)
@@ -93,8 +93,8 @@ manifold1D <- function(M, U, u, params=NULL){
       Mnew <- t(G0) %*% M %*% G0
       Unew <- t(G0) %*% U %*% G0
     }
-    Ghat <- G
-  } else { Ghat <- diag(p) }
-  return(Ghat)
+    Gamma <- G
+  } else { Gamma <- diag(p) }
+  return(Gamma)
 }
 

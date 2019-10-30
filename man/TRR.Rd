@@ -33,7 +33,7 @@ TRR(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'),
 \item{Yn}{The input response tensor.}
 \item{method}{The method used.}
 \item{coefficients}{The estimation of regression coefficient tensor.}
-\item{Gamma_hat}{The estimation of envelope subspace basis.}
+\item{Gamma}{The estimation of envelope subspace basis.}
 \item{Sig}{A matrix lists of \eqn{\boldsymbol{\Sigma}_k}, where \eqn{\boldsymbol{\Sigma}=\boldsymbol{\Sigma}_m \otimes \cdots \otimes \boldsymbol{\Sigma}_1}.}
 \item{fitted.values}{The fitted response tensor.}
 \item{residuals}{The residuals tensor.}
@@ -55,7 +55,7 @@ n <- 100
 dat <- TRR_sim(r = r, p = p, u = u, n = n)
 Xn <- dat$Xn
 Yn <- dat$Yn
-B <- dat$Bhat
+B <- dat$coefficients
 
 res_std <- TRR(Xn, Yn, method="standard")
 res_fg <- TRR(Xn, Yn, u, method="FG")

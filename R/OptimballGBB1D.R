@@ -17,8 +17,8 @@ ballGBB1D <- function(M, U, opts=NULL) {
     opts$ftol = 1e-12 else if (opts$ftol < 0 || opts$ftol > 1)
     opts$ftol = 1e-12
 
-  if (is.null(opts$mxitr))
-    opts$mxitr = 800
+  if (is.null(opts$maxiter))
+    opts$maxiter = 800
 
   X <- OptManiMulitBallGBB(W0, opts, fun1D, M, U)$X
   return(X)
@@ -53,8 +53,8 @@ OptimballGBB1D <- function(M, U, u, opts=NULL) {
     opts$ftol = 1e-12 else if (opts$ftol < 0 || opts$ftol > 1)
     opts$ftol = 1e-12
 
-  if (is.null(opts$mxitr))
-    opts$mxitr = 500
+  if (is.null(opts$maxiter))
+    opts$maxiter = 500
 
   p <-  dim(U)[2]
 
@@ -70,8 +70,8 @@ OptimballGBB1D <- function(M, U, u, opts=NULL) {
       Mnew <- t(G0) %*% M %*% G0
       Unew <- t(G0) %*% U %*% G0
     }
-    Ghat <- G
-  } else { Ghat <- diag(p) }
+    Gamma <- G
+  } else { Gamma <- diag(p) }
 
-  return(Ghat)
+  return(Gamma)
 }

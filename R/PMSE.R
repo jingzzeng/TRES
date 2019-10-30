@@ -32,8 +32,8 @@ PMSE <- function(Xn, Yn, Bhat){
   if(any(dim(Bhat)[1:(length(dim(Bhat))-1)] != p)){stop("Unmatched dimensions between Bhat and Xn.")}
   tp1 <- matrix(Bhat, c(prod(p), r))
   tp2 <- matrix(Xn, c(prod(p), n))
-  Yhat <- t(tp1) %*% tp2
-  Epsilon <- Yn - Yhat
+  pred <- t(tp1) %*% tp2
+  Epsilon <- Yn - pred
   mse <- sum(Epsilon^2)/n
-  return(list(mse=mse, Yhat=Yhat))
+  return(list(mse=mse, pred=pred))
 }

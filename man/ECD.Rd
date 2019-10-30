@@ -7,7 +7,7 @@ ECD algorithm for estimating the envelope subspace
 Estimate the envelope subspace with specified dimension based on ECD algorithm that described in Cook, R. D., & Zhang, X. (2018).
 }
 \usage{
-ECD(M, U, u, maxiter=500, epsilon=1e-08)
+ECD(M, U, u, maxiter=500, tol=1e-08)
 }
 
 \arguments{
@@ -15,7 +15,7 @@ ECD(M, U, u, maxiter=500, epsilon=1e-08)
  \item{U}{U matrix in the envelope objective function. A \eqn{p}-by-\eqn{p} positive semi-definite matrix.}
  \item{u}{Envelope dimension. An integer between 0 and \eqn{p}.}
  \item{maxiter}{Maximum number of iterations.}
- \item{epsilon}{Convergence criterion. \eqn{|F_k - F_{k-1}|< \epsilon}, where \eqn{F_k}   is the objective function.}
+ \item{tol}{Convergence criterion. \eqn{|F_k - F_{k-1}|<}\code{tol}, where \eqn{F_k}   is the objective function.}
 }
 \details{
 Estimate \code{M}-envelope contains \code{span(U)}

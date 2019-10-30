@@ -1,6 +1,16 @@
 # TRES (development version)
 - Add some references in Description field in file DESCRIPTION
 
+## Small changes
+- Fix the document of `summary.Tenv`.
+- Remove the parameter `ask` in plot.Tenv. 
+- Add envelope basis `Gamma` list into `bat` and `square` datasets.
+- Change the names of some parameters, like `bic_max` to `maxdim` in `TensEnv_dim`, `max_iter` to `maxiter` in `manifold1D`, `epsilon` to `tol` in `ECD`, `G_ini` to `Gamma_init` in `manifoldFG`, `G_hat` to `Gamma` in `manifoldFG`, `Yhat` to `pred` in `PMSE`.
+
+## S3 methods
+- `print.Tenv`: Prints the call, coefficients from `TPR` and `TRR`, make the output more concise.
+- `print.summary.Tenv`: Print call, dimensions of X, Y, sample size, mse, the coefficient and p_value. (invoked implicitly when there is no assignment of `summary.Tenv`).
+
 # TRES 1.0.0
 
 ## Major changes
@@ -25,7 +35,6 @@
 as long as the dimensions match the ones of `Xn` and `Yn`.
 - `TRR_sim`, `TPR_sim`: Add two simulation functions to generate data used in TRR and TPR which can help user quickly test the functions.
 
-
 ## S3 methods
 Construct S3 object for `TRR` and `TPR` with `class` attribute "Tenv"
 ```
@@ -34,13 +43,10 @@ Construct S3 object for `TRR` and `TPR` with `class` attribute "Tenv"
 > class(fit)
 > [1] "Tenv"
 ```
-- `print.Tenv`: Prints the coefficients from `TPR` and `TRR`
 - `predict.Tenv`: Make predictions of new data.
 - `summary.Tenv`: Append dimensions of X,Y, sample size, mse, p_val and s.e. to the output object from `TPR` and `TRR`.
-- `print.summary.Tenv`: Print call, dimensions of X, Y, sample size, mse, the coefficient and p_value. (invoked implicitly when there is 
-no assignment of `summary.Tenv`)
 - `plot.Tenv`: Draw the plot of coefficients from `TRR` and `TPR`, and draw p_val plot from `TRR`. 
-- `vcov`: No covariance for coefficients. But for `TRR`, we print the standard error for coefficients.
+- `vcov.Tenv`: No covariance for coefficients. But for `TRR`, we print the standard error for coefficients.
 - `fitted.default`: Calculates the fitted Y for `TPR` and `TRR` separately.
 - `residuals.default`: Calculate Y minus fitted Y for `TPR` and `TRR`
 - `coef.default`: Print the coefficients for `TPR` and `TRR`.

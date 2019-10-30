@@ -19,7 +19,7 @@ PMSE(Xn, Yn, Bhat)
 
 \value{
 \item{mse}{Mean squared error. Defined as \eqn{1/n\sum_{i=1}^n(\|\mathbf{Y}_i-\hat{\mathbf{Y}}_i)\|_F}, where \eqn{\hat{\mathbf{Y}}_i} is the predictions and \eqn{\|\cdot\|_F} is the Frobenius norm of tensor.}
-\item{Yhat}{The predictions of tensor predictor regression.}
+\item{pred}{The predictions of tensor predictor regression.}
 }
 
 

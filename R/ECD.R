@@ -35,9 +35,9 @@ ECDini <- function(M, U) {
 ##################################################
 #     optimECD algorithm for solving fk          #
 ##################################################
-optimECD <- function(A, B, w0, maxiter=500, epsilon=1e-08) {
+optimECD <- function(A, B, w0, maxiter=500, tol=1e-08) {
   p <- length(w0)
-#  epsilon <- 1e-08
+#  tol <- 1e-08
   eigA <- eigen (A + t(A));
   ## already in descending order###
   Gp <- eigA$vectors; dn <- eigA$values
@@ -60,13 +60,13 @@ optimECD <- function(A, B, w0, maxiter=500, epsilon=1e-08) {
         v[j] <- (crossprod(v, A1[,j]) + crossprod(v, B1[, j]) - AB1*v[j])/(2*delta - AB1)
         flg <- flg + 1
       }
-      if (objF_ECD(dn, GBG, v) > (objF_ECD(dn, GBG, v0)) + epsilon) {
+      if (objF_ECD(dn, GBG, v) > (objF_ECD(dn, GBG, v0)) + tol) {
         v <- v0
         flg <- flg - 1
       }
     }
     fk1 <- objF_ECD(dn, GBG, v)
-    if ((abs (fk - fk1)) < epsilon) break;
+    if ((abs (fk - fk1)) < tol) break;
     fk <- fk1
   }
   w <- Gp %*% v
@@ -79,12 +79,12 @@ optimECD <- function(A, B, w0, maxiter=500, epsilon=1e-08) {
 ##################################################
 #   estimating M-envelope contains span(U)       #
 ##################################################
-ECD1st <- function (M, U, maxiter=500, epsilon=1e-08){
+ECD1st <- function (M, U, maxiter=500, tol=1e-08){
   # estimating M-envelope contains span(U)
   # where M>0 and is symmetric
   # dimension of the envelope is d
   # based on inv(M+U) and (M)
-  gamma <- optimECD(M, solve(M + U), ECDini(M, U), maxiter, epsilon=1e-08)
+  gamma <- optimECD(M, solve(M + U), ECDini(M, U), maxiter, tol=1e-08)
   return(gamma)
 }
 
@@ -94,7 +94,7 @@ ECD1st <- function (M, U, maxiter=500, epsilon=1e-08){
 #           ECD algorithm                        #
 ##################################################
 #'@export
-ECD <- function(M, U, u, maxiter=500, epsilon=1e-08){
+ECD <- function(M, U, u, maxiter=500, tol=1e-08){
   # estimating M-envelope contains span(U)
   # where M>0 and is symmetric
   # dimension of the envelope is u
@@ -108,12 +108,12 @@ ECD <- function(M, U, u, maxiter=500, epsilon=1e-08){
   G <- matrix(0, p, u)
   G0 <- diag(p)
   for (k in 1:u) {
-    gk <- ECD1st(Mnew, Unew, maxiter, epsilon)
+    gk <- ECD1st(Mnew, Unew, maxiter, tol)
     G[, k]<- G0 %*% gk
     G0 <- qr.Q(qr(G[, 1:k]),complete=TRUE)[,(k+1):p]
     Mnew <- t(G0) %*% M %*% G0
     Unew <- t(G0) %*% U %*% G0
   }
-  Ghat <- G
-  return(Ghat)
+  Gamma <- G
+  return(Gamma)
 }

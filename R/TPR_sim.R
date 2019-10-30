@@ -23,7 +23,7 @@
 #' \item{Xn}{The predictor of dimension \eqn{p_1\times \cdots\times p_m \times n}}
 #' \item{Yn}{The response of dimension \eqn{r\times n}}
 #' \item{Gamma}{The envelope subspace basis of dimension \eqn{p_k \times u_k, \ k=1,\ldots,m}}
-#' \item{Bhat}{The coefficient tensor of dimension \eqn{p_1\times \cdots\times p_m \times r}}
+#' \item{coefficients}{The tensor coefficients of dimension \eqn{p_1\times \cdots\times p_m \times r}}
 #' \item{Sigma}{The covariance matrix of X}
 #' \item{p, r, u}{The input \code{p,r,u}}
 #' }
@@ -74,6 +74,6 @@ TPR_sim <- function(p, r, u, n){
   Y_tmp <- t(vecB) %*% vecXn
   Yn <- Y_tmp + t(Epsilon)
 
-  output <- list(Xn = Xn, Yn = Yn, Gamma = Gamma, Bhat = B, Sigma = Sig, p = p, r = r, u = u)
+  output <- list(Xn = Xn, Yn = Yn, Gamma = Gamma, coefficients = B, Sigma = Sig, p = p, r = r, u = u)
   output
 }

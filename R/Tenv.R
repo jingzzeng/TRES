@@ -70,7 +70,7 @@ Tenv <- function(Xn, Yn, u, opts=NULL){
       Ysn <- rTensor::ttl(Yn, Sinvhalf, ms=1)
     }
     idxprod <- (r[i]/n)/prodr
-    YsnYsn <- ttt(Ysn, Ysn, dims=idx)@data*idxprod
+    YsnYsn <- ttt(Ysn, Ysn, ms=idx)@data*idxprod
     U <- YsnYsn - M
     Gamma1[[i]] <- OptimballGBB1D(M, U, u[i], opts)
     PGamma[[i]] <- Gamma1[[i]] %*% t(Gamma1[[i]])

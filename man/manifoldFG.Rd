@@ -7,15 +7,15 @@ Full Grassmann manifold optimization algorithm (ManifoldOptim)
 Estimate the envelope subspace based on R package "ManifoldOptim".
 }
 \usage{
-manifoldFG(M, U, u, G_ini, params=NULL)
+manifoldFG(M, U, u, Gamma_init, params=NULL)
 }
 \arguments{
   \item{M}{M matrix in the envelope objective function. A \eqn{p}-by-\eqn{p} positive semi-definite matrix.}
  \item{U}{U matrix in the envelope objective function. A \eqn{p}-by-\eqn{p} positive semi-definite matrix.}
   \item{u}{Dimension of the envelope. An integer between 0 and \eqn{p}.}
-  \item{G_ini}{The initial value for mannifold optimization.}
+  \item{Gamma_init}{The initial value for mannifold optimization.}
   \item{params}{Option structure with fields:\cr
-            \code{"max_iter"} -- max number of iterations.\cr
+            \code{"maxiter"} -- max number of iterations.\cr
             \code{"tol"} -- Tolerance used to assess convergence. See Huang et al. (2018) for details on
 how this is used.\cr
             \code{"method"} -- Name of optimization method supported by R package \pkg{ManifoldOptim}.
@@ -35,13 +35,13 @@ how this is used.\cr
 
 \code{"check"} -- Should internal manifold object check inputs and print summary message before optimization (TRUE or FALSE).\cr
 
-The default values are: \code{"max_iter"=500; "tol"=1e-08;}\cr
+The default values are: \code{"maxiter"=500; "tol"=1e-08;}\cr
 \code{"method"="RCG"; "check"="False"}.
 }
 }
 
 \value{
-\item{G_hat}{The orthogonal basis of the envelope subspace.}
+\item{Gamma}{The orthogonal basis of the envelope subspace.}
 }
 
 \details{
@@ -58,9 +58,9 @@ Mhat <- data$Mhat
 Uhat <- data$Uhat
 G <- data$Gamma
 
-Ghat_1D <- manifold1D(Mhat, Uhat, u=5)
-subspace(Ghat_1D, G)
+Gamma_1D <- manifold1D(Mhat, Uhat, u=5)
+subspace(Gamma_1D, G)
 
-Ghat_FG <- manifoldFG(Mhat, Uhat, u=5, Ghat_1D)
-subspace(Ghat_FG, G)
+Gamma_FG <- manifoldFG(Mhat, Uhat, u=5, Gamma_1D)
+subspace(Gamma_FG, G)
 }

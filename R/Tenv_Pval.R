@@ -2,7 +2,7 @@
 #' @import rTensor
 #' @import MASS
 #' @importFrom stats pt
-Tenv_Pval <- function(Xn, Yn, B_est){
+Tenv_Pval <- function(Xn, Yn, Bhat){
   ss <- dim(Yn)
   len <- length(ss)
   n <- ss[len]
@@ -36,7 +36,7 @@ Tenv_Pval <- function(Xn, Yn, B_est){
 
   Sb <- array(sqrt(lambda*Sb), c(r, p))
   Ttil <- (sqrt(n)*Btil@data)/Sb
-  That <- (sqrt(n)*B_est@data)/Sb
+  That <- (sqrt(n)*Bhat@data)/Sb
   Ptil <- 2*(1-pt(abs(Ttil), n-1))
   Phat <- 2*(1-pt(abs(That), n-1))
 
@@ -44,5 +44,5 @@ Tenv_Pval <- function(Xn, Yn, B_est){
   Ptil <- as.tensor(Ptil)
   Phat <- as.tensor(Phat)
 
-  return(list(P_OLS=Ptil, P_val=Phat, se=Sb))
+  return(list(p_ols=Ptil, p_val=Phat, se=Sb))
 }

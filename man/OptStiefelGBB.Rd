@@ -15,12 +15,12 @@ OptStiefelGBB(X, opts=NULL, fun, ...)
   \item{X}{n by k matrix such that \eqn{X'X = I}}
    \item{opts}{Option structure with fields:\cr
             \code{"record = 0"} -- no print out.\cr
-            \code{"mxitr"} -- max number of iterations.\cr
+            \code{"maxiter"} -- max number of iterations.\cr
             \code{"xtol"} -- stop control for \eqn{||X_k - X_{k-1}||}.\cr
             \code{"gtol"} -- stop control for the projected gradient.\cr
             \code{"ftol"} -- stop control for \eqn{\frac{|F_k - F_{k-1}|}{(1+|F_{k-1}|)}} usually with \code{max{xtol, gtol} > ftol}.\cr
 
-The default values are: \code{"xtol"=1e-08; "gtol"=1e-08; "ftol"=1e-12; "mxitr"=500.}
+The default values are: \code{"xtol"=1e-08; "gtol"=1e-08; "ftol"=1e-12; "maxiter"=500.}
 }
 \item{fun}{Objective function and its gradient:\cr
          \code{fun(X,  data1, data2)}\cr
@@ -49,7 +49,7 @@ W = matrix(rnorm(n^2), n, n); W = t(W) \%*\% W
 
 opts=c()
 opts$record = 0;
-opts$mxitr  = 1000;
+opts$maxiter  = 1000;
 opts$xtol = 1e-5;
 opts$gtol = 1e-5;
 opts$ftol = 1e-8;

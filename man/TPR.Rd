@@ -32,7 +32,7 @@ TPR(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'),
 \item{Yn}{The input response matrix.}
 \item{method}{The method used.}
 \item{coefficients}{The estimation of regression coefficient tensor.}
-\item{Gamma_hat}{The estimation of envelope subspace basis.}
+\item{Gamma}{The estimation of envelope subspace basis.}
 \item{Sig}{A matrix lists of \eqn{\boldsymbol{\Sigma}_\mathrm{xk}}, where \eqn{\boldsymbol{\Sigma}_\mathrm{x}=\boldsymbol{\Sigma}_\mathrm{xm} \otimes \cdots \otimes \boldsymbol{\Sigma}_\mathrm{x1}}.}
 \item{fitted.values}{The fitted response matrix.}
 \item{residuals}{The residuals matrix.}
@@ -58,7 +58,7 @@ n <- 200
 dat <- TPR_sim(p = p, r = r, u = u, n = n)
 Xn <- dat$Xn
 Yn <- dat$Yn
-B <- dat$Bhat
+B <- dat$coefficients
 
 res_std = TPR(Xn, Yn, method="standard")
 res_FG = TPR(Xn, Yn, u, method="FG")
