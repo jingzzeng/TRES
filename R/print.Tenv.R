@@ -1,4 +1,5 @@
 #' @method print Tenv
+#' @export
 #' @importFrom stats coef
 
 print.Tenv <- function(x, ...){

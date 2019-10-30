@@ -2,6 +2,7 @@
 
 S3method(plot,Tenv)
 S3method(predict,Tenv)
+S3method(print,Tenv)
 S3method(print,summary.Tenv)
 S3method(summary,Tenv)
 S3method(vcov,Tenv)
