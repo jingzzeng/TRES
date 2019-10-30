@@ -19,7 +19,7 @@ You can install the released version of TRES from [CRAN](https://CRAN.R-project.
 install.packages("TRES")
 
 # Or the development version from GitHub:
-devtools::install_github("jerryfsu3333/TRES_code")
+devtools::install_github("jerryfsu3333/TRES")
 ```
 
 ## Example
@@ -48,6 +48,6 @@ plot(fit, ask=FALSE)
 ```
 
  <!-- badges: start -->
-  [![Travis build status](https://travis-ci.org/jerryfsu3333/TRES_code.svg?branch=master)](https://travis-ci.org/jerryfsu3333/TRES_code)
+  [![Travis build status](https://travis-ci.org/jerryfsu3333/TRES.svg?branch=master)](https://travis-ci.org/jerryfsu3333/TRES)
   <!-- badges: end -->
 
