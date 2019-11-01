@@ -7,14 +7,14 @@ Full Grassmann manifold optimization algorithm (ManifoldOptim)
 Estimate the envelope subspace based on R package "ManifoldOptim".
 }
 \usage{
-manifoldFG(M, U, u, Gamma_init, params=NULL)
+manifoldFG(M, U, u, Gamma_init, opts=NULL)
 }
 \arguments{
   \item{M}{M matrix in the envelope objective function. A \eqn{p}-by-\eqn{p} positive semi-definite matrix.}
  \item{U}{U matrix in the envelope objective function. A \eqn{p}-by-\eqn{p} positive semi-definite matrix.}
   \item{u}{Dimension of the envelope. An integer between 0 and \eqn{p}.}
   \item{Gamma_init}{The initial value for mannifold optimization.}
-  \item{params}{Option structure with fields:\cr
+  \item{opts}{Option structure with fields:\cr
             \code{"maxiter"} -- max number of iterations.\cr
             \code{"tol"} -- Tolerance used to assess convergence. See Huang et al. (2018) for details on
 how this is used.\cr

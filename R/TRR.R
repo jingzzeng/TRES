@@ -78,7 +78,7 @@ TRR <- function(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, 
         }else{
           init <- Gamma_init[[i]]
         }
-        Gamma1[[i]] <- OptStiefelGBB(init, opts=NULL, FGfun, M, U)$X
+        Gamma1[[i]] <- OptStiefelGBB(init, opts=NULL, FGfun, M, U)$Gamma
       }
       PGamma[[i]] <- Gamma1[[i]] %*% t(Gamma1[[i]])
     }

@@ -106,7 +106,7 @@ FG_TRR <- function(Xn, Yn, Gamma_init) {
     idxprod <- (r[i]/n)/prodr
     YsnYsn <- ttt(Ysn, Ysn, ms=idx)@data*idxprod
     U <- YsnYsn - M
-    Gamma1[[i]] <- OptStiefelGBB(Gamma_init[[i]], opts=NULL, FGfun, M, U)$X
+    Gamma1[[i]] <- OptStiefelGBB(Gamma_init[[i]], opts=NULL, FGfun, M, U)$Gamma
     PGamma[[i]] <- Gamma1[[i]] %*% t(Gamma1[[i]])
   }
   tp <- ttl(Yn, PGamma, ms=1:m)

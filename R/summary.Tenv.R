@@ -41,7 +41,7 @@ summary.Tenv <- function(object, ...){
   }else if(object$call[1] == "TRR()"){
     object$mse <- sum(residuals(object)@data^2)/n
     tmp <- Tenv_Pval(object$Xn, object$Yn, Bhat = coef(object))
-    object$p_val <- tmp$P_val
+    object$p_val <- tmp$p_val
     object$se <- tmp$se
   }
   object$n <- n

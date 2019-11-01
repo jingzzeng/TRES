@@ -8,11 +8,11 @@ Optimization on Stiefel manifold (GBB)
 Curvilinear search algorithm for optimization on Stiefel manifold based on Wen and Yin (2013). Used for estimating the envelope subspace.
 }
 \usage{
-OptStiefelGBB(X, opts=NULL, fun, ...)
+OptStiefelGBB(Gamma_init, opts=NULL, fun, ...)
 }
 
 \arguments{
-  \item{X}{n by k matrix such that \eqn{X'X = I}}
+  \item{Gamma_init}{initial envelope subspace basis.}
    \item{opts}{Option structure with fields:\cr
             \code{"record = 0"} -- no print out.\cr
             \code{"maxiter"} -- max number of iterations.\cr
@@ -23,15 +23,15 @@ OptStiefelGBB(X, opts=NULL, fun, ...)
 The default values are: \code{"xtol"=1e-08; "gtol"=1e-08; "ftol"=1e-12; "maxiter"=500.}
 }
 \item{fun}{Objective function and its gradient:\cr
-         \code{fun(X,  data1, data2)}\cr
+         \code{fun(Gamma_init,  data1, data2)}\cr
          \code{data1, data2} are additional data.
          }
 \item{...}{Additional input for \code{fun}, Calling syntax:\cr
-         \code{OptStiefelGBB(X0, fun, opts, data1, data2)}.}
+         \code{OptStiefelGBB(Gamma_init, opts, fun, data1, data2)}.}
 }
 
 \value{
-\item{X}{Solution}
+\item{Gamma}{The estimation of the envelope subspace basis.}
 \item{Out}{Output information, including estimation error, function value, iteration times etc.}
 }
 \references{
@@ -54,12 +54,11 @@ opts$xtol = 1e-5;
 opts$gtol = 1e-5;
 opts$ftol = 1e-8;
 
-X0 = matrix(rnorm(n*k), n, k);
-X0 = qr.Q(qr(X0));
+Gamma0 = matrix(rnorm(n*k), n, k);
+Gamma0 = qr.Q(qr(Gamma0));
 
-eva <- OptStiefelGBB(X0, opts, fun, W)
-X <- eva$X
+eva <- OptStiefelGBB(Gamma0, opts, fun, W)
+Gamma <- eva$Gamma
 out <- eva$out
 out$fval = -2*out$fval;
-
 }

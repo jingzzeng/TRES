@@ -23,30 +23,30 @@ fun1D_mfd <- function(M, U) {
 # Manifold1D optimization solve for gamma        #
 ##################################################
 
-first1D <- function(M, U, params=NULL) {
+first1D <- function(M, U, opts=NULL) {
 
-  if(is.null(params$maxiter))
-    params$maxiter=500 else if (params$maxiter < 0 || params$maxiter > 2^20)
-    params$maxiter=500
+  if(is.null(opts$maxiter))
+    opts$maxiter=500 else if (opts$maxiter < 0 || opts$maxiter > 2^20)
+    opts$maxiter=500
 
-  if(is.null(params$tol))
-    params$tol=1e-08 else if (params$tol < 0 || params$tol > 1)
-    params$tol=1e-08
+  if(is.null(opts$tol))
+    opts$tol=1e-08 else if (opts$tol < 0 || opts$tol > 1)
+    opts$tol=1e-08
 
-  if(is.null(params$method))
-    params$method="RBFGS"
+  if(is.null(opts$method))
+    opts$method="RBFGS"
 
-  if(is.null(params$check))
-    params$check= FALSE
+  if(is.null(opts$check))
+    opts$check= FALSE
 
   res  <- fun1D_mfd(M, U)
   prob <- res$prob
   mani.defn <- res$mani.defn
-  mani.params <- get.manifold.params(IsCheckParams = params$check)
-  solver.params <- get.solver.params(Max_Iteration = params$maxiter, Tolerance=params$tol, IsCheckParams = params$check)
+  mani.params <- get.manifold.params(IsCheckParams = opts$check)
+  solver.params <- get.solver.params(Max_Iteration = opts$maxiter, Tolerance=opts$tol, IsCheckParams = opts$check)
 
   W0 <- get_ini1D(M, U)
-  gamma <- ManifoldOptim::manifold.optim(prob, mani.defn, method = params$method,
+  gamma <- ManifoldOptim::manifold.optim(prob, mani.defn, method = opts$method,
                           mani.params = mani.params, solver.params = solver.params, x0 = W0)
   n <- dim(M)[2]
   return(matrix(gamma$xopt,n,1))
@@ -57,24 +57,24 @@ first1D <- function(M, U, params=NULL) {
 #  1D optimization solve for envelope basis      #
 ##################################################
 #' @export
-manifold1D <- function(M, U, u, params=NULL){
+manifold1D <- function(M, U, u, opts=NULL){
   # estimating M-envelope contains span(U)
   # where M>0 and is symmetric
   # dimension of the envelope is d
   # based on inv(M+U) and M
-  if(is.null(params$maxiter))
-    params$maxiter=500 else if (params$maxiter < 0 || params$maxiter > 2^20)
-      params$maxiter=500
+  if(is.null(opts$maxiter))
+    opts$maxiter=500 else if (opts$maxiter < 0 || opts$maxiter > 2^20)
+      opts$maxiter=500
 
-  if(is.null(params$tol))
-      params$tol=1e-08 else if (params$tol < 0 || params$tol > 1)
-        params$tol=1e-08
+  if(is.null(opts$tol))
+      opts$tol=1e-08 else if (opts$tol < 0 || opts$tol > 1)
+        opts$tol=1e-08
 
-  if(is.null(params$method))
-        params$method="RBFGS"
+  if(is.null(opts$method))
+        opts$method="RBFGS"
 
-  if(is.null(params$check))
-        params$check= FALSE
+  if(is.null(opts$check))
+        opts$check= FALSE
 
   if(dim(U)[1]!=dim(U)[2]) {
     {U = U %*% t(U)}
@@ -87,7 +87,7 @@ manifold1D <- function(M, U, u, params=NULL){
     G <- matrix(0, p, u)
     G0 <- diag(p)
     for(k in 1:u) {
-      gk <- first1D(Mnew, Unew, params)
+      gk <- first1D(Mnew, Unew, opts)
       G[, k] <- G0 %*% gk
       G0 <- qr.Q(qr(G[, 1:k]),complete=TRUE)[,(k+1):p]
       Mnew <- t(G0) %*% M %*% G0

@@ -24,7 +24,7 @@ TPR(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'),
   \item{\code{"ECD"}}: Envelope estimation with one dimenaional optimization approaches by ECD algorithm.
   \item{\code{"PLS"}}: The SIMPLS-type estimation without mannifold optimization.
 }
-  \item{Gamma_init}{A list specifying the initial estimation of envelope subspace basis for "FG" method. If unspecified, use the estimation from "1D" algorithm.}
+  \item{Gamma_init}{A list specifying the initial envelope subspace basis for "FG" method. If unspecified, use the estimation from "1D" algorithm.}
 }
 
 \value{

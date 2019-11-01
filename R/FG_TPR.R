@@ -115,7 +115,7 @@ FG_TPR <- function(Xn, Yn, Gamma_init){
 
     Uk <- idxprod*U %*% t(U)
 
-    Gamma1[[i]] <- OptStiefelGBB(Gamma_init[[i]], opts=NULL, FGfun, Sigx[[i]], Uk)$X
+    Gamma1[[i]] <- OptStiefelGBB(Gamma_init[[i]], opts=NULL, FGfun, Sigx[[i]], Uk)$Gamma
 
     tmp8 <- t(Gamma1[[i]]) %*% Sigx[[i]] %*% Gamma1[[i]]
     PGamma[[i]] <- Gamma1[[i]] %*% solve(tmp8) %*% t(Gamma1[[i]]) %*% Sigx[[i]]

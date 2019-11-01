@@ -8,14 +8,14 @@ Estimate the envelope subspace (ManifoldOptim 1D)
 The 1D algorithm to estimate the envelope subspace with specified dimension based on R package "ManifoldOptim".
 }
 \usage{
-manifold1D(M, U, u, params=NULL)
+manifold1D(M, U, u, opts=NULL)
 }
 
 \arguments{
   \item{M}{M matrix in the envelope objective function. A \eqn{p}-by-\eqn{p} positive semi-definite matrix.}
  \item{U}{U matrix in the envelope objective function. A \eqn{p}-by-\eqn{p} positive semi-definite matrix.}
   \item{u}{Dimension of the envelope. An integer between 0 and \eqn{p}.}
-  \item{params}{Option structure with fields:\cr
+  \item{opts}{Option structure with fields:\cr
             \code{"maxiter"} -- max number of iterations.\cr
             \code{"tol"} -- Tolerance used to assess convergence. See Huang et al. (2018) for details on
 how this is used.\cr
@@ -61,6 +61,6 @@ Mhat <- data$Mhat
 Uhat <- data$Uhat
 G <- data$Gamma
 
-Gamma_1D <- manifold1D(Mhat, Uhat, u=5, params=NULL)
+Gamma_1D <- manifold1D(Mhat, Uhat, u=5, opts=NULL)
 subspace(Gamma_1D, G)
 }

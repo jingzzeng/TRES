@@ -26,37 +26,37 @@ FGfun_mfd <- function(M, U, u) {
 #' @export
 
 
-manifoldFG <- function(M, U, u, Gamma_init, params=NULL) {
+manifoldFG <- function(M, U, u, Gamma_init, opts=NULL) {
 
   # estimating M-envelope contains span(U)
   # where M>0 and is symmetric
   # dimension of the envelope is d
   # based on inv(M+U) and M
 
-   if(is.null(params$maxiter))
-    params$maxiter=500 else if (params$maxiter < 0 || params$maxiter > 2^20)
-    params$maxiter=500
+   if(is.null(opts$maxiter))
+    opts$maxiter=500 else if (opts$maxiter < 0 || opts$maxiter > 2^20)
+    opts$maxiter=500
 
-  if(is.null(params$tol))
-    params$tol=1e-08 else if (params$tol < 0 || params$tol >+ 1)
-    params$tol=1e-08
+  if(is.null(opts$tol))
+    opts$tol=1e-08 else if (opts$tol < 0 || opts$tol >+ 1)
+    opts$tol=1e-08
 
-  if(is.null(params$method))
-    params$method="RBFGS"
+  if(is.null(opts$method))
+    opts$method="RBFGS"
 
-  if(is.null(params$check))
-    params$check= FALSE
+  if(is.null(opts$check))
+    opts$check= FALSE
 
   if(dim(U)[1] != dim(U)[2]) { U = U %*% t(U)}
   n <- dim(M)[2]
-  mani.params <- get.manifold.params(IsCheckParams = params$check)
-  solver.params <- ManifoldOptim::get.solver.params(Max_Iteration = params$maxiter, Tolerance=params$tol, IsCheckParams = params$check)
+  mani.params <- get.manifold.params(IsCheckParams = opts$check)
+  solver.params <- ManifoldOptim::get.solver.params(Max_Iteration = opts$maxiter, Tolerance=opts$tol, IsCheckParams = opts$check)
   if (u < n) {
     res <- FGfun_mfd(M, U, u)
     prob <- res$prob
     mani.defn <- res$mani.defn
 
-    gamma <- ManifoldOptim::manifold.optim(prob, mani.defn, method = params$method, mani.params = mani.params,
+    gamma <- ManifoldOptim::manifold.optim(prob, mani.defn, method = opts$method, mani.params = mani.params,
                             solver.params = solver.params, x0 = Gamma_init)
     Gamma <- matrix(gamma$xopt,n,u)
   }

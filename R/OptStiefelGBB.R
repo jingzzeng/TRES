@@ -1,5 +1,5 @@
 #' @export
-OptStiefelGBB <- function (X, opts=NULL, fun, ...)
+OptStiefelGBB <- function (Gamma_init, opts=NULL, fun, ...)
 {
   #
   # curvilinear search algorithm for optimization on Stiefel manifold
@@ -77,10 +77,10 @@ OptStiefelGBB <- function (X, opts=NULL, fun, ...)
 
 
   ##Size information
-  X <- as.matrix(X)
-  if (length(X) == 0)
-    print("input X is an empty matrix") else {
-    n <- dim(X)[1]; k <- dim(X)[2] }
+  Gamma <- as.matrix(Gamma_init)
+  if (length(Gamma) == 0)
+    print("input Gamma_init is an empty matrix") else {
+    n <- dim(Gamma)[1]; k <- dim(Gamma)[2] }
 
   if (is.null(opts$xtol))
     opts$xtol = 1e-8 else if (opts$xtol < 0 || opts$xtol > 1)
@@ -161,36 +161,36 @@ OptStiefelGBB <- function (X, opts=NULL, fun, ...)
 
   ## Initial function value and gradient
   # prepare for iterations
-  args = list(X, ...)
+  args = list(Gamma, ...)
   eva <- do.call(fun, args)
   F <- eva$F; G <- eva$G
   out <- c()
   out$nfe <- 1
   #GX = t(G) %*% X
-  GX <- crossprod(G, X)
+  GX <- crossprod(G, Gamma)
 
   if (invH == TRUE) {
     #GXT <- G %*% t(X)
-    GXT <- tcrossprod(G, X)
+    GXT <- tcrossprod(G, Gamma)
     H <- 0.5*(GXT - t(GXT))
-    RX <- H %*% X
+    RX <- H %*% Gamma
   } else {
     if (opts$projG == 1) {
-      U <- cbind(G, X)
-      V <- cbind(X, -G)
+      U <- cbind(G, Gamma)
+      V <- cbind(Gamma, -G)
       #VU <- t(V) %*% U
       VU <- crossprod(V, U)
     }else if (opts$projG == 2){
-      GB <- G - 0.5*X %*% (t(X) %*% G)
-      U <- cbind(GB, X)
-      V <- cbind(X, -GB)
+      GB <- G - 0.5*Gamma %*% (t(Gamma) %*% G)
+      U <- cbind(GB, Gamma)
+      V <- cbind(Gamma, -GB)
       #VU <- t(V) %*% U
       VU <- crossprod(V, U)
     }
       # VX <- t(V) %*% X
-      VX <- crossprod(V, X)
+      VX <- crossprod(V, Gamma)
   }
-  dtX <- G - X %*% GX
+  dtX <- G - Gamma %*% GX
   nrmG <- norm(dtX, type = "F")
 
   Q <- 1; Cval <- F; tau <- opts$tau
@@ -204,20 +204,20 @@ OptStiefelGBB <- function (X, opts=NULL, fun, ...)
 
   ## main iteration
   for (itr in 1:opts$mxitr) {
-    XP <- X; FP <- F; GP <- G; dtXP <- dtX
+    XP <- Gamma; FP <- F; GP <- G; dtXP <- dtX
 
     #scale step size
     nls <- 1; deriv <- rho*nrmG^2
     while (1 > 0) {
       if (invH == TRUE) {
-        X <- solve(diag(n) + tau*H, XP - tau*RX) } else {
+        Gamma <- solve(diag(n) + tau*H, XP - tau*RX) } else {
           aa <- solve(eye2k + (0.5*tau)*VU, VX)
-          X <- XP - U %*% (tau*aa)
+          Gamma <- XP - U %*% (tau*aa)
         }
-      if (iscomplex == 0 && is.complex(X) == 1 )
-        cat("error: X is complex")
+      if (iscomplex == 0 && is.complex(Gamma) == 1 )
+        cat("error: Gamma is complex")
 
-      args <- list(X, ...)
+      args <- list(Gamma, ...)
       eva <- do.call(fun, args)
       F <- eva$F; G <- eva$G
       out$nfe <- out$nfe + 1
@@ -229,26 +229,26 @@ OptStiefelGBB <- function (X, opts=NULL, fun, ...)
     }
 
     #GX <- t(G) %*% X
-    GX <- crossprod(G, X)
+    GX <- crossprod(G, Gamma)
     if (invH == TRUE) {
       #GXT <- G %*% t(X)
-      GXT <- tcrossprod(G, X)
+      GXT <- tcrossprod(G, Gamma)
       H <- 0.5*(GXT - t(GXT))
-      RX <- H %*% X
+      RX <- H %*% Gamma
     } else {
       if (opts$projG == 1) {
-        U = cbind(G, X); V = cbind(X, -G); #VU = t(V) %*% U;
+        U = cbind(G, Gamma); V = cbind(Gamma, -G); #VU = t(V) %*% U;
         VU = crossprod(V, U)
       } else if (opts$projG == 2) {
-        GB = G - 0.5 * X %*% (t(X) %*% G)
-        U = cbind(GB, X); V = cbind(X, -GB); #VU = t(V) %*% U
+        GB = G - 0.5 * Gamma %*% (t(Gamma) %*% G)
+        U = cbind(GB, Gamma); V = cbind(Gamma, -GB); #VU = t(V) %*% U
         VU = crossprod(V, U)
       }
       # VX = t(V) %*% X
-      VX = crossprod(V, X)
+      VX = crossprod(V, Gamma)
     }
-    dtX = G - X %*% GX; nrmG = norm(dtX, type = "F")
-    S = X - XP; XDiff = norm(S, type = "F")/sqrt(n)
+    dtX = G - Gamma %*% GX; nrmG = norm(dtX, type = "F")
+    S = Gamma - XP; XDiff = norm(S, type = "F")/sqrt(n)
     tau = opts$tau; FDiff = abs(FP - F)/(abs(FP) + 1)
 
     if (iscomplex == 1) {
@@ -298,20 +298,20 @@ OptStiefelGBB <- function (X, opts=NULL, fun, ...)
     out$msg = "exceed max iteration"
 
   #out$feasi <- norm((t(X) %*% X - diag(k)), type = "F")
-  out$feasi <- norm((crossprod(X)- diag(k)), type = "F")
+  out$feasi <- norm((crossprod(Gamma)- diag(k)), type = "F")
   if (out$feasi > 1e-13) {
-    X <- qr.Q(qr(X))
-    args <- list(X, ...)
+    Gamma <- qr.Q(qr(Gamma))
+    args <- list(Gamma, ...)
     eva <- do.call(fun, args)
     F <- eva$F; G <- eva$G
     out$nfe <- out$nfe + 1
     #out$feasi <- norm((t(X) %*% X - diag(k)), type = "F")
-    out$feasi <- norm((crossprod(X)- diag(k)), type = "F")
+    out$feasi <- norm((crossprod(Gamma)- diag(k)), type = "F")
   }
 
   out$nrmG <- nrmG
   out$fval <- F
   out$itr <- itr
 
-  return(list(X = X, out = out))
+  return(list(Gamma = Gamma, out = out))
 }
