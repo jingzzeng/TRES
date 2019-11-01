@@ -44,7 +44,7 @@ summary(fit)
 predict(fit, Xn)
 
 ## Draw the plot of two-way coefficient tensor (or matrix)
-plot(fit, ask=FALSE)
+plot(fit)
 ```
 
  <!-- badges: start -->
