@@ -6,6 +6,7 @@
 - Remove the parameter `ask` in plot.Tenv. 
 - Add envelope basis `Gamma` list into `bat` and `square` datasets.
 - Change the names of some parameters, like `bic_max` to `maxdim` in `TensEnv_dim`, `max_iter` to `maxiter` in `manifold1D`, `epsilon` to `tol` in `ECD`, `G_ini` to `Gamma_init` in `manifoldFG`, `G_hat` to `Gamma` in `manifoldFG`, `Yhat` to `pred` in `PMSE`.
+- Rename `TRR`, `TPR` as `TRR.fit`, `TPR,fit`.
 
 ## S3 methods
 - `print.Tenv`: Prints the call, coefficients from `TPR` and `TRR`, make the output more concise.
