@@ -1,6 +1,6 @@
-#' Generate simulation data for TPR
+#' Generate simulation data for tensor predictor regression (TPR)
 #'
-#' This function is used to generate simulation data used in Tensor Prediction Regression.
+#' This function is used to generate simulation data used in tensor prediction regression.
 #'
 #' The tensor predictor regression model is of the form,
 #' \deqn{\mathbf{Y} = \mathbf{B}_{(m+1)}\mathrm{vec}(\mathbf{X}) +\boldsymbol{\varepsilon}}
@@ -19,14 +19,13 @@
 #' @param u The structural dimension of envelopes at each mode, a vector with the same length as p.
 #' @param n The sample size.
 #' @return
-#' \describe{
 #' \item{Xn}{The predictor of dimension \eqn{p_1\times \cdots\times p_m \times n}}
 #' \item{Yn}{The response of dimension \eqn{r\times n}}
 #' \item{Gamma}{The envelope subspace basis of dimension \eqn{p_k \times u_k, \ k=1,\ldots,m}}
 #' \item{coefficients}{The tensor coefficients of dimension \eqn{p_1\times \cdots\times p_m \times r}}
 #' \item{Sigma}{The covariance matrix of X}
 #' \item{p, r, u}{The input \code{p,r,u}}
-#' }
+#'
 #' @examples
 #' p <- c(10, 10, 10)
 #' u <- c(1, 1, 1)

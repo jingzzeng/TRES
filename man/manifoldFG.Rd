@@ -4,7 +4,7 @@
 Full Grassmann manifold optimization algorithm (ManifoldOptim)
 }
 \description{
-Estimate the envelope subspace based on R package "ManifoldOptim".
+The FG algorithm to estimate the envelope subspace with specified dimension based on R package "ManifoldOptim".
 }
 \usage{
 manifoldFG(M, U, u, Gamma_init, opts=NULL)
@@ -41,13 +41,11 @@ The default values are: \code{"maxiter"=500; "tol"=1e-08;}\cr
 }
 
 \value{
-\item{Gamma}{The orthogonal basis of the envelope subspace.}
+Return the orthogonal basis of the envelope subspace.
 }
 
 \details{
-Estimating \code{M}-envelope contains \code{span(U)}
-where \code{M > 0} and is symmetric and the
-dimension of the envelope is \code{u}.
+Estimate \code{M}-envelope of \code{span(U)} where \code{M > 0}. The dimension of the envelope is \code{u}.
 }
 
 

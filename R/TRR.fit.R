@@ -1,7 +1,7 @@
 #' @export
 
 # This function gives all the estimation of tensor response regression
-TRR <- function(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, Gamma_init=NULL) {
+TRR.fit <- function(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, Gamma_init=NULL) {
   cl <- match.call()
   method <- match.arg(method)
   if(!is.matrix(Xn)){

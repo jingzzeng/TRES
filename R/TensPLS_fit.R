@@ -1,3 +1,29 @@
+#' @title Tensor envelope partial least squares (PLS) regression
+#' @description Estimates the factor matrix \eqn{W_k, k=1,\cdots,m} in tensor PLS algorithm for tensor predictor regression (TPR), see Zhang, X., & Li, L. (2017).
+#'
+#' @param  Xn A predictor tensor of dimension \eqn{p_1\times \cdots \times p_m}.
+#' @param Yn The response vector of dimension \eqn{r}.
+#' @param u The dimension of envelope subspace, \eqn{u=(u_1,\cdots,u_m)}.
+#' @param SigX A matrix lists \eqn{\boldsymbol{\Sigma}_k, k=1,\cdots, m}, which determines the estimation of covariance matrix \eqn{\boldsymbol{\Sigma}=\boldsymbol{\Sigma}_m \otimes \cdots \otimes \boldsymbol{\Sigma}_1}.
+#'
+#' @return
+#' \describe{
+#'   \item{Gamma}{The estimation of factor matrix \eqn{W_k, k=1,\cdots,m}.}
+#'   \item{PGamma}{The projection matrix \eqn{W_k(W_k'\boldsymbol{\Sigma}_k W_k)^{-1}W_k'\boldsymbol{\Sigma}_k, k=1,\cdots,m}.}
+#' }
+#'
+#' @references Zhang, X., & Li, L. (2017). Tensor Envelope Partial Least-Squares Regression. Technometrics, 59(4), 426-436.
+
+#' @name TensPLS_fit-deprecated
+#' @usage TensPLS_fit(Xn, Yn, SigX, u)
+#' @seealso \code{\link{TRES-deprecated}}
+#' @keywords internal
+NULL
+
+#' @rdname TRES-deprecated
+#' @section \code{TensPLS_fit}:
+#' For \code{TensPLS_fit}, use \code{\link{TPR.fit}} with \code{method = "PLS"}.
+
 
 #' @import rTensor
 #' @importFrom pracma kron sqrtm

@@ -13,7 +13,7 @@ library(TRES)
 data("bat")
 Xn <- bat$Xn
 Yn <- bat$Yn
-fit <- TRR(Xn, Yn, method="standard")
+fit <- TRR.fit(Xn, Yn, method="standard")
 
 ## Print cofficient
 coef(fit)

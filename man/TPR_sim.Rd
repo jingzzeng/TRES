@@ -2,7 +2,7 @@
 % Please edit documentation in R/TPR_sim.R
 \name{TPR_sim}
 \alias{TPR_sim}
-\title{Generate simulation data for TPR}
+\title{Generate simulation data for tensor predictor regression (TPR)}
 \usage{
 TPR_sim(p, r, u, n)
 }
@@ -16,7 +16,6 @@ TPR_sim(p, r, u, n)
 \item{n}{The sample size.}
 }
 \value{
-\describe{
 \item{Xn}{The predictor of dimension \eqn{p_1\times \cdots\times p_m \times n}}
 \item{Yn}{The response of dimension \eqn{r\times n}}
 \item{Gamma}{The envelope subspace basis of dimension \eqn{p_k \times u_k, \ k=1,\ldots,m}}
@@ -24,9 +23,8 @@ TPR_sim(p, r, u, n)
 \item{Sigma}{The covariance matrix of X}
 \item{p, r, u}{The input \code{p,r,u}}
 }
-}
 \description{
-This function is used to generate simulation data used in Tensor Prediction Regression.
+This function is used to generate simulation data used in tensor prediction regression.
 }
 \details{
 The tensor predictor regression model is of the form,

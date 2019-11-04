@@ -1,9 +1,9 @@
-#' @title Envelope estimation of tensor predictor regression with the full Grassmannian optimization
+#' @title Envelope estimation of tensor predictor regression (TPR) with the full Grassmannian optimization
 #' @description This function is used for envelope estimation of tensor predictor regression with the full Grassmannian (FG) optimization.
 #'
 #' @param Xn The predictor tensor instance or dimension \eqn{p_1\times p_2\times\cdots\times p_m \times n}, where \eqn{n} is the sample size.
 #' @param Yn The predictor matrix of dimension \eqn{r \times n}.
-#' @param Gamma_init The initial estimation of envelope subspace basis, can be derived from \code{TPR}.
+#' @param Gamma_init The initial estimation of envelope subspace basis, can be derived from \code{TPR.fit}.
 #'
 #' @return
 #' \describe{
@@ -53,7 +53,7 @@
 #' Yn <-  Y_tmp + t(Epsilon)
 #'
 #' # use the result of 1D method as the initial value
-#' res_1D = TPR(Xn, Yn, u, method="1D")
+#' res_1D = TPR.fit(Xn, Yn, u, method="1D")
 #' \dontrun{
 #'   res_FG = FG_TPR(Xn, Yn, Gamma_init=res_1D$Gamma_hat)
 #' }
@@ -66,13 +66,13 @@ NULL
 
 #' @rdname TRES-deprecated
 #' @section \code{FG_TPR}:
-#' For \code{FG_TPR}, use \code{\link{TPR}} with \code{method = "FG"}.
+#' For \code{FG_TPR}, use \code{\link{TPR.fit}} with \code{method = "FG"}.
 #'
 #' @export
 
 # This function gives FG estimation of tensor predictor regression
 FG_TPR <- function(Xn, Yn, Gamma_init){
-  .Deprecated("TPR", package = "TRES")
+  .Deprecated("TPR.fit", package = "TRES")
   ss <- dim(Xn)
   len <- length(ss)
   n <- ss[len]

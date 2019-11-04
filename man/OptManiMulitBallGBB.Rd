@@ -5,7 +5,7 @@
 Line search algorithm for optimization on manifold
 }
 \description{
-Line search algorithm for optimization on Stiefel manifold based on Wen and Yin (2013). Used for the 1D-algorithm to estimate the envelope subspace.
+Line search algorithm for optimization on Stiefel manifold based on Wen and Yin (2013). Used in 1D-algorithm for estimating the envelope subspace.
 }
 \usage{
 OptManiMulitBallGBB(X, opts=NULL, fun, ...)

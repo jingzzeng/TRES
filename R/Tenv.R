@@ -1,5 +1,5 @@
 #' @title Tensor response envelope estimator
-#' @description This function gives the tensor envelope estimator for tensor response regression.
+#' @description This function gives the tensor envelope estimator for tensor response regression (TRR).
 #'
 #' @param  Xn The predictor matrix of dimension \eqn{p \times n}.
 #' @param Yn The response tensor instance \eqn{ r_1\times r_2\times \cdots \times r_m \times n}, where \eqn{n} is the sample size.
@@ -23,14 +23,14 @@ NULL
 
 #' @rdname TRES-deprecated
 #' @section \code{Tenv}:
-#' For \code{Tenv}, use \code{\link{TRR}} with \code{method = "1D"}.
+#' For \code{Tenv}, use \code{\link{TRR.fit}} with \code{method = "1D"}.
 #'
 #' @export
 #' @import rTensor
 #' @import MASS
 
 Tenv <- function(Xn, Yn, u, opts=NULL){
-  .Deprecated("TRR", package = "TRES")
+  .Deprecated("TRR.fit", package = "TRES")
   ss <- dim(Yn)
   len <- length(ss)
   n <- ss[len]

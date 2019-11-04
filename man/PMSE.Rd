@@ -2,7 +2,7 @@
 \alias{PMSE}
 
 \title{
-Predictions and Mean squared error for tensor predictor regression
+Predictions and Mean squared error for tensor predictor regression (TPR).
 }
 \description{
 Evaluate tensor predictor regression through prediction mean squared error.
@@ -18,7 +18,7 @@ PMSE(Xn, Yn, Bhat)
 }
 
 \value{
-\item{mse}{Mean squared error. Defined as \eqn{1/n\sum_{i=1}^n(\|\mathbf{Y}_i-\hat{\mathbf{Y}}_i)\|_F}, where \eqn{\hat{\mathbf{Y}}_i} is the predictions and \eqn{\|\cdot\|_F} is the Frobenius norm of tensor.}
+\item{mse}{Mean squared error. Defined as \eqn{1/n\sum_{i=1}^n\|\mathbf{Y}_i-\hat{\mathbf{Y}}_i\|_F^2}, where \eqn{\hat{\mathbf{Y}}_i} is the prediction and \eqn{\|\cdot\|_F} is the Frobenius norm of tensor.}
 \item{pred}{The predictions of tensor predictor regression.}
 }
 
@@ -40,10 +40,10 @@ dat <- TPR_sim(p = p, r = r, u = u, n = n)
 Xn <- dat$Xn
 Yn <- dat$Yn
 
-res_std <- TPR(Xn, Yn, u, method="standard")
+res_std <- TPR.fit(Xn, Yn, u, method="standard")
 result <- PMSE(Xn, Yn, res_std$coefficients)
 }
 
 \seealso{
-\code{\link{TPR}, \link{TPR_sim}}.
+\code{\link{TPR.fit}, \link{TPR_sim}}.
 }

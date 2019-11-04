@@ -1,20 +1,18 @@
-#' Predict method for TRR and TPR.
+#' Predict method for Tenv object.
 #'
-#' Predict response for object returned from \code{\link{TRR}} and \code{\link{TPR}} functions.
+#' Predict response for object returned from \code{\link{TRR.fit}} and \code{\link{TPR.fit}} functions.
 #'
-#' @param object An object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.
-#' @param newdata The data to be used for prediction. It can be vector, matrix or tensor for \code{\link{TRR}} fits, and can be matrix
-#' or tensor for \code{\link{TPR}} fits.
+#' @param object An object of class "Tenv", as from \code{\link{TPR.fit}} or \code{\link{TRR.fit}}.
+#' @param newdata The data to be used for prediction. It can be vector, matrix or tensor for the fit returned from\code{\link{TRR.fit}}, and can be matrix or tensor for the fit returned from \code{\link{TPR.fit}}.
 #' @param ... Arguments passed to or from other methods.
 #' @return
-#' \describe{
-#'  \item{pred}{Predicted response.}
-#' }
+#' Return the predicted response.
+#'
 #' @examples
 #' data("bat")
 #' Xn <- bat$Xn
 #' Yn <- bat$Yn
-#' fit <- TRR(Xn, Yn, method="standard")
+#' fit <- TRR.fit(Xn, Yn, method="standard")
 #' predict(fit, Xn)
 
 #' @export
@@ -25,7 +23,7 @@ predict.Tenv <- function(object, newdata, ...){
     stop("Missing newdata.")
   }
   Bhat <- coef(object)
-  if(object$call[1] == "TRR()"){
+  if(object$call[1] == "TRR.fit()"){
     if(!is.matrix(newdata)){
       if(is.vector(newdata)){
         newdata <- t(as.matrix(newdata))
@@ -38,7 +36,7 @@ predict.Tenv <- function(object, newdata, ...){
     if(is.vector(newdata)){newdata <- t(as.matrix(newdata))}
     m <- Bhat@num_modes
     pred <- rTensor::ttm(Bhat, t(newdata), m)
-  }else if(object$call[1] == "TPR()"){
+  }else if(object$call[1] == "TPR.fit()"){
     if(!is.matrix(newdata)){
       if(inherits(newdata, "Tensor")){
         newdata <- newdata@data

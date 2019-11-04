@@ -1,4 +1,5 @@
-\name{TRR}
+\name{TRR.fit}
+\alias{TRR.fit}
 \alias{TRR}
 
 \title{
@@ -8,7 +9,7 @@ Tensor response regression
 This function is used for estimation of tensor response regression. The available method including standard OLS type estimation, PLS type of estimation as well as envelope estimation with FG, 1D and ECD approaches.
 }
 \usage{
-TRR(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'),
+TRR.fit(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'),
     u=NULL, Gamma_init=NULL)
 }
 
@@ -57,11 +58,11 @@ Xn <- dat$Xn
 Yn <- dat$Yn
 B <- dat$coefficients
 
-res_std <- TRR(Xn, Yn, method="standard")
-res_fg <- TRR(Xn, Yn, u, method="FG")
-res_1D <- TRR(Xn, Yn, u, method="1D")
-res_pls <- TRR(Xn, Yn, u, method="PLS")
-res_ECD <- TRR(Xn, Yn, u, method="ECD")
+res_std <- TRR.fit(Xn, Yn, method="standard")
+res_fg <- TRR.fit(Xn, Yn, u, method="FG")
+res_1D <- TRR.fit(Xn, Yn, u, method="1D")
+res_pls <- TRR.fit(Xn, Yn, u, method="PLS")
+res_ECD <- TRR.fit(Xn, Yn, u, method="ECD")
 
 rTensor::fnorm(B-stats::coef(res_std))
 rTensor::fnorm(B-stats::coef(res_fg))
@@ -73,7 +74,7 @@ rTensor::fnorm(B-stats::coef(res_ECD))
 data("bat")
 Xn <- bat$Xn
 Yn <- bat$Yn
-res_std <- TRR(Xn, Yn, method="standard")
+res_std <- TRR.fit(Xn, Yn, method="standard")
 }
 
 \seealso{

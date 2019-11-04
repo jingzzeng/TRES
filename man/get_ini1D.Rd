@@ -16,6 +16,6 @@ get_ini1D(M, U)
 }
 
 \value{
-\item{W0}{Initial value for the 1D algorithm}
+Return initial value for the 1D algorithm.
 }
 

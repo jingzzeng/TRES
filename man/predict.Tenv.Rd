@@ -2,30 +2,27 @@
 % Please edit documentation in R/predict.Tenv.R
 \name{predict.Tenv}
 \alias{predict.Tenv}
-\title{Predict method for TRR and TPR.}
+\title{Predict method for Tenv object.}
 \usage{
 \method{predict}{Tenv}(object, newdata, ...)
 }
 \arguments{
-\item{object}{An object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.}
+\item{object}{An object of class "Tenv", as from \code{\link{TPR.fit}} or \code{\link{TRR.fit}}.}
 
-\item{newdata}{The data to be used for prediction. It can be vector, matrix or tensor for \code{\link{TRR}} fits, and can be matrix
-or tensor for \code{\link{TPR}} fits.}
+\item{newdata}{The data to be used for prediction. It can be vector, matrix or tensor for the fit returned from\code{\link{TRR.fit}}, and can be matrix or tensor for the fit returned from \code{\link{TPR.fit}}.}
 
 \item{...}{Arguments passed to or from other methods.}
 }
 \value{
-\describe{
- \item{pred}{Predicted response.}
-}
+Return the predicted response.
 }
 \description{
-Predict response for object returned from \code{\link{TRR}} and \code{\link{TPR}} functions.
+Predict response for object returned from \code{\link{TRR.fit}} and \code{\link{TPR.fit}} functions.
 }
 \examples{
 data("bat")
 Xn <- bat$Xn
 Yn <- bat$Yn
-fit <- TRR(Xn, Yn, method="standard")
+fit <- TRR.fit(Xn, Yn, method="standard")
 predict(fit, Xn)
 }

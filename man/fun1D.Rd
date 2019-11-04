@@ -4,7 +4,7 @@
 The 1D objective function and its gradient
 }
 \description{
-The objective function and its gradient value that defined in equation (4.1) of Cook, R. D., & Zhang, X. (2016). A special case of \code{FGfun} where \code{W} is a one-dimensional vector.\cr
+The objective function and its gradient value that defined in equation (4.1) of Cook, R. D., & Zhang, X. (2016). It is a special case of \code{FGfun} where \code{W} is a vector.\cr
 }
 \usage{
 fun1D(W, M, U)
@@ -12,7 +12,7 @@ fun1D(W, M, U)
 \arguments{
  \item{M}{M matrix in the envelope objective function. A \eqn{p}-by-\eqn{p} positive semi-definite matrix.}
  \item{U}{U matrix in the envelope objective function. A \eqn{p}-by-\eqn{p} positive semi-definite matrix.}
-  \item{W}{A vector of \eqn{p} by 1.}
+  \item{W}{A vector of dimension \eqn{p}.}
 }
 \details{
 This is the objective function and its gradient for the constrained optimization in the 1D algorithm.

@@ -1,12 +1,10 @@
 #' Plot coefficients and p-value for Tenv object.
 #'
-#' Plot method for object returned from \code{\link{TRR}} and \code{\link{TPR}} functions.
+#' Plot method for object returned from \code{\link{TRR.fit}} and \code{\link{TPR.fit}} functions.
 #'
-#' \code{coef(x)} must be a two-way tensor or a matrix. For the object return from \code{\link{TPR}},
-#' only the coefficients plot is displayed. But for the object return
-#' from \code{\link{TRR}}, both the coefficients plot and p-value plot is displayed.
+#' \code{coef(x)} must be a two-way tensor or a matrix. For the object return from \code{\link{TPR.fit}}, only the coefficients plot is displayed. But for the object return from \code{\link{TRR.fit}}, both the coefficients plot and p-value plot is displayed.
 #'
-#' @param x An object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.
+#' @param x An object of class "Tenv", as from \code{\link{TPR.fit}} or \code{\link{TRR.fit}}.
 #' @param thrd Significant level of p-value. Default is 0.05.
 #' @param main Title to each plot.
 #' @param ... Other parameters to be passed through to plotting functions.
@@ -14,7 +12,7 @@
 #'  data("bat")
 #'  Xn <- bat$Xn
 #'  Yn <- bat$Yn
-#'  fit <- TRR(Xn, Yn, method="standard")
+#'  fit <- TRR.fit(Xn, Yn, method="standard")
 #'  plot(fit)
 
 #' @export

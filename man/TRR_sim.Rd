@@ -2,7 +2,7 @@
 % Please edit documentation in R/TRR_sim.R
 \name{TRR_sim}
 \alias{TRR_sim}
-\title{Generate simulation data for TRR}
+\title{Generate simulation data for tensor response regression (TRR)}
 \usage{
 TRR_sim(r, p, u, n)
 }
@@ -16,7 +16,6 @@ TRR_sim(r, p, u, n)
 \item{n}{The sample size.}
 }
 \value{
-\describe{
 \item{Xn}{The predictor of dimension \eqn{p\times n}}
 \item{Yn}{The response of dimension \eqn{r_1\times \cdots\times r_m \times n}}
 \item{Gamma}{The envelope subspace basis of dimension \eqn{r_k \times u_k, \ k=1,\ldots,m}}
@@ -24,9 +23,8 @@ TRR_sim(r, p, u, n)
 \item{Sigma}{The covariance matrix of error}
 \item{p, r, u}{The input \code{p,r,u}}
 }
-}
 \description{
-This function is used to generate simulation data used in Tensor Response Regression.
+This function is used to generate simulation data used in tensor response regression.
 }
 \details{
 The tensor response regression model is of the form,

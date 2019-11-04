@@ -24,7 +24,7 @@ devtools::install_github("jerryfsu3333/TRES")
 
 ## Example
 
-This is a basic example which shows you how to use function `TRR` in Tensor Response Regression (TRR) model with least square.
+This is a basic example which shows you how to use function `TRR.fit` in Tensor Response Regression (TRR) model with least square.
 
 ``` r
 library(TRES)
@@ -32,7 +32,7 @@ library(TRES)
 data("bat")
 Xn <- bat$Xn
 Yn <- bat$Yn
-fit <- TRR(Xn, Yn, method="standard")
+fit <- TRR.fit(Xn, Yn, method="standard")
 
 ## Print cofficient
 coef(fit)

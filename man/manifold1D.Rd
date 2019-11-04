@@ -43,12 +43,10 @@ The default values are: \code{"maxiter"=500; "tol"=1e-08;}\cr
 
 
 \details{
-Estimate \code{M}-envelope contains \code{span(U)}
-where \code{M > 0} and is symmetric. The
-dimension of the envelope is \code{u}.
+Estimate \code{M}-envelope of \code{span(U)} where \code{M > 0}. The dimension of the envelope is \code{u}.
 }
 \value{
-\item{Gamma}{The orthogonal basis of the envelope subspace with each column represent the sequential direction. For example, the 1st column is the most informative direction.}
+Return the orthogonal basis of the envelope subspace.
 }
 \references{
 Huang, W., Absil, P. A., Gallivan, K. A., & Hand, P. (2018). ROPTLIB: an object-oriented C++ library for optimization on Riemannian manifolds. ACM Transactions on Mathematical Software (TOMS), 44(4), 43.

@@ -15,7 +15,7 @@
 data(square)
 }
 \description{
-Simulated data used in Tensor Predictor Regression. The pattern of coefficient is a square.
+Simulated data used in tensor predictor regression (TPR). The pattern of coefficient is a square.
 }
 \examples{
 data("square")

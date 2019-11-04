@@ -2,7 +2,7 @@
 % Please edit documentation in R/FG_TPR.R
 \name{FG_TPR-deprecated}
 \alias{FG_TPR-deprecated}
-\title{Envelope estimation of tensor predictor regression with the full Grassmannian optimization}
+\title{Envelope estimation of tensor predictor regression (TPR) with the full Grassmannian optimization}
 \usage{
 FG_TPR(Xn, Yn, Gamma_init)
 }
@@ -11,7 +11,7 @@ FG_TPR(Xn, Yn, Gamma_init)
 
 \item{Yn}{The predictor matrix of dimension \eqn{r \times n}.}
 
-\item{Gamma_init}{The initial estimation of envelope subspace basis, can be derived from \code{TPR}.}
+\item{Gamma_init}{The initial estimation of envelope subspace basis, can be derived from \code{TPR.fit}.}
 }
 \value{
 \describe{
@@ -64,7 +64,7 @@ for (j in 1:n) {
 Yn <-  Y_tmp + t(Epsilon)
 
 # use the result of 1D method as the initial value
-res_1D = TPR(Xn, Yn, u, method="1D")
+res_1D = TPR.fit(Xn, Yn, u, method="1D")
 \dontrun{
   res_FG = FG_TPR(Xn, Yn, Gamma_init=res_1D$Gamma_hat)
 }

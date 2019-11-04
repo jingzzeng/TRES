@@ -7,7 +7,7 @@
 \method{vcov}{Tenv}(object, ...)
 }
 \arguments{
-\item{object}{an object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.}
+\item{object}{an object of class "Tenv", as from \code{\link{TPR.fit}} or \code{\link{TRR.fit}}.}
 
 \item{...}{arguments to be passed to or from other methods.}
 }
@@ -15,14 +15,16 @@
 The standard error tensor is returned.
 }
 \description{
-Returns the standard error for Tenv object returned from \code{\link{TRR}}. There is no \code{vcov} method for object returned
-from \code{\link{TPR}}.
+Returns the standard error for Tenv object returned from \code{\link{TRR.fit}}. There is no \code{vcov} method for object returned from \code{\link{TPR.fit}}.
+}
+\note{
+Since there is no variance-covariance matrix for tensor coefficient estimator, generic function \code{vcov} for \code{Tenv} object returns the standard error elementwise which is different from what the function \code{lm()} returns.
 }
 \examples{
 data("bat")
 Xn <- bat$Xn
 Yn <- bat$Yn
-fit <- TRR(Xn, Yn, method="standard")
+fit <- TRR.fit(Xn, Yn, method="standard")
 vcov(fit)
 }
 \seealso{

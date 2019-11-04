@@ -4,7 +4,7 @@
 # This function gives all the estimation of tensor predictor regression
 # The tensor predictor should be 2-dimensional or 3-dimensional
 
-TPR <- function(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, Gamma_init=NULL) {
+TPR.fit <- function(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), u=NULL, Gamma_init=NULL) {
   cl <- match.call()
   method <- match.arg(method)
   if(!is.matrix(Yn)){

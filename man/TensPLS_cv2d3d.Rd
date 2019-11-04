@@ -1,10 +1,10 @@
 \name{TensPLS_cv2d3d}
 \alias{TensPLS_cv2d3d}
 \title{
-Envelope dimension by cross-validation for tensor predictor regression
+Envelope dimension by cross-validation for tensor predictor regression (TPR).
 }
 \description{
-This function obtain the envelope dimension by cross-validation for tensor predictor regression.
+Select the envelope dimension by cross-validation for tensor predictor regression.
 }
 \usage{
 TensPLS_cv2d3d(Xn, Yn, maxdim=10, nfolds=5)

@@ -15,7 +15,7 @@
 data(bat)
 }
 \description{
-Simulated data used in Tensor Response Regression. The pattern of coefficient is a bat.
+Simulated data used in tensor response regression (TRR). The pattern of coefficient is a bat.
 }
 \examples{
 data("bat")

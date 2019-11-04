@@ -10,36 +10,34 @@
 \method{print}{summary.Tenv}(x, ...)
 }
 \arguments{
-\item{object}{An object of class "Tenv", as from \code{\link{TPR}} or \code{\link{TRR}}.}
+\item{object}{An object of class "Tenv", as from \code{\link{TPR.fit}} or \code{\link{TRR.fit}}.}
 
 \item{...}{Arguments to be passed to or from other methods.}
 
 \item{x}{An object of class "summary.Tenv", usually, a result of a call to summary.Tenv.}
 }
 \value{
-\code{object} With additional components
-\describe{
+Return \code{object} with additional components
  \item{n}{Sample size}
  \item{xdim}{Dimensions of predictor}
  \item{ydim}{Dimensions of response}
- \item{mse}{Mean squared error based on \code{residuals(object)}}
- \item{p_val}{Only for object returned from \code{\link{TRR}}, p-value for coefficients}
- \item{se}{Only for object returned from \code{\link{TRR}}, standard error for coefficients}
-}
+ \item{mse}{Mean squared error}
+ \item{p_val}{Only for object returned from \code{\link{TRR.fit}}, p-value for coefficients}
+ \item{se}{Only for object returned from \code{\link{TRR.fit}}, standard error for coefficients}
 }
 \description{
-Summary method for object returned from \code{\link{TRR}} and \code{\link{TPR}} functions.
+Summary method for object returned from \code{\link{TRR.fit}} and \code{\link{TPR.fit}} functions.
 }
 \details{
-The p-value and standard error for coefficients are only calculated for the object returned from \code{\link{TRR}}.
+The \eqn{p}-value and the standard error of estimated coefficient are not provided for tensor predictor regression since they depend on \eqn{\widehat{\mathrm{cov}}^{-1}\{\mathrm{vec}(\mathbf{X})\}} which is unavailable due to the ultra-high dimension of \eqn{\mathrm{vec}(\mathbf{X})}.
 
-print.summary.Tenv gives a more readable format of call, sample size, dimensions of datasets, mse. And if the \code{object} is returned from \code{\link{TRR}}, then \code{p-val} and \code{se} are also returned.
+print.summary.Tenv gives a more readable format of call, sample size, dimensions of datasets, mse. And if the \code{object} is returned from \code{\link{TRR.fit}}, then \code{p-val} and \code{se} are also returned.
 }
 \examples{
 data("bat")
 Xn <- bat$Xn
 Yn <- bat$Yn
-fit <- TRR(Xn, Yn, method="standard")
+fit <- TRR.fit(Xn, Yn, method="standard")
 ##print summary
 summary(fit)
 }

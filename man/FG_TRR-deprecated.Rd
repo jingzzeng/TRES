@@ -2,7 +2,7 @@
 % Please edit documentation in R/FG_TRR.R
 \name{FG_TRR-deprecated}
 \alias{FG_TRR-deprecated}
-\title{Envelope estimation of tensor response regression with the full Grassmannian optimization}
+\title{Envelope estimation of tensor response regression (TRR) with the full Grassmannian optimization}
 \usage{
 FG_TRR(Xn, Yn, Gamma_init)
 }
@@ -11,7 +11,7 @@ FG_TRR(Xn, Yn, Gamma_init)
 
 \item{Yn}{The response tensor instance or dimension \eqn{r_1\times r_2\times\cdots\times r_m \times n}, where \eqn{n} is the sample size.}
 
-\item{Gamma_init}{The initial estimation of envelope subspace basis, can be derived from \code{TRR}.}
+\item{Gamma_init}{The initial estimation of envelope subspace basis, can be derived from \code{TRR.fit}.}
 }
 \value{
 \describe{
@@ -59,7 +59,7 @@ Epsilon <- rTensor::ttl(Epsilon, Sigsqrtm, ms=1:m)
 Yn <- Epsilon + rTensor::ttm(B, t(Xn), m+1)
 
 # use the result of 1D method as the initial value
-res_1D = TRR(Xn, Yn, u, method="1D")
+res_1D = TRR.fit(Xn, Yn, u, method="1D")
 \dontrun{
   res_FG = FG_TRR(Xn, Yn, Gamma_init=res_1D$Gamma_hat)
 }

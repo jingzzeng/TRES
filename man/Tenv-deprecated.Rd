@@ -23,7 +23,7 @@ Tenv(Xn, Yn, u, opts=NULL)
 }
 }
 \description{
-This function gives the tensor envelope estimator for tensor response regression.
+This function gives the tensor envelope estimator for tensor response regression (TRR).
 }
 \references{
 Li, L., & Zhang, X. (2017). Parsimonious tensor response regression. Journal of the American Statistical Association, 112(519), 1131-1146.

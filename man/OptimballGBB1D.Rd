@@ -26,12 +26,10 @@ The default values are: \code{"xtol"=1e-08; "gtol"=1e-08;}\cr
 }
 }
 \details{
-Estimate \code{M}-envelope contains \code{span(U)}
-where \code{M > 0} and is symmetric. The
-dimension of the envelope is \code{u}.
+Estimate \code{M}-envelope of \code{span(U)} where \code{M > 0}. The dimension of the envelope is \code{u}.
 }
 \value{
-\item{Gamma}{The orthogonal basis of the envelope subspace with each column represent the sequential direction. For example, the 1st column is the most informative direction.}
+Return the orthogonal basis of the envelope subspace.
 }
 \references{
 Wen, Z., & Yin, W. (2013). A feasible method for optimization with orthogonality constraints. Mathematical Programming, 142(1-2), 397-434.

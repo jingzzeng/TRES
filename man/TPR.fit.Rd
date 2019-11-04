@@ -1,14 +1,15 @@
-\name{TPR}
+\name{TPR.fit}
+\alias{TPR.fit}
 \alias{TPR}
 
 \title{
 Tensor Predictor Regression
 }
 \description{
-This function is used for estimation of tensor predictor regression. The available method including standard OLS type estimation, PLS type of estimation as well as envelope estimation with 1D and ECD approaches.
+This function is used for estimation of tensor predictor regression. The available method including standard OLS type estimation, PLS type of estimation as well as envelope estimation with FG, 1D and ECD approaches.
 }
 \usage{
-TPR(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'),
+TPR.fit(Xn, Yn, method=c('standard', 'FG', '1D', 'ECD', 'PLS'),
     u=NULL, Gamma_init=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -60,9 +61,9 @@ Xn <- dat$Xn
 Yn <- dat$Yn
 B <- dat$coefficients
 
-res_std = TPR(Xn, Yn, method="standard")
-res_FG = TPR(Xn, Yn, u, method="FG")
-res_pls = TPR(Xn, Yn, u, method="PLS")
+res_std = TPR.fit(Xn, Yn, method="standard")
+res_FG = TPR.fit(Xn, Yn, u, method="FG")
+res_pls = TPR.fit(Xn, Yn, u, method="PLS")
 
 rTensor::fnorm(B-stats::coef(res_std))
 rTensor::fnorm(B-stats::coef(res_FG))
@@ -73,7 +74,7 @@ rTensor::fnorm(B-stats::coef(res_pls))
   data("square")
   Xn <- square$Xn
   Yn <- square$Yn
-  res_std <- TPR(Xn, Yn, method="standard")
+  res_std <- TPR.fit(Xn, Yn, method="standard")
   }
 }
 

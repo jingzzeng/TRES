@@ -2,10 +2,10 @@
 \alias{TensEnv_dim}
 
 \title{
-Envelope dimension selection for tensor response regression
+Envelope dimension selection for tensor response regression (TRR)
 }
 \description{
-This function use the 1D-BIC criterion by by Zhang, X., & Mai, Q. (2018) to select envelope dimensions in tensor response regression.
+This function uses the 1D-BIC criterion proposed by Zhang, X., & Mai, Q. (2018) to select envelope dimensions in tensor response regression.
 }
 \usage{
 TensEnv_dim(Xn, Yn, multiD=1, maxdim=10, opts=NULL)
@@ -21,7 +21,7 @@ TensEnv_dim(Xn, Yn, multiD=1, maxdim=10, opts=NULL)
 }
 
 \value{
-\item{u}{The envelope dimension of \eqn{(u_1, u_2,\cdots,u_m)}.}
+Return the envelope dimension of \eqn{(u_1, u_2,\cdots,u_m)}.
 }
 
 \examples{

@@ -4,7 +4,7 @@
 ECD algorithm for estimating the envelope subspace
 }
 \description{
-Estimate the envelope subspace with specified dimension based on ECD algorithm that described in Cook, R. D., & Zhang, X. (2018).
+Estimate the envelope subspace with specified dimension based on ECD algorithm proposed by Cook, R. D., & Zhang, X. (2018).
 }
 \usage{
 ECD(M, U, u, maxiter=500, tol=1e-08)
@@ -18,12 +18,10 @@ ECD(M, U, u, maxiter=500, tol=1e-08)
  \item{tol}{Convergence criterion. \eqn{|F_k - F_{k-1}|<}\code{tol}, where \eqn{F_k}   is the objective function.}
 }
 \details{
-Estimate \code{M}-envelope contains \code{span(U)}
-where \code{M > 0} and is symmetric. The
-dimension of the envelope is \code{u}.
+Estimate \code{M}-envelope of \code{span(U)} where \code{M > 0}. The dimension of the envelope is \code{u}.
 }
 \value{
-\item{Ghat}{The orthogonal basis of the envelope subspace with each column represent the sequential direction. For example, the 1st column is the most informative direction.}
+Return the orthogonal basis of the envelope subspace with each column represent the sequential direction. For example, the 1st column is the most informative direction.
 }
 \references{
 Cook, R. D., & Zhang, X. (2018). Fast envelope algorithms. Statistica Sinica, 28(3), 1179-1197.
@@ -36,5 +34,5 @@ data <- MenvU_sim(n=200, p=20, u=5)
 Mhat <- data$Mhat
 Uhat <- data$Uhat
 
-Ghat_ECD <- ECD(Mhat, Uhat, u=5)
+Gamma_ECD <- ECD(Mhat, Uhat, u=5)
 }
