@@ -1,4 +1,4 @@
-w## Test environments
+## Test environments
 * local OS X install, R 3.6.1 and devel
 * Ubuntu 16.04.6 LTS (on travis-ci), R 3.6.1
 * win-builder (devel, release and oldrelease)
@@ -10,6 +10,4 @@ There were no ERRORs, WARNINGs or NOTEs.
 No reverse dependence packages.
 
 ## Updates
-* This is the updated version of old package TRES_0.1.0. Since we made many important updates of the package, like rewrite some functions into S3 methods, deprecated some functions, we use the version number 1.0.0.
-* We host the project on github: https://github.com/jerryfsu3333/TRES
-* The new README.md and NEWS.md is included.
+* This is the updated version of old package TRES_1.0.0. 

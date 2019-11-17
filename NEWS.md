@@ -1,7 +1,7 @@
-# TRES (development version)
-- Add some references in Description field in file DESCRIPTION
+# TRES 1.1.0
 
 ## Small changes
+- Add some references in Description field in file DESCRIPTION
 - Fix the document of `summary.Tenv`.
 - Remove the parameter `ask` in plot.Tenv. 
 - Add envelope basis `Gamma` list into `bat` and `square` datasets.
