@@ -1,3 +1,7 @@
+# TRES development version
+
+---
+
 # TRES 1.1.0
 
 ## Small changes
@@ -11,6 +15,8 @@
 ## S3 methods
 - `print.Tenv`: Prints the call, coefficients from `TPR` and `TRR`, make the output more concise.
 - `print.summary.Tenv`: Print call, dimensions of X, Y, sample size, mse, the coefficient and p_value. (invoked implicitly when there is no assignment of `summary.Tenv`).
+
+---
 
 # TRES 1.0.0
 
