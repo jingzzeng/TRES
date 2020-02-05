@@ -3,6 +3,7 @@
 \docType{package}
 \name{TRES-package}
 \alias{TRES-package}
+\alias{TRES}
 \title{Tensor Regression with Envelope Structure and Three Generic Envelope Estimation Approaches}
 \description{
 Provides three estimators for tensor response regression (TRR) and tensor predictor regression (TPR) models with tensor envelope structure. The three types of estimation approaches are generic and can be applied to any envelope estimation problems. The full Grassmannian (FG) optimization is often associated with likelihood-based estimation but requires heavy computation and good initialization; the one-directional optimization approaches (1D and ECD algorithms) are faster, stable and does not require carefully chosen initial values; the SIMPLS-type is motivated by the partial least squares regression and is computationally the least expensive.
@@ -11,9 +12,9 @@ Provides three estimators for tensor response regression (TRR) and tensor predic
 library(TRES)
 ## Load data "bat"
 data("bat")
-Xn <- bat$Xn
-Yn <- bat$Yn
-fit <- TRR.fit(Xn, Yn, method="standard")
+x <- bat$x
+y <- bat$y
+fit <- TRR.fit(x, y, method="standard")
 
 ## Print cofficient
 coef(fit)
@@ -22,9 +23,9 @@ coef(fit)
 summary(fit)
 
 ## Make the prediction on the original dataset
-predict(fit, Xn)
+predict(fit, x)
 
-## Draw the plot of two-way coefficient tensor (or matrix)
+## Draw the plot of two-way coefficient tensor (i.e., matrix)
 plot(fit)
 
 }

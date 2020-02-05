@@ -1,14 +1,26 @@
 #' @export
 #' @import rTensor
 #' @importFrom pracma kron sqrtm
-TensPLS_cv2d3d <- function(Xn, Yn, maxdim=10, nfolds=5) {
-  ss <- dim(Xn)
+TensPLS_cv2d3d <- function(x, y, maxdim=10, nfolds=5) {
+  if(!is.matrix(y)){
+    if(is.vector(y)){
+      y <- t(as.matrix(y))
+    }
+    else stop("y should be vector or matrix.")
+  }
+  if(!inherits(x, "Tensor")){
+    if(is.matrix(x) || inherits(x, "array")){
+      x <- as.tensor(x)
+    }
+    else stop("x should be matrix, array or Tensor.")
+  }
+  ss <- dim(x)
   len <- length(ss)
   n <- ss[len]
   p <- ss[1:(len-1)]
-  r <- dim(Yn)[1]
+  r <- dim(y)[1]
   m <- length(p)
-  vecX0 <- matrix(Xn@data, c(prod(p), r))
+  vecX0 <- matrix(x@data, c(prod(p), r))
   idx <- sample(1:n, n, replace = FALSE)
   Ntest <- floor(n/nfolds)
   Ntrain <- n - Ntest
@@ -17,7 +29,7 @@ TensPLS_cv2d3d <- function(Xn, Yn, maxdim=10, nfolds=5) {
   for (i in 1:nfolds) {
     testid <- c(1:Ntest) + (i-1)*Ntest
     testid <- idx[testid]
-    Ytrain <- Yn
+    Ytrain <- y
     vecXtrain <- vecX0
     vecXtrain_cv <- vecXtrain[, -testid]
     Ytrain_cv <- matrix(Ytrain[, -testid], 1, Ntrain)
@@ -28,7 +40,7 @@ TensPLS_cv2d3d <- function(Xn, Yn, maxdim=10, nfolds=5) {
 
     tp <- array(vecXtrain_cv, c(p, Ntrain))
     Xtrain <- rTensor::as.tensor(tp)
-    Ytest <- matrix(Yn[, testid], 1, Ntest)
+    Ytest <- matrix(y[, testid], 1, Ntest)
     vecXtest <- vecX0[, testid]
     Ytest <- Ytest - mu_Y[, rep(1, Ntest)]
     vecXtest <- vecXtest - mu_vecX[, rep(1, Ntest)]
@@ -52,7 +64,7 @@ TensPLS_cv2d3d <- function(Xn, Yn, maxdim=10, nfolds=5) {
             Gtmp <- Gamma[[j]]
             Ghat[[j]] <- Gtmp[, 1:k]
             tmp <- t(Ghat[[j]]) %*% SigX[[j]] %*% Ghat[[j]]
-            PGamma[[j]] <- Ghat[[j]] %*% solve(tmp) %*% t(Ghat[[j]])
+            PGamma[[j]] <- Ghat[[j]] %*% chol2inv(chol(tmp)) %*% t(Ghat[[j]])
           }
           if (m == 2) {
             tmp2 <- pracma::kron(PGamma[[2]], PGamma[[1]])
@@ -64,8 +76,8 @@ TensPLS_cv2d3d <- function(Xn, Yn, maxdim=10, nfolds=5) {
             Bhat_pls <- PGamma[[1]] %*% vecXtrain_cv %*% t(Ytrain_cv)/Ntrain
           }
       }
-      ehat <- t(Bhat_pls) %*% vecXtest - Ytest
-      cv_sse[k] <- cv_sse[k] + sum(diag(ehat %*% t(ehat)))
+      ehat <- crossprod(Bhat_pls, vecXtest) - Ytest
+      cv_sse[k] <- cv_sse[k] + sum(diag(tcrossprod(ehat)))
     }
   }
   mincv <- min(Re(cv_sse)); u <- which.min(Re(cv_sse))

@@ -8,12 +8,12 @@ The \eqn{p}-value and standard error of each element in the estimator of the ten
 Obtain \eqn{p}-value of each element in the tensor regression coefficient estimator. Two-sided t-tests are implemented on the coefficient estimator, where asymptotic covariance of the OLS estimator is used.
 }
 \usage{
-Tenv_Pval(Xn, Yn, Bhat)
+Tenv_Pval(x, y, Bhat)
 }
 
 \arguments{
-  \item{Xn}{The response tensor instance \eqn{ r_1\times r_2\times \cdots \times r_m}.}
-  \item{Yn}{A vector predictor of dimension \eqn{p}.}
+  \item{x}{The response tensor instance \eqn{ r_1\times r_2\times \cdots \times r_m}.}
+  \item{y}{A vector predictor of dimension \eqn{p}.}
   \item{Bhat}{The estimator of tensor regression coefficient.}
 }
 
@@ -31,8 +31,8 @@ The \eqn{p}-value and the standard error of estimated coefficient are not provid
 \examples{
 ## Use dataset bat
 data("bat")
-Xn <- bat$Xn
-Yn <- bat$Yn
-res_std <- TRR.fit(Xn, Yn, method="standard")
-Tenv_Pval(Xn, Yn, res_std$coefficients)
+x <- bat$x
+y <- bat$y
+fit_std <- TRR.fit(x, y, method="standard")
+Tenv_Pval(x, y, fit_std$coefficients)
 }

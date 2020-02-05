@@ -9,9 +9,9 @@ mani.params <- get.manifold.params(IsCheckParams = TRUE)
 fun1D_mfd <- function(M, U) {
   n <- dim(M)[2]
   mw <- function(w) { matrix(w, n, 1) }
-  f <- function(w) { W <- mw(w); log(t(W) %*% M %*% W) + log(t(W) %*% solve(M+U) %*% W)  }
+  f <- function(w) { W <- mw(w); log(t(W) %*% M %*% W) + log(t(W) %*% chol2inv(chol(M+U)) %*% W)  }
   g <- function(w) { W <- mw(w); 2*(M %*% W/(as.numeric(t(W) %*% M %*% W))+
-                                      solve(M+U) %*% W/(as.numeric(t(W) %*% solve(M+U) %*% W))) }
+                                      chol2inv(chol(M+U)) %*% W/(as.numeric(t(W) %*% chol2inv(chol(M+U)) %*% W))) }
 
   prob <- new(mod$RProblem, f, g)
   mani.defn <- ManifoldOptim::get.stiefel.defn(n, 1)
@@ -77,7 +77,7 @@ manifold1D <- function(M, U, u, opts=NULL){
         opts$check= FALSE
 
   if(dim(U)[1]!=dim(U)[2]) {
-    {U = U %*% t(U)}
+    U = tcrossprod(U)
   }
 
   p = dim(U)[2]

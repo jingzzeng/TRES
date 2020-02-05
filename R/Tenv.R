@@ -7,11 +7,9 @@
 #' @param opts The option structure for Feasi. See function \code{OptimballGBB1D}.
 #'
 #' @return
-#' \describe{
 #'   \item{Btil}{The ordinary least square estimator (OLS).}
 #'   \item{Bhat}{The envelope based estimator.}
-#'  \item{PGamma}{The projection matrix onto envelope subspace.}
-#' }
+#'   \item{PGamma}{The projection matrix onto envelope subspace.}
 #'
 #' @references Li, L., & Zhang, X. (2017). Parsimonious tensor response regression. Journal of the American Statistical Association, 112(519), 1131-1146.
 
@@ -47,7 +45,7 @@ Tenv <- function(Xn, Yn, u, opts=NULL){
   tmp2 <- Yn@data-tmp1
 
   Yn <- rTensor::as.tensor(tmp2)
-  Xn_inv <- MASS::ginv(Xn %*% t(Xn)) %*% Xn
+  Xn_inv <- MASS::ginv(tcrossprod(Xn)) %*% Xn
   Btil <- rTensor::ttm(Yn, Xn_inv, m+1)
   En <- Yn - rTensor::ttm(Btil, t(Xn), m+1)
 
@@ -73,7 +71,7 @@ Tenv <- function(Xn, Yn, u, opts=NULL){
     YsnYsn <- ttt(Ysn, Ysn, ms=idx)@data*idxprod
     U <- YsnYsn - M
     Gamma1[[i]] <- OptimballGBB1D(M, U, u[i], opts)
-    PGamma[[i]] <- Gamma1[[i]] %*% t(Gamma1[[i]])
+    PGamma[[i]] <- tcrossprod(Gamma1[[i]])
   }
   tp <- ttl(Yn, PGamma, ms=1:m)
   Bhat <- ttm(tp, Xn_inv, m+1)

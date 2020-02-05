@@ -1,17 +1,17 @@
 #' @export
 
-PMSE <- function(Xn, Yn, Bhat){
-  if(!is.matrix(Yn)){
-    if(is.vector(Yn)){
-      Yn <- t(as.matrix(Yn))
+PMSE <- function(x, y, Bhat){
+  if(!is.matrix(y)){
+    if(is.vector(y)){
+      y <- t(as.matrix(y))
     }
-    else stop("Yn should be vector or matrix.")
+    else stop("y should be vector or matrix.")
   }
-  if(!inherits(Xn, "array") && !inherits(Xn, "matrix")){
-    if(inherits(Xn, "Tensor")){
-      Xn <- Xn@data
+  if(!inherits(x, "array") && !inherits(x, "matrix")){
+    if(inherits(x, "Tensor")){
+      x <- x@data
     }
-    else stop("Xn should be matrix, array or Tensor.")
+    else stop("x should be matrix, array or Tensor.")
   }
   if(!inherits(Bhat, "array") && !inherits(Bhat, "matrix")){
     if(inherits(Bhat, "Tensor")){
@@ -21,19 +21,19 @@ PMSE <- function(Xn, Yn, Bhat){
     }
     else stop("Bhat should be vector, matrix, array or Tensor.")
   }
-  ss <- dim(Xn)
+  ss <- dim(x)
   len <- length(ss)
   n <- ss[len]
   p <- ss[1:(len-1)]
-  r <- dim(Yn)[1]
+  r <- dim(y)[1]
   m <- length(p)
-  if(n!=dim(Yn)[2]){stop("Unmatched dimensions between Xn and Yn.")}
-  if(dim(Bhat)[length(dim(Bhat))] != r){stop("Unmatched dimensions between Bhat and Yn.")}
-  if(any(dim(Bhat)[1:(length(dim(Bhat))-1)] != p)){stop("Unmatched dimensions between Bhat and Xn.")}
+  if(n!=dim(y)[2]){stop("Unmatched dimensions between x and y.")}
+  if(dim(Bhat)[length(dim(Bhat))] != r){stop("Unmatched dimensions between Bhat and y.")}
+  if(any(dim(Bhat)[1:(length(dim(Bhat))-1)] != p)){stop("Unmatched dimensions between Bhat and x.")}
   tp1 <- matrix(Bhat, c(prod(p), r))
-  tp2 <- matrix(Xn, c(prod(p), n))
-  pred <- t(tp1) %*% tp2
-  Epsilon <- Yn - pred
+  tp2 <- matrix(x, c(prod(p), n))
+  pred <- crossprod(tp1, tp2)
+  Epsilon <- y - pred
   mse <- sum(Epsilon^2)/n
   return(list(mse=mse, pred=pred))
 }

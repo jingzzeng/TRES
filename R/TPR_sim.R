@@ -19,11 +19,11 @@
 #' @param u The structural dimension of envelopes at each mode, a vector with the same length as p.
 #' @param n The sample size.
 #' @return
-#' \item{Xn}{The predictor of dimension \eqn{p_1\times \cdots\times p_m \times n}}
-#' \item{Yn}{The response of dimension \eqn{r\times n}}
+#' \item{x}{The predictor of dimension \eqn{p_1\times \cdots\times p_m \times n}}
+#' \item{y}{The response of dimension \eqn{r\times n}}
 #' \item{Gamma}{The envelope subspace basis of dimension \eqn{p_k \times u_k, \ k=1,\ldots,m}}
 #' \item{coefficients}{The tensor coefficients of dimension \eqn{p_1\times \cdots\times p_m \times r}}
-#' \item{Sigma}{The covariance matrix of X}
+#' \item{Sigma}{A lists of estimated covariance matrices at each mode for the tensor predictors, i.e., \eqn{\boldsymbol{\Sigma}_1,\dots,\boldsymbol{\Sigma}_m}}
 #' \item{p, r, u}{The input \code{p,r,u}}
 #'
 #' @examples
@@ -32,10 +32,11 @@
 #' r <- 5
 #' n <- 200
 #' dat <- TPR_sim(p = p, r = r, u = u, n = n)
-#' Xn <- dat$Xn
-#' Yn <- dat$Yn
+#' x <- dat$x
+#' y <- dat$y
+#' fit_std <- TPR.fit(x, y, method="standard")
 #'
-#' @seealso \code{\link{TRR_sim}}.
+#' @seealso \code{\link{TPR.fit}, \link{TRR_sim}}.
 #' @references Zhang, X., Li, L. (2017). Tensor Envelope Partial Least-Squares Regression. Technometrics, 59(4), 426-436.
 
 #' @export
@@ -57,22 +58,22 @@ TPR_sim <- function(p, r, u, n){
     Sigsqrtm[[i]] <- pracma::sqrtm(Sig[[i]])$B
   }
   A <- matrix(runif(r^2), r, r)
-  SigY <- A %*% t(A)
+  SigY <- tcrossprod(A)
   SigY <- SigY/norm(SigY, type="F")
 
   ##generate data
   Epsilon <- MASS::mvrnorm(n, mu=rep(0, r), Sigma=SigY)
   tmp2 <- array(rnorm(prod(p, n)), c(p, n))
-  Xn <- rTensor::as.tensor(tmp2)
-  Xn <- rTensor::ttl(Xn, Sigsqrtm, ms = c(1:m))
-  vecXn <- matrix(Xn@data, prod(p), n)
+  x <- rTensor::as.tensor(tmp2)
+  x <- rTensor::ttl(x, Sigsqrtm, ms = c(1:m))
+  vecx <- matrix(x@data, prod(p), n)
   eta <- array(runif(prod(u,r)), c(u,r))
   eta <- rTensor::as.tensor(eta)
   B <- rTensor::ttl(eta,Gamma, ms = c(1:m))
   vecB <- vecB <- matrix(B@data, prod(p), r)
-  Y_tmp <- t(vecB) %*% vecXn
-  Yn <- Y_tmp + t(Epsilon)
+  Y_tmp <- crossprod(vecB, vecx)
+  y <- Y_tmp + t(Epsilon)
 
-  output <- list(Xn = Xn, Yn = Yn, Gamma = Gamma, coefficients = B, Sigma = Sig, p = p, r = r, u = u)
+  output <- list(x = x, y = y, Gamma = Gamma, coefficients = B, Sigma = Sig, p = p, r = r, u = u)
   output
 }

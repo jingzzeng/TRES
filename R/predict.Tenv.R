@@ -2,25 +2,27 @@
 #'
 #' Predict response for object returned from \code{\link{TRR.fit}} and \code{\link{TPR.fit}} functions.
 #'
-#' @param object An object of class "Tenv", as from \code{\link{TPR.fit}} or \code{\link{TRR.fit}}.
+#' @param object An object of class \code{"Tenv"}, as from \code{\link{TPR.fit}} or \code{\link{TRR.fit}}.
 #' @param newdata The data to be used for prediction. It can be vector, matrix or tensor for the fit returned from\code{\link{TRR.fit}}, and can be matrix or tensor for the fit returned from \code{\link{TPR.fit}}.
 #' @param ... Arguments passed to or from other methods.
 #' @return
 #' Return the predicted response.
+#' @note If \code{newdata} is missing, the fitted response from \code{object} is returned.
 #'
 #' @examples
 #' data("bat")
-#' Xn <- bat$Xn
-#' Yn <- bat$Yn
-#' fit <- TRR.fit(Xn, Yn, method="standard")
-#' predict(fit, Xn)
+#' x <- bat$x
+#' y <- bat$y
+#' fit <- TRR.fit(x, y, method="standard")
+#' predict(fit, x)
 
 #' @export
 #' @importFrom stats coef
 
 predict.Tenv <- function(object, newdata, ...){
   if(missing(newdata)){
-    stop("Missing newdata.")
+    warning("newdata is missing, the fitted response from the model is returned.")
+    return(object$fitted.values)
   }
   Bhat <- coef(object)
   if(object$call[1] == "TRR.fit()"){
@@ -49,7 +51,7 @@ predict.Tenv <- function(object, newdata, ...){
     p <- ss[1:(len-1)]
     tp1 <- matrix(Bhat, nrow = c(prod(p)))
     tp2 <- matrix(newdata, c(prod(p), n))
-    pred <- t(tp1) %*% tp2
+    pred <- crossprod(tp1, tp2)
   }
   pred
 }

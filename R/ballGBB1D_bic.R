@@ -11,7 +11,7 @@ ballGBB1D_bic <- function(M, U, n, multiD=1, maxdim=10, opts=NULL) {
     if (k == p) break;
 
     gk <- ballGBB1D(Mnew, Unew, opts)
-    phi[k] <- n*(log(t(gk) %*% Mnew %*% gk)+ log(t(gk) %*% solve(Mnew+Unew) %*% gk))+
+    phi[k] <- n*(log(t(gk) %*% Mnew %*% gk)+ log(t(gk) %*% chol2inv(chol(Mnew+Unew)) %*% gk))+
       log(n)*multiD
     G[, k] <- G0 %*% gk
     G0 <- qr.Q(qr(G[, 1:k]), complete=TRUE)[, (k+1):p]

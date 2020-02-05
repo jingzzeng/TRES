@@ -20,10 +20,10 @@ ECDini <- function(M, U) {
   v2 <- eigMU$vectors
   v <- cbind(v1, v2)
   W0 <- v[, 1]
-  Fw0 <- log(t(W0) %*% solve(M+U) %*% W0) + log(t(W0) %*% M %*% W0)
+  Fw0 <- log(t(W0) %*% chol2inv(chol(M+U)) %*% W0) + log(t(W0) %*% M %*% W0)
   for (i in 2:(2*p)) {
     W <- v[, i]
-    Fw <- log(t(W) %*% solve(M+U) %*% W) + log(t(W) %*% M %*% W)
+    Fw <- log(t(W) %*% chol2inv(chol(M+U)) %*% W) + log(t(W) %*% M %*% W)
     if (Fw < Fw0){
       W0 <- W
       Fw0 <- Fw
@@ -51,7 +51,7 @@ optimECD <- function(A, B, w0, maxiter=500, tol=1e-08) {
     flg <- 0
     alpha <- 1/(t(v) %*% dn %*% v)
     beta <- 1/(t(v) %*% GBG %*% v)
-    delta <- 1/(t(v) %*% v)
+    delta <- 1/crossprod(v)
     A1 <- as.numeric(alpha)*dn
     B1 <- as.numeric(beta)*GBG
     for (j in 1:p) {
@@ -84,7 +84,7 @@ ECD1st <- function (M, U, maxiter=500, tol=1e-08){
   # where M>0 and is symmetric
   # dimension of the envelope is d
   # based on inv(M+U) and (M)
-  gamma <- optimECD(M, solve(M + U), ECDini(M, U), maxiter, tol=1e-08)
+  gamma <- optimECD(M, chol2inv(chol(M + U)), ECDini(M, U), maxiter, tol=1e-08)
   return(gamma)
 }
 

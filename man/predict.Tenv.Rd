@@ -7,7 +7,7 @@
 \method{predict}{Tenv}(object, newdata, ...)
 }
 \arguments{
-\item{object}{An object of class "Tenv", as from \code{\link{TPR.fit}} or \code{\link{TRR.fit}}.}
+\item{object}{An object of class \code{"Tenv"}, as from \code{\link{TPR.fit}} or \code{\link{TRR.fit}}.}
 
 \item{newdata}{The data to be used for prediction. It can be vector, matrix or tensor for the fit returned from\code{\link{TRR.fit}}, and can be matrix or tensor for the fit returned from \code{\link{TPR.fit}}.}
 
@@ -19,10 +19,13 @@ Return the predicted response.
 \description{
 Predict response for object returned from \code{\link{TRR.fit}} and \code{\link{TPR.fit}} functions.
 }
+\note{
+If \code{newdata} is missing, the fitted response from \code{object} is returned.
+}
 \examples{
 data("bat")
-Xn <- bat$Xn
-Yn <- bat$Yn
-fit <- TRR.fit(Xn, Yn, method="standard")
-predict(fit, Xn)
+x <- bat$x
+y <- bat$y
+fit <- TRR.fit(x, y, method="standard")
+predict(fit, x)
 }

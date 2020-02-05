@@ -1,5 +1,16 @@
-# TRES development version
+# TRES 1.1.1
 
+## Major changes
+- Lists or environments data structures are also acceptable as a whole in `TRR.fit()` and `TPR.fit()`. They can be passed to argument `x`.
+- Since the variance-covariance matrix is not available for `Tenv` class object, we remove S3 methods `vcov.Tenv()`. Use function `std_err()` if the standard error for the tensor coefficient from `TRR.fit()` is desired.
+- Improved the computation efficiency by adopting cholesky decomposition in matrix inversion and the calculation of the square root of a matrix. 
+- Add a real data set `EEG`. Refer to R help documentation for more details
+- Add a new feature to `predict.Tenv()`: if the argument `newdata` is missing, the fitted values from the fitted model is returned.
+
+## Small changes
+- Change arguments `Xn` and  `Yn` in all functions to `x` and `y` in accordance with other popular functions, e.g., `lm()`, `glm()`, etc.
+- `plot.Tenv()`: Change the name of argument `thrd` to `level`.
+- `kroncov`: Data `Tn` is centered before the estimation. 
 ---
 
 # TRES 1.1.0

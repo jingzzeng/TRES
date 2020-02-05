@@ -37,7 +37,7 @@ OptimballGBB1D <- function(M, U, u, opts=NULL) {
   # based on inv(M+U) and M
 
   if(dim(U)[1]!=dim(U)[2]){
-    {U = U %*% t(U)}
+    U = tcrossprod(U)
   }
 
   if (is.null(opts$xtol))

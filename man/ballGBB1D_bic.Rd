@@ -15,7 +15,7 @@ ballGBB1D_bic(M, U, n, multiD=1, maxdim=10, opts=NULL)
  \item{n}{Sample size.}
  \item{multiD}{A constant, the default value is 1.}
  \item{maxdim}{The maximum dimension to consider, \code{maxdim} is smaller than \eqn{p}, the default value is 10.}
- \item{opts}{Option structure for GBB algorithm. See function \code{OptStiefelGBB}.}
+ \item{opts}{Option structure for GBB algorithm. See function \code{\link{OptStiefelGBB}}.}
 }
 
 \value{
@@ -34,9 +34,9 @@ data <- MenvU_sim(n=200, p=20, u=5)
 Mhat <- data$Mhat
 Uhat <- data$Uhat
 
-res <- ballGBB1D_bic(Mhat, Uhat, n=200)
+fit <- ballGBB1D_bic(Mhat, Uhat, n=200)
 
 ## visualization
-plot(1:10, res$bicval, type="o", xlab="Envelope Dimension", ylab="BIC values",
+plot(1:10, fit$bicval, type="o", xlab="Envelope Dimension", ylab="BIC values",
 main="Envelope Dimension Selection")
 }

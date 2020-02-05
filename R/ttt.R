@@ -9,7 +9,7 @@ ttt <- function(X, Y, ms) {
    idx_2 <- which(!(1:length(s2) %in% ms))
    mat_1 <- rTensor::unfold(X, row_idx = idx_1, col_idx = ms)@data
    mat_2 <- rTensor::unfold(Y, row_idx = idx_2, col_idx = ms)@data
-   mat <- mat_1 %*% t(mat_2)
+   mat <- tcrossprod(mat_1, mat_2)
    mat <- rTensor::as.tensor(mat)
    return(mat)
 }

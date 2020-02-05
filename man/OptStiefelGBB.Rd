@@ -40,25 +40,27 @@ Wen, Z., & Yin, W. (2013). A feasible method for optimization with orthogonality
 
 \examples{
 fun <- function(X,  W) {
-      G = -2*(W \%*\% X)
-      F = -sum(diag(t(X) \%*\% W \%*\% X))
+      G <- -2*(W \%*\% X)
+      F <- -sum(diag(t(X) \%*\% W \%*\% X))
       return(list(F = F, G = G))
 }
-n = 1000; k = 6;
-W = matrix(rnorm(n^2), n, n); W = t(W) \%*\% W
+n <- 1000
+k <- 6
+W <- matrix(rnorm(n^2), n, n)
+W <- t(W) \%*\% W
 
-opts=c()
-opts$record = 0;
-opts$maxiter  = 1000;
-opts$xtol = 1e-5;
-opts$gtol = 1e-5;
-opts$ftol = 1e-8;
+opts<-c()
+opts$record <- 0;
+opts$maxiter  <- 1000;
+opts$xtol <- 1e-5;
+opts$gtol <- 1e-5;
+opts$ftol <- 1e-8;
 
-Gamma0 = matrix(rnorm(n*k), n, k);
-Gamma0 = qr.Q(qr(Gamma0));
+Gamma0 <- matrix(rnorm(n*k), n, k);
+Gamma0 <- qr.Q(qr(Gamma0));
 
 eva <- OptStiefelGBB(Gamma0, opts, fun, W)
 Gamma <- eva$Gamma
 out <- eva$out
-out$fval = -2*out$fval;
+out$fval <- -2*out$fval;
 }

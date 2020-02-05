@@ -13,7 +13,7 @@ FG_TPR(Xn, Yn, Gamma_init)
 
 FG_TRR(Xn, Yn, Gamma_init)
 
-TensPLS_fit(Xn, Yn, SigX, u)
+TensPLS_fit(x, y, SigX, u)
 
 Tenv(Xn, Yn, u, opts = NULL)
 }

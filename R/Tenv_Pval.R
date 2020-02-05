@@ -1,33 +1,32 @@
 #' @export
 #' @import rTensor
-#' @import MASS
 #' @importFrom stats pt
-Tenv_Pval <- function(Xn, Yn, Bhat){
-  ss <- dim(Yn)
+Tenv_Pval <- function(x, y, Bhat){
+  ss <- dim(y)
   len <- length(ss)
   n <- ss[len]
   r <- ss[1:(len-1)]
   m <- length(r)
   prodr <- prod(r)
-  p <- dim(Xn)[1]
-  mux <- as.matrix(apply(Xn, 1, mean))
-  Xn <- Xn -mux[, rep(1, n)]
-  muy <- apply(Yn@data, c(1:m), mean)
+  p <- dim(x)[1]
+  mux <- as.matrix(apply(x, 1, mean))
+  x <- x -mux[, rep(1, n)]
+  muy <- apply(y@data, c(1:m), mean)
 
   tmp1 <- lapply(1:n, function(x) muy)
   tmp1 <- array(unlist(tmp1), c(r, n))
-  tmp2 <- Yn@data-tmp1
+  tmp2 <- y@data-tmp1
 
-  Yn <- as.tensor(tmp2)
-  Xn_inv <- ginv(Xn %*% t(Xn)) %*% Xn
-  Btil <- ttm(Yn, Xn_inv, m+1)
-  En <- Yn - ttm(Btil, t(Xn), m+1)
+  y <- as.tensor(tmp2)
+  x_inv <- chol2inv(chol(tcrossprod(x))) %*% x
+  Btil <- ttm(y, x_inv, m+1)
+  En <- y - ttm(Btil, t(x), m+1)
 
   res <- kroncov(En)
   lambda <- res$lambda
   Sig <- res$S
 
-  Sb <- ginv(cov(t(Xn)))
+  Sb <- chol2inv(chol(cov(t(x))))
   if(min(dim(Sb))>1){Sb <- matrix(diag(Sb))}
 
   for(i in 1:m) {
@@ -37,6 +36,7 @@ Tenv_Pval <- function(Xn, Yn, Bhat){
   Sb <- array(sqrt(lambda*Sb), c(r, p))
   Ttil <- (sqrt(n)*Btil@data)/Sb
   That <- (sqrt(n)*Bhat@data)/Sb
+
   Ptil <- 2*(1-pt(abs(Ttil), n-1))
   Phat <- 2*(1-pt(abs(That), n-1))
 

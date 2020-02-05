@@ -30,9 +30,9 @@ This is a basic example which shows you how to use function `TRR.fit` in Tensor 
 library(TRES)
 ## Load data "bat"
 data("bat")
-Xn <- bat$Xn
-Yn <- bat$Yn
-fit <- TRR.fit(Xn, Yn, method="standard")
+x <- bat$x
+y <- bat$y
+fit <- TRR.fit(x, y, method="standard")
 
 ## Print cofficient
 coef(fit)
@@ -41,7 +41,7 @@ coef(fit)
 summary(fit)
 
 ## Make the prediction on the original dataset
-predict(fit, Xn)
+predict(fit, x)
 
 ## Draw the plot of two-way coefficient tensor (or matrix)
 plot(fit)

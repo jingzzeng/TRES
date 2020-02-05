@@ -16,11 +16,9 @@ Tenv(Xn, Yn, u, opts=NULL)
 \item{opts}{The option structure for Feasi. See function \code{OptimballGBB1D}.}
 }
 \value{
-\describe{
-  \item{Btil}{The ordinary least square estimator (OLS).}
+\item{Btil}{The ordinary least square estimator (OLS).}
   \item{Bhat}{The envelope based estimator.}
- \item{PGamma}{The projection matrix onto envelope subspace.}
-}
+  \item{PGamma}{The projection matrix onto envelope subspace.}
 }
 \description{
 This function gives the tensor envelope estimator for tensor response regression (TRR).

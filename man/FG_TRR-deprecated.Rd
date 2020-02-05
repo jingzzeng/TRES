@@ -42,17 +42,17 @@ for (i in 1:m){
   Gamma0[[i]] <- qr.Q(qr(Gamma[[i]]),complete=TRUE)[,(u[i]+1):r[i]]
 
   A <- matrix(runif(u[i]^2), u[i], u[i])
-  Omega[[i]] <- A \\\%*\\\% t(A)
+  Omega[[i]] <- A \%*\% t(A)
   A <- matrix(runif((r[i]-u[i])^2), (r[i]-u[i]), (r[i]-u[i]))
-  Omega0[[i]] <- A \\\%*\\\% t(A)
-  Sig[[i]] <- Gamma[[i]] \\\%*\\\% Omega[[i]] \\\%*\\\% t(Gamma[[i]])+
-    Gamma0[[i]] \\\%*\\\% Omega0[[i]] \\\%*\\\% t(Gamma0[[i]])
+  Omega0[[i]] <- A \%*\% t(A)
+  Sig[[i]] <- Gamma[[i]] \%*\% Omega[[i]] \%*\% t(Gamma[[i]])+
+    Gamma0[[i]] \%*\% Omega0[[i]] \%*\% t(Gamma0[[i]])
   Sig[[i]] <- 10*Sig[[i]]/norm(Sig[[i]], type="F")+0.01*diag(r[i])
   Sigsqrtm[[i]] <- pracma::sqrtm(Sig[[i]])$B
 }
 B <- rTensor::ttl(eta, Gamma, ms=1:m)
 Xn <- matrix(rnorm(p*n), p, n)
-Xn_inv <- MASS::ginv(Xn \\\%*\\\% t(Xn)) \\\%*\\\% Xn
+Xn_inv <- MASS::ginv(Xn \%*\% t(Xn)) \%*\% Xn
 Epsilon <- array(rnorm(prod(r)*n), c(r, n))
 Epsilon <- rTensor::as.tensor(Epsilon)
 Epsilon <- rTensor::ttl(Epsilon, Sigsqrtm, ms=1:m)

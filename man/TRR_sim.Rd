@@ -16,11 +16,11 @@ TRR_sim(r, p, u, n)
 \item{n}{The sample size.}
 }
 \value{
-\item{Xn}{The predictor of dimension \eqn{p\times n}}
-\item{Yn}{The response of dimension \eqn{r_1\times \cdots\times r_m \times n}}
+\item{x}{The predictor of dimension \eqn{p\times n}}
+\item{y}{The response of dimension \eqn{r_1\times \cdots\times r_m \times n}}
 \item{Gamma}{The envelope subspace basis of dimension \eqn{r_k \times u_k, \ k=1,\ldots,m}}
 \item{coefficients}{The tensor coefficients of dimension \eqn{r_1\times \cdots\times r_m \times p}}
-\item{Sigma}{The covariance matrix of error}
+\item{Sigma}{A lists of estimated covariance matrices at each mode for the error term, i.e., \eqn{\boldsymbol{\Sigma}_1,\dots,\boldsymbol{\Sigma}_m}.}
 \item{p, r, u}{The input \code{p,r,u}}
 }
 \description{
@@ -46,12 +46,14 @@ u <- c(2, 2, 2)
 p <- 5
 n <- 100
 dat <- TRR_sim(r = r, p = p, u = u, n = n)
-Xn <- dat$Xn
-Yn <- dat$Yn
+x <- dat$x
+y <- dat$y
+fit_std <- TRR.fit(x, y, method="standard")
+
 }
 \references{
 Li L, Zhang X (2017). “Parsimonious Tensor Response Regression.” Journal of the American Statistical Association, 112(519), 1131–1146.
 }
 \seealso{
-\code{\link{TPR_sim}}.
+\code{\link{TPR.fit}, \link{TPR_sim}}.
 }

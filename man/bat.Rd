@@ -6,13 +6,13 @@
 \title{Bat simulated data}
 \format{A list consisting of three components:
 \describe{
- \item{Xn}{A \eqn{1 \times 20} matrix}
- \item{Yn}{A \eqn{64\times 64\times 20} tensor}
+ \item{x}{A \eqn{1 \times 20} matrix}
+ \item{y}{A \eqn{64\times 64\times 20} tensor}
  \item{coeffiicients}{A \eqn{64\times 64 \times 1} tensor with the bat pattern}
- \item{Gamma}{Two envelope basis: 64\eqn{\times}14 matrices}
+ \item{Gamma}{Two envelope basis: \eqn{64 \times 14} matrices}
 }}
 \usage{
-data(bat)
+data("bat")
 }
 \description{
 Simulated data used in tensor response regression (TRR). The pattern of coefficient is a bat.

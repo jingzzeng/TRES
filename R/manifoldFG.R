@@ -9,9 +9,8 @@ mani.params <- get.manifold.params(IsCheckParams = TRUE)
 FGfun_mfd <- function(M, U, u) {
   n <- dim(M)[2]
   mw <- function(w) { matrix(w, n, u) }
-  f <- function(w) { W <- mw(w); log(det(t(W) %*% M %*% W)) + log(det(t(W) %*% solve(M+U) %*% W))  }
-  g <- function(w) { W <- mw(w); 2*(M %*% W %*% solve(t(W) %*% M %*% W)+
-                                      solve(M + U) %*% W %*% solve((t(W) %*% solve(M + U) %*% W))) }
+  f <- function(w) { W <- mw(w); log(det(t(W) %*% M %*% W)) + log(det(t(W) %*% chol2inv(chol(M+U)) %*% W))  }
+  g <- function(w) { W <- mw(w); 2*(M %*% W %*% chol2inv(chol(t(W) %*% M %*% W))+ chol2inv(chol(M+U)) %*% W %*% chol2inv(chol((t(W) %*% chol2inv(chol(M + U)) %*% W))) ) }
 
   prob <- new(mod$RProblem, f, g)
   mani.defn <- ManifoldOptim::get.stiefel.defn(n, u)
@@ -47,7 +46,7 @@ manifoldFG <- function(M, U, u, Gamma_init, opts=NULL) {
   if(is.null(opts$check))
     opts$check= FALSE
 
-  if(dim(U)[1] != dim(U)[2]) { U = U %*% t(U)}
+  if(dim(U)[1] != dim(U)[2]) { U = tcrossprod(U)}
   n <- dim(M)[2]
   mani.params <- get.manifold.params(IsCheckParams = opts$check)
   solver.params <- ManifoldOptim::get.solver.params(Max_Iteration = opts$maxiter, Tolerance=opts$tol, IsCheckParams = opts$check)

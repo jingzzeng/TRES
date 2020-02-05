@@ -1,10 +1,10 @@
 \name{manifoldFG}
 \alias{manifoldFG}
 \title{
-Full Grassmann manifold optimization algorithm (ManifoldOptim)
+Estimate the envelope subspace (ManifoldOptim)
 }
 \description{
-The FG algorithm to estimate the envelope subspace with specified dimension based on R package "ManifoldOptim".
+The FG algorithm to estimate the envelope subspace with specified dimension based on R package \pkg{ManifoldOptim}.
 }
 \usage{
 manifoldFG(M, U, u, Gamma_init, opts=NULL)
@@ -47,7 +47,6 @@ Return the orthogonal basis of the envelope subspace.
 \details{
 Estimate \code{M}-envelope of \code{span(U)} where \code{M > 0}. The dimension of the envelope is \code{u}.
 }
-
 
 \examples{
 ##simulate two matrices M and U with an envelope structure#

@@ -4,29 +4,50 @@
 \alias{plot.Tenv}
 \title{Plot coefficients and p-value for Tenv object.}
 \usage{
-\method{plot}{Tenv}(x, thrd = 0.05,
-  main = c(paste0("Coefficient plot ", "(", x$method, ")"),
-  paste0("P value plot ", "(", x$method, ")")), ...)
+\method{plot}{Tenv}(
+  x,
+  level = 0.05,
+  main = paste0("Coefficient plot ", "(", x$method, ")"),
+  main_p = paste0("P value plot ", "(", x$method, ")"),
+  xticks,
+  yticks,
+  ...
+)
 }
 \arguments{
-\item{x}{An object of class "Tenv", as from \code{\link{TPR.fit}} or \code{\link{TRR.fit}}.}
+\item{x}{An object of class \code{"Tenv"}, as from \code{TPR.fit} or \code{TRR.fit}.}
 
-\item{thrd}{Significant level of p-value. Default is 0.05.}
+\item{level}{Significant level of p-value. Default is 0.05.}
 
-\item{main}{Title to each plot.}
+\item{main}{Title to coefficient plot.}
+
+\item{main_p}{Title to \eqn{p}-value plot.}
+
+\item{xticks}{Set tick labels of the x-axis}
+
+\item{yticks}{Set tick labels of the y-axis}
 
 \item{...}{Other parameters to be passed through to plotting functions.}
 }
 \description{
-Plot method for object returned from \code{\link{TRR.fit}} and \code{\link{TPR.fit}} functions.
+Plot method for object returned from \code{TRR.fit} and \code{TPR.fit} functions.
 }
 \details{
-\code{coef(x)} must be a two-way tensor or a matrix. For the object return from \code{\link{TPR.fit}}, only the coefficients plot is displayed. But for the object return from \code{\link{TRR.fit}}, both the coefficients plot and p-value plot is displayed.
+\code{coef(x)} must be a two-way tensor or a matrix. For the object return from \code{TPR.fit}, only the coefficients plot is displayed. For the object return from \code{TRR.fit}, both the coefficients plot and p-value plot are displayed.
 }
 \examples{
  data("bat")
- Xn <- bat$Xn
- Yn <- bat$Yn
- fit <- TRR.fit(Xn, Yn, method="standard")
+ x <- bat$x
+ y <- bat$y
+ fit <- TRR.fit(x, y, method="standard")
  plot(fit)
+
+ ## Set xticks and yticks
+ plot(fit, xticks = seq(0, 10, length.out=5), yticks = seq(0, 10, length.out=5))
+
+ ## Change the significant level to 0.1
+ plot(fit, level = 0.1)
+}
+\seealso{
+\code{\link{TRR.fit}, \link{TPR.fit}}
 }

@@ -181,7 +181,7 @@ OptStiefelGBB <- function (Gamma_init, opts=NULL, fun, ...)
       #VU <- t(V) %*% U
       VU <- crossprod(V, U)
     }else if (opts$projG == 2){
-      GB <- G - 0.5*Gamma %*% (t(Gamma) %*% G)
+      GB <- G - 0.5* tcrossprod(Gamma) %*% G
       U <- cbind(GB, Gamma)
       V <- cbind(Gamma, -GB)
       #VU <- t(V) %*% U
@@ -237,11 +237,11 @@ OptStiefelGBB <- function (Gamma_init, opts=NULL, fun, ...)
       RX <- H %*% Gamma
     } else {
       if (opts$projG == 1) {
-        U = cbind(G, Gamma); V = cbind(Gamma, -G); #VU = t(V) %*% U;
+        U = cbind(G, Gamma); V = cbind(Gamma, -G);
         VU = crossprod(V, U)
       } else if (opts$projG == 2) {
-        GB = G - 0.5 * Gamma %*% (t(Gamma) %*% G)
-        U = cbind(GB, Gamma); V = cbind(Gamma, -GB); #VU = t(V) %*% U
+        GB = G - 0.5 * tcrossprod(Gamma) %*% G
+        U = cbind(GB, Gamma); V = cbind(Gamma, -GB);
         VU = crossprod(V, U)
       }
       # VX = t(V) %*% X
@@ -297,7 +297,6 @@ OptStiefelGBB <- function (Gamma_init, opts=NULL, fun, ...)
   if (itr >= opts$mxitr)
     out$msg = "exceed max iteration"
 
-  #out$feasi <- norm((t(X) %*% X - diag(k)), type = "F")
   out$feasi <- norm((crossprod(Gamma)- diag(k)), type = "F")
   if (out$feasi > 1e-13) {
     Gamma <- qr.Q(qr(Gamma))
@@ -305,7 +304,6 @@ OptStiefelGBB <- function (Gamma_init, opts=NULL, fun, ...)
     eva <- do.call(fun, args)
     F <- eva$F; G <- eva$G
     out$nfe <- out$nfe + 1
-    #out$feasi <- norm((t(X) %*% X - diag(k)), type = "F")
     out$feasi <- norm((crossprod(Gamma)- diag(k)), type = "F")
   }
 

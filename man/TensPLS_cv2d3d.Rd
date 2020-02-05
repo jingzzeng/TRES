@@ -7,12 +7,12 @@ Envelope dimension by cross-validation for tensor predictor regression (TPR).
 Select the envelope dimension by cross-validation for tensor predictor regression.
 }
 \usage{
-TensPLS_cv2d3d(Xn, Yn, maxdim=10, nfolds=5)
+TensPLS_cv2d3d(x, y, maxdim=10, nfolds=5)
 }
 
 \arguments{
-  \item{Xn}{A predictor tensor instance.}
-  \item{Yn}{The response vector.}
+  \item{x}{The predictor tensor instance of dimension \eqn{p_1\times p_2\times\cdots\times p_m \times n}, where \eqn{n} is the sample size. Array with the same dimensions and matrix with dimension \eqn{p\times n} are acceptable.}
+  \item{y}{The response matrix of dimension \eqn{r \times n}, where \eqn{n} is the sample size. Vector of length \eqn{n} is acceptable.}
   \item{maxdim}{The largest dimension to be considered for selection.}
   \item{nfolds}{Number of folds for cross-validation.}
 }
@@ -38,23 +38,23 @@ r <- 5
 n <- 200
 
 dat <- TPR_sim(p = p, r = r, u = u, n = n)
-Xn <- dat$Xn
-Yn <- dat$Yn
+x <- dat$x
+y <- dat$y
 
 ## It is time-consuming
 \dontrun{
-  TensPLS_cv2d3d(Xn, Yn, maxdim = 5) # The estimated envelope dimensions are the same as u.
+  TensPLS_cv2d3d(x, y, maxdim = 5) # The estimated envelope dimensions are the same as u.
 }
 
 ## Use dataset square, but it is time-consuming
 \dontrun{
   data("square")
-  Xn <- square$Xn
-  Yn <- square$Yn
-  # check the dimension of Xn
-  dim(Xn)
+  x <- square$x
+  y <- square$y
+  # check the dimension of x
+  dim(x)
   # use 32 as the maximal envelope dimension
-  TensPLS_cv2d3d(Xn, Yn, maxdim=32)
+  TensPLS_cv2d3d(x, y, maxdim=32)
 }
 }
 

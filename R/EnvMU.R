@@ -13,7 +13,7 @@ EnvMU <- function(M, U, u) {
     for (k in 1:u) {
       Wk <- W[, 1:k]
       Ek <- M %*% Wk
-      temp <- t(Ek) %*% Ek
+      temp <- crossprod(Ek)
       QEK <- diag(p) - Ek %*% MASS::ginv(temp) %*% t(Ek)
       W[, (k+1)] <- Re(eigen(QEK %*% U %*% QEK)$vectors[, 1])
     }

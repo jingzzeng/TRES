@@ -5,7 +5,7 @@
 Estimate the envelope subspace (ManifoldOptim 1D)
 }
 \description{
-The 1D algorithm to estimate the envelope subspace with specified dimension based on R package "ManifoldOptim".
+The 1D algorithm to estimate the envelope subspace with specified dimension based on R package \pkg{ManifoldOptim}.
 }
 \usage{
 manifold1D(M, U, u, opts=NULL)
@@ -51,6 +51,8 @@ Return the orthogonal basis of the envelope subspace.
 \references{
 Huang, W., Absil, P. A., Gallivan, K. A., & Hand, P. (2018). ROPTLIB: an object-oriented C++ library for optimization on Riemannian manifolds. ACM Transactions on Mathematical Software (TOMS), 44(4), 43.
 }
+
+\seealso{\code{\link{MenvU_sim}, \link{subspace}}}
 
 \examples{
 ##simulate two matrices M and U with an envelope structure#

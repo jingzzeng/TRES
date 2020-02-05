@@ -15,14 +15,15 @@
 #'
 #' @docType package
 #' @name TRES-package
+#' @aliases TRES
 #'
 #' @examples
 #' library(TRES)
 #' ## Load data "bat"
 #' data("bat")
-#' Xn <- bat$Xn
-#' Yn <- bat$Yn
-#' fit <- TRR.fit(Xn, Yn, method="standard")
+#' x <- bat$x
+#' y <- bat$y
+#' fit <- TRR.fit(x, y, method="standard")
 #'
 #' ## Print cofficient
 #' coef(fit)
@@ -31,9 +32,9 @@
 #' summary(fit)
 #'
 #' ## Make the prediction on the original dataset
-#' predict(fit, Xn)
+#' predict(fit, x)
 #'
-#' ## Draw the plot of two-way coefficient tensor (or matrix)
+#' ## Draw the plot of two-way coefficient tensor (i.e., matrix)
 #' plot(fit)
 #'
 #' @seealso Useful links:
