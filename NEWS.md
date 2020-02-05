@@ -1,3 +1,10 @@
+# TRES 1.1.1.9000 (development version)
+
+## Bugs
+- In documentation, the denominator in the formula for `subspace()` should be $\sqrt{2d}$.
+
+---
+
 # TRES 1.1.1
 
 ## Major changes
@@ -7,7 +14,7 @@
 - Add a real data set `EEG`. Refer to R help documentation for more details
 - Add a new feature to `predict.Tenv()`: if the argument `newdata` is missing, the fitted values from the fitted model is returned.
 
-## Small changes
+## Minor changes
 - Change arguments `Xn` and  `Yn` in all functions to `x` and `y` in accordance with other popular functions, e.g., `lm()`, `glm()`, etc.
 - `plot.Tenv()`: Change the name of argument `thrd` to `level`.
 - `kroncov`: Data `Tn` is centered before the estimation. 
