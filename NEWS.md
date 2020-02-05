@@ -11,6 +11,7 @@
 - Change arguments `Xn` and  `Yn` in all functions to `x` and `y` in accordance with other popular functions, e.g., `lm()`, `glm()`, etc.
 - `plot.Tenv()`: Change the name of argument `thrd` to `level`.
 - `kroncov`: Data `Tn` is centered before the estimation. 
+
 ---
 
 # TRES 1.1.0

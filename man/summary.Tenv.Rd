@@ -26,7 +26,7 @@ Return \code{object} with additional components
  \item{residuals}{The residuals, which equals to the response minus the fitted values}
  \item{Gamma}{A list of envelope subspace basis}
  \item{mse}{Mean squared error. The mean squared Frobenius norm of the difference between each response \eqn{\mathbf{Y}_i} and fitted value \eqn{\hat{\mathbf{Y}}_i},
-   \deqn{1/n\sum_{i=1}^n\|\mathbf{Y}_i-\hat{\mathbf{Y}}_i\|_F^2}
+   \deqn{\frac{1}{n}\sum_{i=1}^n\|\mathbf{Y}_i-\hat{\mathbf{Y}}_i\|_F^2}
  }
  \item{p_val}{Only for object returned from \code{TRR.fit}, p-value for coefficients}
  \item{se}{Only for object returned from \code{TRR.fit}, standard error for coefficients}
