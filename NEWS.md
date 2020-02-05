@@ -1,6 +1,6 @@
 # TRES 1.1.1.9000 (development version)
 
-# Bugs
+## Bugs
 - In documentation, the denominator in the formula for `subspace()` should be $\sqrt{2d}$.
 
 ---
