@@ -51,6 +51,13 @@ plot(fit_ols)
 plot(fit_1D)
 ```
 
+The coefficients plots from OLS and 1D methods are aligned in the first row below, and the p-value plots from the two methods are aligned in the second row below.
+
+<div>
+<img src="Figures/resp_2D_std.png" width="300"/><img src="Figures/resp_2D_1D.png" width="300"/> <br>
+ <img src="Figures/p_value_std.png" width="300"/><img src="Figures/p_value_1D.png" width="300"/>
+</div>
+
  <!-- badges: start -->
   [![Travis build status](https://travis-ci.org/jerryfsu3333/TRES.svg?branch=master)](https://travis-ci.org/jerryfsu3333/TRES)
   <!-- badges: end -->
