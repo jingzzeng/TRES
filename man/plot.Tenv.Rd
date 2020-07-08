@@ -9,8 +9,10 @@
   level = 0.05,
   main = paste0("Coefficient plot ", "(", x$method, ")"),
   main_p = paste0("P value plot ", "(", x$method, ")"),
-  xticks,
-  yticks,
+  xlab = "",
+  ylab = "",
+  axes = TRUE,
+  ask = TRUE,
   ...
 )
 }
@@ -23,9 +25,13 @@
 
 \item{main_p}{Title to \eqn{p}-value plot.}
 
-\item{xticks}{Set tick labels of the x-axis}
+\item{xlab}{The title for the x axis.}
 
-\item{yticks}{Set tick labels of the y-axis}
+\item{ylab}{The title for the y axis.}
+
+\item{axes}{Logical value. Specify whether the axes should be drawn.}
+
+\item{ask}{Logical. If TRUE (default), the user is prompted before the second plot (if exists).}
 
 \item{...}{Other parameters to be passed through to plotting functions.}
 }
@@ -33,7 +39,13 @@
 Plot method for object returned from \code{TRR.fit} and \code{TPR.fit} functions.
 }
 \details{
-\code{coef(x)} must be a two-way tensor or a matrix. For the object return from \code{TPR.fit}, only the coefficients plot is displayed. For the object return from \code{TRR.fit}, both the coefficients plot and p-value plot are displayed.
+\code{coef(x)} must be a two-way tensor or a matrix. For the object return from \code{TPR.fit}, only the coefficients plot is displayed. For the object return from \code{TRR.fit}, both the coefficients plot and \eqn{p}-value plot are displayed.
+
+Since \eqn{p}-value depend on \eqn{\widehat{\mathrm{cov}}^{-1}\{\mathrm{vec}(\mathbf{X})\}} which is unavailable for the ultra-high dimensional \eqn{\mathrm{vec}(\mathbf{X})} in tensor predictor regression (TPR), the \eqn{p}-value plot is not provided for the object returned from \code{TPR.fit}.
+
+\code{main} and \code{main_p} control the titles of coefficient plot and \eqn{p}-value plot separately. Some other arguments used in function \link{graphics::image}, e.g., \code{xlim, ylim, zlim, col, xaxs, yaxs, etc.,} can be passed to \code{...}
+
+The \code{ask} can be set as \code{FALSE} if the pause before the second plot is not preferred. If \code{x} is an object from \code{TPR.fit}, no pause is enabled.
 }
 \examples{
  data("bat")
@@ -42,12 +54,9 @@ Plot method for object returned from \code{TRR.fit} and \code{TPR.fit} functions
  fit <- TRR.fit(x, y, method="standard")
  plot(fit)
 
- ## Set xticks and yticks
- plot(fit, xticks = seq(0, 10, length.out=5), yticks = seq(0, 10, length.out=5))
-
  ## Change the significant level to 0.1
  plot(fit, level = 0.1)
 }
 \seealso{
-\code{\link{TRR.fit}, \link{TPR.fit}}
+\code{\link{TRR.fit}, \link{TPR.fit}, \link{graphics::image}}
 }

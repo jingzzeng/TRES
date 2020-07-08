@@ -14,19 +14,23 @@ library(TRES)
 data("bat")
 x <- bat$x
 y <- bat$y
-fit <- TRR.fit(x, y, method="standard")
+
+## Fitting with OLS and 1D envelope method.
+fit_ols <- TRR.fit(x, y, method="standard")
+fit_1D <- TRR.fit(x, y, u = c(14,14), method="1D") # pass envelope rank (14,14)
 
 ## Print cofficient
-coef(fit)
+coef(fit_1D)
 
 ## Print the summary
-summary(fit)
+summary(fit_1D)
 
 ## Make the prediction on the original dataset
-predict(fit, x)
+predict(fit_1D, x)
 
-## Draw the plot of two-way coefficient tensor (i.e., matrix)
-plot(fit)
+## Draw the plots of two-way coefficient tensor (i.e., matrix) and p-value tensor.
+plot(fit_ols)
+plot(fit_1D)
 
 }
 \references{

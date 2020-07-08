@@ -3,5 +3,5 @@
 ^\.travis\.yml$
 cran-comments.md
 ^CRAN-RELEASE$
-check.R
 data_EEG_LiBing.mat
+\Figures

@@ -6,7 +6,7 @@
 #'
 #' @usage data("EEG")
 #'
-#' @format A list consisting of three components:
+#' @format A list consisting of two components:
 #' \describe{
 #'  \item{x}{A \eqn{1 \times 84} matrix, denoting the subject in alcoholic and control groups as 1 and 0 respectively.}
 #'  \item{y}{A \eqn{64 \times 64 \times 84} tensor, consisting 84 \emph{channels} by \emph{time} EEG images.}
@@ -16,24 +16,30 @@
 #'
 #' Li L, Zhang X (2017). “Parsimonious Tensor Response Regression.” Journal of the American Statistical Association, 112(519), 1131–1146.
 #'
+#' Zhang, X., Begleiter, H., Porjesz, B.,Wang,W., and Litke, A. (1995), “Event Related Potentials During Object Recognition Tasks,” Brain Research Bulletin, 38, 531–538. [1142]
+#'
+#' Li, B., Kim, M. K., and Altman, N. (2010), “On Dimension Folding of Matrix-or Array-Valued Statistical Objects,” The Annals of Statistics, pp. 1094–1121. [1142]
+#'
+#' @details The EEG data contains 77 alcoholic individuals and 44 controls. Each individual was measured with 64 electrodes placed on the scalp sampled at 256 Hz for 1 sec, resulting an EEG image of 64 channels by 256 time points. More information about data collection and some analysis can be found in Zhang et al. (1995) and Li, Kim, and Altman (2010). To facilitate the analysis, the data is downsized along the time domain by averaging every four consecutive time points, yielding a 64 × 64 matrix response.
+#'
 #' @keywords datasets
 #' @examples
 #' data("EEG")
 #' x <- EEG$x; y <- EEG$y
-#' ## Estimate the envelope dimension, which turns out to be c(1,1).
-#' # u <- TensEnv_dim(x, y)
+#' ## Estimate the envelope dimension, the output should be c(1,1).
+#' \dontrun{u <- TensEnv_dim(x, y)}
 #' u <- c(1,1)
 #'
 #' ## Fit the dataset with TRR.fit
 #' fit_1D <- TRR.fit(x, y, u, method = "1D")
 #'
 #' ## The coefficient plot and p-value plot
-#' plot(fit_1D, xlab = "Time", ylab = "Channels", yticks = seq(64,0, length.out=5))
+#' plot(fit_1D, xlab = "Time", ylab = "Channels")
 #'
 #' ## Uncomment to display the plots from different methods.
 #' # fit_ols <- TRR.fit(x, y, method = "standard")
 #' # fit_pls <- TRR.fit(x, y, u, method = "PLS")
-#' # plot(fit_ols, xlab = "Time", ylab = "Channels", yticks = seq(64,0, length.out=5))
-#' # plot(fit_pls, xlab = "Time", ylab = "Channels", yticks = seq(64,0, length.out=5))
+#' # plot(fit_ols, xlab = "Time", ylab = "Channels")
+#' # plot(fit_pls, xlab = "Time", ylab = "Channels")
 #'
 "EEG"

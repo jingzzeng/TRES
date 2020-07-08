@@ -23,7 +23,7 @@
 #' @return
 #'  \item{x}{The original predictor dataset.}
 #'  \item{y}{The original response dataset.}
-#'  \item{call}{The method call.}
+#'  \item{call}{The matched call.}
 #'  \item{method}{The method used.}
 #'  \item{coefficients}{The estimation of regression coefficient tensor.}
 #'  \item{Gamma}{The estimation of envelope subspace basis.}

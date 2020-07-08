@@ -2,7 +2,7 @@
 #'
 #' Summary method for object returned from \code{TRR.fit} and \code{TPR.fit} functions.
 #'
-#' Extract \code{call}, \code{coefficients}, \code{residuals}, \code{Gamma} from \code{object}.
+#' Extract \code{call}, \code{method}, \code{coefficients}, \code{residuals}, \code{Gamma} from \code{object}.
 #'
 #' The mean squared error \code{mse} is defined as \eqn{1/n\sum_{i=1}^n\|\mathbf{Y}_i-\hat{\mathbf{Y}}_i\|_F^2}, where \eqn{\hat{\mathbf{Y}}_i} is the prediction and \eqn{\|\cdot\|_F} is the Frobenius norm of tensor.
 #'
@@ -15,8 +15,9 @@
 #' @param x An object of class "summary.Tenv", usually, a result of a call to summary.Tenv.
 #' @name summary.Tenv
 #' @return Return \code{object} with additional components
-#'  \item{call}{The method call}
-#'  \item{n}{Sample size}
+#'  \item{call}{The matched call}
+#'  \item{method}{The method used}
+#'  \item{n}{The sample size}
 #'  \item{xdim}{Dimensions of predictor}
 #'  \item{ydim}{Dimensions of response}
 #'  \item{coefficients}{The tensor coefficients estimated from \code{TPR.fit} or \code{TRR.fit}}
@@ -46,7 +47,7 @@
 #' @importFrom stats coef residuals
 
 summary.Tenv <- function(object, ...){
-  ans <- object[c("call", "coefficients", "residuals", "Gamma")]
+  ans <- object[c("call", "method", "coefficients", "residuals", "Gamma")]
   if (!inherits(object, "Tenv"))
     warning("calling summary.Tenv(<fake-Tenv-object>) ...")
   n <- dim(object$x)[length(dim(object$x))]
@@ -71,8 +72,9 @@ summary.Tenv <- function(object, ...){
 #' @importFrom stats coef
 print.summary.Tenv <- function(x, ...){
   cat("\nCall:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"),
-      "\n", sep = "")
-  cat("\nDimensions:\n", "x:", x$xdim, "\n", "y:", x$ydim, "\n\n")
+      "\n\n", sep = "")
+  cat("Method: ", x$method, "\n\n", sep = "")
+  cat("Dimensions:\n", "x:", x$xdim, "\n", "y:", x$ydim, "\n\n")
   cat("Sample size:", x$n, "\n\n")
   cat("Mean squared error:", x$mse, "\n\n")
   cat("Coefficients:\n")

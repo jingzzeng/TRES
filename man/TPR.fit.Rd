@@ -26,9 +26,9 @@ TPR.fit(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init)
 \item{Gamma_init}{A list specifying the initial envelope subspace basis for "FG" method. If missing, use the estimation from "1D" algorithm.}
 }
 \value{
-\item{x}{The original predictor dataset.}
+\item{x}{The riginal predictor dataset.}
   \item{y}{The original response dataset.}
-  \item{call}{The method call.}
+  \item{call}{The matched call.}
   \item{method}{The method used.}
   \item{coefficients}{The estimation of regression coefficient tensor.}
   \item{Gamma}{The estimation of envelope subspace basis.}

@@ -18,8 +18,9 @@
 }
 \value{
 Return \code{object} with additional components
- \item{call}{The method call}
- \item{n}{Sample size}
+ \item{call}{The matched call}
+ \item{method}{The method used}
+ \item{n}{The sample size}
  \item{xdim}{Dimensions of predictor}
  \item{ydim}{Dimensions of response}
  \item{coefficients}{The tensor coefficients estimated from \code{TPR.fit} or \code{TRR.fit}}
@@ -35,7 +36,7 @@ Return \code{object} with additional components
 Summary method for object returned from \code{TRR.fit} and \code{TPR.fit} functions.
 }
 \details{
-Extract \code{call}, \code{coefficients}, \code{residuals}, \code{Gamma} from \code{object}.
+Extract \code{call}, \code{method}, \code{coefficients}, \code{residuals}, \code{Gamma} from \code{object}.
 
 The mean squared error \code{mse} is defined as \eqn{1/n\sum_{i=1}^n\|\mathbf{Y}_i-\hat{\mathbf{Y}}_i\|_F^2}, where \eqn{\hat{\mathbf{Y}}_i} is the prediction and \eqn{\|\cdot\|_F} is the Frobenius norm of tensor.
 
