@@ -1,3 +1,26 @@
+#' The \eqn{p}-value and standard error of each element in the estimator of the tensor response regression (TRR) coefficient
+#'
+#' Obtain \eqn{p}-value of each element in the tensor regression coefficient estimator. Two-sided t-tests are implemented on the coefficient estimator, where asymptotic covariance of the OLS estimator is used.
+#'
+#' @param x The response tensor instance \eqn{ r_1\times r_2\times \cdots \times r_m}.
+#' @param y A vector predictor of dimension \eqn{p}.
+#' @param Bhat The estimator of tensor regression coefficient.
+#'
+#' The \eqn{p}-value and the standard error of estimated coefficient are not provided for tensor predictor regression since they depend on \eqn{\widehat{\mathrm{cov}}^{-1}\{\mathrm{vec}(\mathbf{X})\}} which is unavailable due to the ultra-high dimension of \eqn{\mathrm{vec}(\mathbf{X})}.
+#'
+#' @return
+#' \item{p_ols}{The p-value tensor of OLS estimator.}
+#' \item{p_val}{The p-value tensor of \code{Bhat}.}
+#' \item{se}{The standard error tensor of \code{Bhat}.}
+#'
+#' @examples
+#' ## Use dataset bat
+#' data("bat")
+#' x <- bat$x
+#' y <- bat$y
+#' fit_std <- TRR.fit(x, y, method="standard")
+#' Tenv_Pval(x, y, fit_std$coefficients)
+#'
 #' @export
 #' @import rTensor
 #' @importFrom stats pt

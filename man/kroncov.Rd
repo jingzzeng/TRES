@@ -2,23 +2,29 @@
 % Please edit documentation in R/kroncov.R
 \name{kroncov}
 \alias{kroncov}
-\title{The covariance estimation of a tensor random variable}
+\title{The covariance estimation of tensor normal distribution}
 \usage{
-kroncov(Tn)
+kroncov(Tn, tol = 1e-06, maxiter = 10)
 }
 \arguments{
 \item{Tn}{A \eqn{p_1\times\cdots p_m\times n} matrix, array or tensor, where \eqn{n} is the sample size.}
+
+\item{tol}{The convergence tolerance with default value \code{1e-6}. The iteration terminates when \eqn{||\Sigma_i^{(t+1)} - \Sigma_i^{(t)}||_F <} \code{tol} for some covariance matrix \eqn{\Sigma_i}. See Manceur, A. M., & Dutilleul, P. (2013) for the discussion on the covergence criterion.}
+
+\item{maxiter}{The maximal number of iterations. The default value is 10.}
 }
 \value{
 \item{lambda}{The normalizing constant.}
-\item{S}{A matrix list, consisting of each normalized covariance matrix \eqn{\boldsymbol{\Sigma}_1,\ldots,\boldsymbol{\Sigma}_m}.}
+\item{S}{A matrix list, consisting of each normalized covariance matrix \eqn{\Sigma_1,\ldots,\Sigma_m}.}
 }
 \description{
-This function estimates the covariance of a tensor random variable. We assume the covariance of the tensor random variable has a separable Kronecker covariance structure, i.e. \eqn{\boldsymbol{\Sigma}=\boldsymbol{\Sigma}_{m}\otimes\cdots\otimes\boldsymbol{\Sigma}_{1}}. This algorithm is described in Manceur, A. M., & Dutilleul, P. (2013).
+This function provides the MLE of the covariance matrix of tensor normal distribution, where the covariance has a separable Kronecker structure, i.e. \eqn{\Sigma=\Sigma_{m}\otimes \ldots \otimes\Sigma_{1}}. The algorithm is described in Manceur, A. M., & Dutilleul, P. (2013).
 }
 \details{
-The individual component covariance matrices \eqn{\boldsymbol{\Sigma}_i, i=1,\ldots, m} are not identifiable. So each matrix is normalized, and an overall normalizing constant \eqn{\lambda} is extract, which is defined as
-\deqn{\boldsymbol{\Sigma}=\lambda \boldsymbol{\Sigma}_m \otimes \cdots \otimes \boldsymbol{\Sigma}_1.}
+The individual component covariance matrices \eqn{\Sigma_i, i=1,\ldots, m} are not identifiable. To overcome the identifiability issue, each matrix is normalized. And an overall normalizing constant \eqn{\lambda} is extracted so that the overall covariance matrix \eqn{\Sigma} is defined as
+\deqn{\Sigma = \lambda \Sigma_m \otimes \cdots \otimes \Sigma_1.}
+
+If \code{Tn} is a \eqn{p \times n} design matrix for a multivariate random variable, then \code{lambda = 1} and \code{S} is a length-one list containing the sample covariance matrix.
 }
 \references{
 Manceur, A. M., & Dutilleul, P. (2013). Maximum likelihood estimation for the tensor normal distribution: Algorithm, minimum sample size, and empirical bias and dispersion. Journal of Computational and Applied Mathematics, 239, 37-49.

@@ -7,15 +7,15 @@
 subspace(A, B)
 }
 \arguments{
-\item{A}{A \eqn{p}-by-\eqn{u} matrix.}
+\item{A}{A \eqn{p}-by-\eqn{u} full column rank matrix.}
 
-\item{B}{A \eqn{p}-by-\eqn{u} matrix.}
+\item{B}{A \eqn{p}-by-\eqn{u} full column rank matrix.}
 }
 \value{
 Returns a distance metric that is between 0 and 1
 }
 \description{
-This function calculates the distance between the two subspaces with equal dimensions \eqn{\mathrm{span}(\mathbf{A})} and \eqn{\mathrm{span}(\mathbf{B})}, where \eqn{\mathbf{A}\in R^{p\times u}} and \eqn{\mathbf{B} \in R^{p\times u}} are the basis matrices of two subspaces. The distance is defined as
-\deqn{\|\mathbf{P}_{\mathbf{A}} - \mathbf{P}_{\mathbf{B}}\|_F/\sqrt{2d},}
-where \eqn{\mathbf{P(\cdot)}} is the projection matrix onto the given subspace with the standard inner product, and \eqn{d} is the common dimension.
+This function calculates the distance between the two subspaces with equal dimensions span\eqn{(A)} and span\eqn{(B)}, where \eqn{A \in R^{p\times u}} and \eqn{B \in R^{p\times u}} are the basis matrices of two subspaces. The distance is defined as
+\deqn{\|P_{A} - P_{B}\|_F/\sqrt{2d},}
+where \eqn{P} is the projection matrix onto the given subspace with the standard inner product, and \eqn{d} is the common dimension.
 }

@@ -13,7 +13,7 @@ Tenv(Xn, Yn, u, opts=NULL)
 
 \item{u}{The dimension of envelope subspace. \eqn{u=(u_1,\cdots,u_m)}.}
 
-\item{opts}{The option structure for Feasi. See function \code{OptimballGBB1D}.}
+\item{opts}{The option structure for Feasi. See function \code{OptM1D}.}
 }
 \value{
 \item{Btil}{The ordinary least square estimator (OLS).}

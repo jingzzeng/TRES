@@ -22,7 +22,7 @@ NULL
 #' @section \code{TensPLS_fit}:
 #' For \code{TensPLS_fit}, use \code{\link{TPR.fit}} with \code{method = "PLS"}.
 
-
+#' @export
 #' @import rTensor
 #' @importFrom pracma kron sqrtm
 #' @importFrom stats cov
@@ -66,7 +66,7 @@ TensPLS_fit <- function(x, y, SigX, u) {
     U <- rTensor::unfold(Ck, row_idx = i, col_idx = idx)@data
     Uk <- tcrossprod(U)
 
-    Gamma[[i]] <- EnvMU(M, Uk, u[i])
+    Gamma[[i]] <- simplsMU(M, Uk, u[i])
     tmp3 <- t(Gamma[[i]]) %*% SigX[[i]] %*% Gamma[[i]]
     PGamma[[i]] <- Gamma[[i]] %*% chol2inv(chol(tmp3)) %*% t(Gamma[[i]]) %*% SigX[[i]]
   }

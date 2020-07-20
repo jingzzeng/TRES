@@ -5,3 +5,4 @@ cran-comments.md
 ^CRAN-RELEASE$
 data_EEG_LiBing.mat
 \Figures
+Reproduction.R

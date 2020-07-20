@@ -1,21 +1,20 @@
-#' Extracting the standard error.
+#' Elementwise standard error.
 #'
-#' Extract the elementwise standard error for the object returned from \code{TRR.fit}. The standard error for the object returned from \code{TPR.fit} is unavailable.
+#' Calculates the elementwise standard error for the object returned from \code{TRR.fit}. The standard error for the object returned from \code{TPR.fit} is unavailable.
 #'
-#' @param object an object of class \code{"Tenv"}, as from \code{TRR.fit}.
+#' @param object an object of class \code{"Tenv"}, as the ones returned from \code{TRR.fit}.
 #' @return The standard error tensor is returned.
 #' @note The function only supports the object returned from \code{TRR.fit} since there is no standard error for the object returned from \code{TPR.fit}.
-#' @seealso Use function \code{\link{Tenv_Pval}} to calculate the standard error.
-
+#'
 #' @examples
 #' data("bat")
 #' x <- bat$x
 #' y <- bat$y
 #' fit <- TRR.fit(x, y, method="standard")
-#' std_err(fit)
+#' stderr(fit)
 #' @export
 #'
-std_err <- function(object){
+stderr <- function(object){
   cl <- object$call
   if(cl[1] == "TPR.fit()"){stop("there is no standard error for the object returned from TPR.fit().")}
   if(cl[1] == "TRR.fit()"){

@@ -5,14 +5,14 @@
 \alias{TRR}
 \title{Tensor response regression}
 \usage{
-TRR.fit(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init)
+TRR.fit(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init = NULL)
 }
 \arguments{
 \item{x}{The predictor matrix of dimension \eqn{p \times n}. Vector of length \eqn{n} is acceptable. If \code{y} is missing, \code{x} should be a list or an environment consisting of predictor and response datasets.}
 
 \item{y}{The response tensor instance with dimension \eqn{r_1\times r_2\times\cdots\times r_m \times n}, where \eqn{n} is the sample size. Array with the same dimensions and matrix with dimension \eqn{r\times n} are acceptable.}
 
-\item{u}{The dimension of envelope subspace. \eqn{u=(u_1,\cdots, u_m)}. Used for methods "FG", "1D", "ECD" and "PLS". User can use \code{\link{TensEnv_dim}} to select dimension.}
+\item{u}{The dimension of envelope subspace. \eqn{u=(u_1,\cdots, u_m)}. Used for methods "FG", "1D", "ECD" and "PLS". User can use \code{\link{TRRdim}} to select dimension.}
 
 \item{method}{The method used for estimation of tensor response regression. There are four possible choices.
 \itemize{
@@ -23,13 +23,13 @@ TRR.fit(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init)
   \item{\code{"PLS"}}: The SIMPLS-type estimation without manifold optimization.
 }}
 
-\item{Gamma_init}{A list specifying the initial envelope subspace basis for "FG" method. If unspecified, use the estimation from "1D" algorithm.}
+\item{Gamma_init}{A list specifying the initial envelope subspace basis for "FG" method. By default, the estimators given by "1D" algorithm is used.}
 }
 \value{
 \item{x}{The original predictor dataset.}
  \item{y}{The original response dataset.}
  \item{call}{The matched call.}
- \item{method}{The method used.}
+ \item{method}{The implemented method.}
  \item{coefficients}{The estimation of regression coefficient tensor.}
  \item{Gamma}{The estimation of envelope subspace basis.}
  \item{Sigma}{A lists of estimated covariance matrices at each mode for the error term.}
@@ -40,10 +40,11 @@ TRR.fit(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init)
 This function is used for estimation of tensor response regression. The available method including standard OLS type estimation, PLS type of estimation as well as envelope estimation with FG, 1D and ECD approaches.
 }
 \details{
-Please refer to \strong{Details} of \code{\link{TRR_sim}} about the description of the tensor response regression model.
+Please refer to \strong{Details} part of \code{\link{TRRsim}} for the description of the tensor response regression model.
+
+When samples are insufficient, it is possbile that the estimation of error covariance matrix \code{Sigma} is not available. However, if using ordinary least square method (\code{method = "standard"}), as long as sample covariance matrix of predictor \code{x} is nonsingular, \code{coefficients}, \code{fitted.values}, \code{residuals} are still returned.
 }
 \examples{
-
 rm(list=ls())
 
 # The dimension of response
@@ -55,8 +56,8 @@ p <- 5
 # The sample size
 n <- 100
 
-# Simulate the data with TRR_sim.
-dat <- TRR_sim(r = r, p = p, u = u, n = n)
+# Simulate the data with TRRsim.
+dat <- TRRsim(r = r, p = p, u = u, n = n)
 x <- dat$x
 y <- dat$y
 B <- dat$coefficients
@@ -72,6 +73,11 @@ rTensor::fnorm(B-stats::coef(fit_fg))
 rTensor::fnorm(B-stats::coef(fit_1D))
 rTensor::fnorm(B-stats::coef(fit_pls))
 rTensor::fnorm(B-stats::coef(fit_ECD))
+
+# Extract the mean squared error, p-value and standard error from summary
+summary(fit_std)$mse
+summary(fit_std)$p_val
+summary(fit_std)$se
 
 ## ----------- Pass a list or an environment to x also works ------------- ##
 # Pass a list to x
@@ -103,9 +109,9 @@ Li L, Zhang X (2017). “Parsimonious Tensor Response Regression.” Journal of 
 
 The generic functions \code{\link{coef}, \link{residuals}, \link{fitted}}.
 
-\code{\link{TensEnv_dim}} for selecting the dimension of envelope by information criteria.
+\code{\link{TRRdim}} for selecting the dimension of envelope by information criteria.
 
-\code{\link{TRR_sim}} for generating the simulated data used in tensor response regression.
+\code{\link{TRRsim}} for generating the simulated data used in tensor response regression.
 
 The simulated data \code{\link{bat}} used in tensor response regression.
 }

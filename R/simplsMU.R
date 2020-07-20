@@ -1,0 +1,48 @@
+#' SIMPLS-type algorithm for estimating the envelope subspace
+#'
+#' Estimate the envelope subspace with the SIMPLS-type algorithm.
+#'
+#' This algorithm is a generalization of the PLS algorithm in De Jong, S. (1993) and Cook, R. D., Helland, I. S., & Su, Z. (2013). It generalizes from predictor envelopes to an arbitrary \code{M}-envelope of \code{span(U)}.
+#'
+#' @param M The \eqn{p}-by-\eqn{p} positive definite matrix \eqn{M} in the envelope objective function.
+#' @param U The \eqn{p}-by-\eqn{p} positive semi-definite matrix \eqn{U} in the envelope objective function.
+#' @param u An integer between 0 and \eqn{n} representing the envelope dimension.
+#'
+#' @return Returns the estimated orthogonal basis of the envelope subspace.
+#'
+#' @references Cook, R. D., Helland, I. S., Su, Z. (2013). Envelopes and partial least squares regression. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 75(5), 851-877.
+#'
+#' De Jong, S. (1993). SIMPLS: an alternative approach to partial least squares regression. Chemometrics and intelligent laboratory systems, 18(3), 251-263.
+#'
+#' @examples
+#' ##simulate two matrices M and U with an envelope structure#
+#' data <- MenvU_sim(p = 20, u = 5, wishart = TRUE, n = 200)
+#' M <- data$M
+#' U <- data$U
+#' G <- data$Gamma
+#' Gamma_pls <- simplsMU(M, U, u=5)
+#' subspace(Gamma_pls, G)
+#'
+#' @export
+simplsMU <- function(M, U, u) {
+  dimM <- dim(M)
+  dimU <- dim(U)
+  p <- dimM[1]
+
+  if (dimM[1] != dimM[2] & dimU[1] != dimU[2]) stop("M and U should be square matrices.")
+  if (dimM[1] != dimU[1]) stop("M and U should have the same dimension.")
+  if (qr(M)$rank < p) stop("M should be positive definite.")
+  if (u > p & u < 0) stop("u should be between 0 and p.")
+  if (u == p) {return(Gamma = diag(p))}else {
+    W <- matrix(0, p, (u+1))
+    for (k in 1:u) {
+      Wk <- W[, 1:k]
+      Ek <- M %*% Wk
+      temp <- crossprod(Ek)
+      QEK <- diag(p) - Ek %*% MASS::ginv(temp) %*% t(Ek)
+      W[, (k+1)] <- Re(eigen(QEK %*% U %*% QEK)$vectors[, 1])
+    }
+    Gamma <- qr.Q(qr(W[, 2:(u+1)]))
+    Gamma
+  }
+}

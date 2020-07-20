@@ -10,39 +10,37 @@
 \method{print}{summary.Tenv}(x, ...)
 }
 \arguments{
-\item{object}{An object of class \code{"Tenv"}, as from \code{\link{TPR.fit}} or \code{\link{TRR.fit}}.}
+\item{object}{An object of class \code{"Tenv"}, as the ones returned from \code{\link{TPR.fit}} or \code{\link{TRR.fit}}.}
 
-\item{...}{Arguments to be passed to or from other methods.}
+\item{...}{Additional arguments. No available arguments exist in this version.}
 
-\item{x}{An object of class "summary.Tenv", usually, a result of a call to summary.Tenv.}
+\item{x}{An object of class \code{"summary.Tenv"}, usually, a result of a call to \code{summary.Tenv}.}
 }
 \value{
 Return \code{object} with additional components
- \item{call}{The matched call}
- \item{method}{The method used}
- \item{n}{The sample size}
- \item{xdim}{Dimensions of predictor}
- \item{ydim}{Dimensions of response}
- \item{coefficients}{The tensor coefficients estimated from \code{TPR.fit} or \code{TRR.fit}}
- \item{residuals}{The residuals, which equals to the response minus the fitted values}
- \item{Gamma}{A list of envelope subspace basis}
- \item{mse}{Mean squared error. The mean squared Frobenius norm of the difference between each response \eqn{\mathbf{Y}_i} and fitted value \eqn{\hat{\mathbf{Y}}_i},
-   \deqn{\frac{1}{n}\sum_{i=1}^n\|\mathbf{Y}_i-\hat{\mathbf{Y}}_i\|_F^2}
- }
- \item{p_val}{Only for object returned from \code{TRR.fit}, p-value for coefficients}
- \item{se}{Only for object returned from \code{TRR.fit}, standard error for coefficients}
+ \item{call}{The matched call.}
+ \item{method}{The implemented method.}
+ \item{n}{The sample size.}
+ \item{xdim}{The dimension of predictor.}
+ \item{ydim}{The dimension of response.}
+ \item{coefficients}{The tensor coefficients estimated from \code{TPR.fit} or \code{TRR.fit}.}
+ \item{residuals}{The residuals, which equals to the response minus the fitted values.}
+ \item{Gamma}{A list of envelope subspace basis.}
+ \item{mse}{The mean squared error. The mean squared Frobenius norm of the difference between each response \eqn{Y_i} and fitted value \eqn{\hat{Y}_i}.}
+ \item{p_val}{The p-value for coefficients. Only for the object returned from \code{TRR.fit}.}
+ \item{se}{The standard error for coefficients. Only for the object returned from \code{TRR.fit}.}
 }
 \description{
 Summary method for object returned from \code{TRR.fit} and \code{TPR.fit} functions.
 }
 \details{
-Extract \code{call}, \code{method}, \code{coefficients}, \code{residuals}, \code{Gamma} from \code{object}.
+Extract \code{call}, \code{method}, \code{coefficients}, \code{residuals}, \code{Gamma} from \code{object}. And append \code{mse}, \eqn{p}-value and the standard error of estimated coefficient.
 
-The mean squared error \code{mse} is defined as \eqn{1/n\sum_{i=1}^n\|\mathbf{Y}_i-\hat{\mathbf{Y}}_i\|_F^2}, where \eqn{\hat{\mathbf{Y}}_i} is the prediction and \eqn{\|\cdot\|_F} is the Frobenius norm of tensor.
+The mean squared error \code{mse} is defined as \eqn{1/n\sum_{i=1}^n||Y_i-\hat{Y}_i||_F^2}, where \eqn{\hat{Y}_i} is the prediction and \eqn{||\cdot||_F} is the Frobenius norm of tensor.
 
-For the object returned from \code{TRR.fit}, return the \eqn{p}-value and the standard error of estimated coefficient. However, since \eqn{p}-value and standard error depend on \eqn{\widehat{\mathrm{cov}}^{-1}\{\mathrm{vec}(\mathbf{X})\}} which is unavailable for the ultra-high dimensional \eqn{\mathrm{vec}(\mathbf{X})} in tensor predictor regression (TPR), the two statistics are not provided for the object returned from \code{TPR.fit}.
+Since the \eqn{p}-value and standard error depend on the estimation of cov\eqn{^{-1}}(vec\eqn{(X)}) which is unavailable for the ultra-high dimensional \eqn{vec(X)} in tensor predictor regression (TPR), the two statistics are only provided for the object returned from \code{TRR.fit}.
 
-print.summary.Tenv gives a more readable format of the statistics contained in \code{summary.Tenv}. If \code{object} is from \code{\link{TRR.fit}}, then \code{p-val} and \code{se} are also returned.
+\code{print.summary.Tenv} provides a more readable form of the statistics contained in \code{summary.Tenv}. If \code{object} is returned from \code{\link{TRR.fit}}, then \code{p-val} and \code{se} are also returned.
 }
 \examples{
 data("bat")
@@ -51,11 +49,10 @@ y <- bat$y
 fit <- TRR.fit(x, y, method="standard")
 ##print summary
 summary(fit)
-}
-\seealso{
-\code{\link{Tenv_Pval}} is used to calculate the \eqn{p}-value and standard error.
 
-\code{\link{PMSE}} is used to calculate mean squared error for any provided datasets and coefficient.
+##Extract the p-value and standard error from summary
+summary(fit)$p_val
+summary(fit)$se
 
 Fitting functions \code{\link{TRR.fit}}, \code{\link{TPR.fit}}.
 }

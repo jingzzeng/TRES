@@ -4,7 +4,7 @@
 #' @param  Xn The predictor matrix of dimension \eqn{p \times n}.
 #' @param Yn The response tensor instance \eqn{ r_1\times r_2\times \cdots \times r_m \times n}, where \eqn{n} is the sample size.
 #' @param u The dimension of envelope subspace. \eqn{u=(u_1,\cdots,u_m)}.
-#' @param opts The option structure for Feasi. See function \code{OptimballGBB1D}.
+#' @param opts The option structure for Feasi. See function \code{OptM1D}.
 #'
 #' @return
 #'   \item{Btil}{The ordinary least square estimator (OLS).}
@@ -70,7 +70,7 @@ Tenv <- function(Xn, Yn, u, opts=NULL){
     idxprod <- (r[i]/n)/prodr
     YsnYsn <- ttt(Ysn, Ysn, ms=idx)@data*idxprod
     U <- YsnYsn - M
-    Gamma1[[i]] <- OptimballGBB1D(M, U, u[i], opts)
+    Gamma1[[i]] <- OptM1D(M, U, u[i], opts)
     PGamma[[i]] <- tcrossprod(Gamma1[[i]])
   }
   tp <- ttl(Yn, PGamma, ms=1:m)

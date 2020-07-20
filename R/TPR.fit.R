@@ -2,14 +2,14 @@
 #'
 #' This function is used for estimation of tensor predictor regression. The available method including standard OLS type estimation, PLS type of estimation as well as envelope estimation with FG, 1D and ECD approaches.
 #'
-#' Please refer to \strong{Details} of \code{\link{TPR_sim}} about the description of the tensor predictor regression model.
+#' Please refer to \strong{Details} part of \code{\link{TPRsim}} for the description of the tensor predictor regression model.
 #'
 #' @aliases TPR
-#' @usage TPR.fit(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init)
+#' @usage TPR.fit(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init = NULL)
 #'
 #' @param x The predictor tensor instance of dimension \eqn{p_1\times p_2\times\cdots\times p_m \times n}, where \eqn{n} is the sample size. Array with the same dimensions and matrix with dimension \eqn{p\times n} are acceptable. If \code{y} is missing, \code{x} should be a list or an environment consisting of predictor and response datasets.
 #' @param y The response matrix of dimension \eqn{r \times n}, where \eqn{n} is the sample size. Vector of length \eqn{n} is acceptable.
-#' @param u The dimension of envelope subspace. \eqn{u=(u_1,\cdots, u_m)}. Used for methods "FG", "1D", "ECD" and "PLS". User can use \code{\link{TensPLS_cv2d3d}} to select dimension.
+#' @param u The dimension of envelope subspace. \eqn{u=(u_1,\cdots, u_m)}. Used for methods "FG", "1D", "ECD" and "PLS". User can use \code{\link{TPRdim}} to select dimension.
 #' @param method The method used for estimation of tensor response regression. There are four possible choices.
 #' \itemize{
 #'   \item{\code{"standard"}}: The standard OLS type estimation.
@@ -18,13 +18,13 @@
 #'   \item{\code{"ECD"}}: Envelope estimation with one dimensional optimization approaches by ECD algorithm.
 #'   \item{\code{"PLS"}}: The SIMPLS-type estimation without manifold optimization.
 #' }
-#' @param Gamma_init A list specifying the initial envelope subspace basis for "FG" method. If missing, use the estimation from "1D" algorithm.
+#' @param Gamma_init A list specifying the initial envelope subspace basis for "FG" method. By default, the estimators given by "1D" algorithm is used.
 #'
 #' @return
 #'   \item{x}{The riginal predictor dataset.}
 #'   \item{y}{The original response dataset.}
 #'   \item{call}{The matched call.}
-#'   \item{method}{The method used.}
+#'   \item{method}{The implemented method.}
 #'   \item{coefficients}{The estimation of regression coefficient tensor.}
 #'   \item{Gamma}{The estimation of envelope subspace basis.}
 #'   \item{Sigma}{A lists of estimated covariance matrices at each mode for the tensor predictors.}
@@ -32,7 +32,6 @@
 #'   \item{residuals}{The residuals matrix.}
 #'
 #' @examples
-#'
 #' rm(list = ls())
 #' # The dimension of predictor
 #' p <- c(10, 10, 10)
@@ -43,8 +42,8 @@
 #' # The sample size
 #' n <- 200
 #'
-#' # Simulate the data with TPR_sim.
-#' dat <- TPR_sim(p = p, r = r, u = u, n = n)
+#' # Simulate the data with TPRsim.
+#' dat <- TPRsim(p = p, r = r, u = u, n = n)
 #' x <- dat$x
 #' y <- dat$y
 #' B <- dat$coefficients
@@ -69,13 +68,10 @@
 #' fit_std_e <- TPR.fit(e, method="standard")
 #'
 #' ## ----------- Use dataset "square" included in the package ------------- ##
-#' # Note: it is time-consuming
-#' \dontrun{
-#'   data("square")
-#'   x <- square$x
-#'   y <- square$y
-#'   fit_std <- TPR.fit(x, y, method="standard")
-#' }
+#' data("square")
+#' x <- square$x
+#' y <- square$y
+#' fit_std <- TPR.fit(x, y, method="standard")
 #'
 #' @seealso \code{\link{summary.Tenv}} for summaries, calculating mean squared error from the prediction.
 #'
@@ -85,9 +81,9 @@
 #'
 #' The generic functions \code{\link{coef}, \link{residuals}, \link{fitted}}.
 #'
-#' \code{\link{TensPLS_cv2d3d}} for selecting the dimension of envelope by cross-validation.
+#' \code{\link{TPRdim}} for selecting the dimension of envelope by cross-validation.
 #'
-#' \code{\link{TPR_sim}} for generating the simulated data used in tensor prediction regression.
+#' \code{\link{TPRsim}} for generating the simulated data used in tensor prediction regression.
 #'
 #' The simulated data \code{\link{square}} used in tensor predictor regression.
 #'
@@ -99,7 +95,7 @@
 # This function gives all the estimation of tensor predictor regression
 # The tensor predictor should be 2-dimensional or 3-dimensional
 
-TPR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init){
+TPR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init = NULL){
   cl <- match.call()
   method <- match.arg(method)
   if(missing(y)){
@@ -162,38 +158,16 @@ TPR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
 
 
   if(method == "standard") {
-    if(length(dim(x))==4){
-      tmp6 <- kron(chol2inv(chol(Sigx[[3]])), chol2inv(chol(Sigx[[2]])))
-      Btil <- kron(tmp6, chol2inv(chol(Sigx[[1]]))) %*% tcrossprod(vecx, y)/n
-    }else if(length(dim(x))==3) {
-      tmp6 <- kron(chol2inv(chol(Sigx[[2]])), chol2inv(chol(Sigx[[1]])))
-      Btil <- tmp6 %*% tcrossprod(vecx, y)/n
-    }else if(length(dim(x))==2) {
-      Btil <- chol2inv(chol(Sigx[[1]])) %*% tcrossprod(vecx, y)/n
-    }
-    Btil <- array(Btil, c(p, r))
-    Bhat <- Btil
+    Sigxinv <- lapply(Sigx, function(x){chol2inv(chol(x))})
+    Bhat <- ttl(x, c(Sigxinv, list(y)), 1:(m+1))/n
     Gamma1 <- NULL
   }else{
     if(missing(u)){stop("A user-defined u is required.")}
     if(method == "PLS") {
       res_PLS <- TensPLS_fit(x, y, Sigx, u)
       Gamma1 <- res_PLS$Gamma; PGamma <- res_PLS$PGamma
-
-      if(length(dim(x))==4) {
-        tmp7 <- kron(PGamma[[2]], PGamma[[1]])
-        Bhat_pls <- kron(PGamma[[3]], tmp7) %*% tcrossprod(vecx, y)/n
-      }else if(length(dim(x))==3) {
-        tmp7 <- kron(PGamma[[2]], PGamma[[1]])
-        Bhat_pls <- tmp7 %*% tcrossprod(vecx, y)/n
-      }else if(length(dim(x))==2) {
-        Bhat_pls <- PGamma[[1]] %*% tcrossprod(vecx, y)/n
-      }
-      Bhat <- array(Bhat_pls, c(p, r))
-    }
-
-    if(method == "1D") {
-      Sinvhalf <- NULL
+    }else if(method == "1D"){
+      Sinvhalf <- vector("list", m)
       for (i in 1:m) {
         Sinvhalf[[i]] <- sqrtm(Sigx[[i]])$Binv
       }
@@ -201,31 +175,18 @@ TPR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
       Sinvhalf[[m+1]] <- sqrtm(SigY)$Binv
 
       C <- ttm(x, y, m+1)/n
-      Gamma1 <- PGamma <- NULL
+      Gamma1 <- PGamma <- vector("list", m)
       for (i in 1:m) {
         idx <- c(1:(m+1))[-i]
         Ck <- ttl(C, Sinvhalf[idx], ms = idx)
         U <- unfold(Ck, row_idx = i, col_idx = idx)@data
         Uk <- tcrossprod(U)
-        Gamma1[[i]] <- OptimballGBB1D(Sigx[[i]], Uk, u[i])
+        Gamma1[[i]] <- OptM1D(Sigx[[i]], Uk, u[i])
         tmp8 <- t(Gamma1[[i]]) %*% Sigx[[i]] %*% Gamma1[[i]]
         PGamma[[i]] <- Gamma1[[i]] %*% chol2inv(chol(tmp8)) %*% t(Gamma1[[i]]) %*% Sigx[[i]]
       }
-
-      if(length(dim(x))==4) {
-        tmp9 <- kron(PGamma[[2]], PGamma[[1]])
-        Bhat_env <- kron(PGamma[[3]], tmp9) %*% tcrossprod(vecx, y)/n
-      }else if(length(dim(x))==3) {
-        tmp9 <- kron(PGamma[[2]], PGamma[[1]])
-        Bhat_env <- tmp9 %*% tcrossprod(vecx, y)/n
-      }else if(length(dim(x))==2) {
-        Bhat_env <- PGamma[[1]] %*% tcrossprod(vecx, y)/n
-      }
-      Bhat <- array(Bhat_env, c(p, r))
-    }
-
-    if(method == "ECD") {
-      Sinvhalf <- NULL
+    }else if(method == "ECD") {
+      Sinvhalf <- vector("list", m)
       for (i in 1:m) {
         Sinvhalf[[i]] <- sqrtm(Sigx[[i]])$Binv
       }
@@ -233,7 +194,7 @@ TPR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
       Sinvhalf[[m+1]] <- sqrtm(SigY)$Binv
 
       C <- ttm(x, y, m+1)/n
-      Gamma1 <- PGamma <- NULL
+      Gamma1 <- PGamma <- vector("list", m)
       for (i in 1:m) {
         idx <- c(1:(m+1))[-i]
         Ck <- ttl(C, Sinvhalf[idx], ms = idx)
@@ -243,60 +204,32 @@ TPR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
         tmp8 <- t(Gamma1[[i]]) %*% Sigx[[i]] %*% Gamma1[[i]]
         PGamma[[i]] <- Gamma1[[i]] %*% chol2inv(chol(tmp8)) %*% t(Gamma1[[i]]) %*% Sigx[[i]]
       }
-
-      if(length(dim(x))==4) {
-        tmp9 <- kron(PGamma[[2]], PGamma[[1]])
-        Bhat_env <- kron(PGamma[[3]], tmp9) %*% tcrossprod(vecx, y)/n
-      }else if(length(dim(x))==3) {
-        tmp9 <- kron(PGamma[[2]], PGamma[[1]])
-        Bhat_env <- tmp9 %*% tcrossprod(vecx, y)/n
-      }else if(length(dim(x))==2) {
-        Bhat_env <- PGamma[[1]] %*% tcrossprod(vecx, y)/n
-      }
-      Bhat <- array(Bhat_env, c(p, r))
-    }
-
-    if(method=='FG'){
-      Sinvhalf <- NULL
+    }else if(method=='FG'){
+      Sinvhalf <- vector("list", m)
       for (i in 1:m) {
         Sinvhalf[[i]] <- sqrtm(Sigx[[i]])$Binv
       }
       SigY <- (n-1)*cov(t(y))/n
       Sinvhalf[[m+1]] <- sqrtm(SigY)$Binv
       C <- ttm(x, y, m+1)/n
-      Gamma1 <- PGamma <- NULL
+      Gamma1 <- PGamma <- vector("list", m)
       for (i in 1:m) {
         idx <- c(1:(m+1))[-i]
         Ck <- ttl(C, Sinvhalf[idx], ms = idx)
         U <- unfold(Ck, row_idx = i, col_idx = idx)@data
-        idxprod <- (p[i]/r)/prod(p)
-        Uk <- idxprod * tcrossprod(U)
-        if(missing(Gamma_init)){
-          init <-  OptimballGBB1D(Sigx[[i]], Uk, u[i], opts=NULL)
-        }else{
-          init <- Gamma_init[[i]]
-        }
-        Gamma1[[i]] <- OptStiefelGBB(init, opts=NULL, FGfun, Sigx[[i]], Uk)$Gamma
+        # idxprod <- (p[i]/r)/prod(p)
+        # Uk <- idxprod * tcrossprod(U)
+        Uk <- tcrossprod(U)
+        Gamma1[[i]] <- OptMFG(Sigx[[i]], Uk, u[i])
         tmp8 <- t(Gamma1[[i]]) %*% Sigx[[i]] %*% Gamma1[[i]]
         PGamma[[i]] <- Gamma1[[i]] %*% chol2inv(chol(tmp8)) %*% t(Gamma1[[i]]) %*% Sigx[[i]]
       }
-
-      if(length(dim(x))==4) {
-        tmp9 <- kron(PGamma[[2]], PGamma[[1]])
-        Bhat_env <- kron(PGamma[[3]], tmp9) %*% tcrossprod(vecx, y)/n
-      }else if(length(dim(x))==3) {
-        tmp9 <- kron(PGamma[[2]], PGamma[[1]])
-        Bhat_env <- tmp9 %*% tcrossprod(vecx, y)/n
-      }else if(length(dim(x))==2) {
-        Bhat_env <- PGamma[[1]] %*% tcrossprod(vecx, y)/n
-      }
-      Bhat <- array(Bhat_env, c(p, r))
     }
-  }
 
-  Bhat <- as.tensor(Bhat)
+    Bhat <- ttl(x, c(PGamma, list(y)), 1:(m+1))/n
+  }
   tp1 <- matrix(Bhat@data, nrow = c(prod(p)))
-  tp2 <- matrix(x_old@data, c(prod(p), n))
+  tp2 <- matrix(x_old@data, prod(p), n)
   fitted.values <- crossprod(tp1, tp2)
   residuals <- y_old - fitted.values
   output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma1, Sigma=Sigx, fitted.values = fitted.values, residuals=residuals)

@@ -5,14 +5,14 @@
 \alias{TPR}
 \title{Tensor predictor regression}
 \usage{
-TPR.fit(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init)
+TPR.fit(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init = NULL)
 }
 \arguments{
 \item{x}{The predictor tensor instance of dimension \eqn{p_1\times p_2\times\cdots\times p_m \times n}, where \eqn{n} is the sample size. Array with the same dimensions and matrix with dimension \eqn{p\times n} are acceptable. If \code{y} is missing, \code{x} should be a list or an environment consisting of predictor and response datasets.}
 
 \item{y}{The response matrix of dimension \eqn{r \times n}, where \eqn{n} is the sample size. Vector of length \eqn{n} is acceptable.}
 
-\item{u}{The dimension of envelope subspace. \eqn{u=(u_1,\cdots, u_m)}. Used for methods "FG", "1D", "ECD" and "PLS". User can use \code{\link{TensPLS_cv2d3d}} to select dimension.}
+\item{u}{The dimension of envelope subspace. \eqn{u=(u_1,\cdots, u_m)}. Used for methods "FG", "1D", "ECD" and "PLS". User can use \code{\link{TPRdim}} to select dimension.}
 
 \item{method}{The method used for estimation of tensor response regression. There are four possible choices.
 \itemize{
@@ -23,13 +23,13 @@ TPR.fit(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init)
   \item{\code{"PLS"}}: The SIMPLS-type estimation without manifold optimization.
 }}
 
-\item{Gamma_init}{A list specifying the initial envelope subspace basis for "FG" method. If missing, use the estimation from "1D" algorithm.}
+\item{Gamma_init}{A list specifying the initial envelope subspace basis for "FG" method. By default, the estimators given by "1D" algorithm is used.}
 }
 \value{
 \item{x}{The riginal predictor dataset.}
   \item{y}{The original response dataset.}
   \item{call}{The matched call.}
-  \item{method}{The method used.}
+  \item{method}{The implemented method.}
   \item{coefficients}{The estimation of regression coefficient tensor.}
   \item{Gamma}{The estimation of envelope subspace basis.}
   \item{Sigma}{A lists of estimated covariance matrices at each mode for the tensor predictors.}
@@ -40,10 +40,9 @@ TPR.fit(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init)
 This function is used for estimation of tensor predictor regression. The available method including standard OLS type estimation, PLS type of estimation as well as envelope estimation with FG, 1D and ECD approaches.
 }
 \details{
-Please refer to \strong{Details} of \code{\link{TPR_sim}} about the description of the tensor predictor regression model.
+Please refer to \strong{Details} part of \code{\link{TPRsim}} for the description of the tensor predictor regression model.
 }
 \examples{
-
 rm(list = ls())
 # The dimension of predictor
 p <- c(10, 10, 10)
@@ -54,8 +53,8 @@ r <- 5
 # The sample size
 n <- 200
 
-# Simulate the data with TPR_sim.
-dat <- TPR_sim(p = p, r = r, u = u, n = n)
+# Simulate the data with TPRsim.
+dat <- TPRsim(p = p, r = r, u = u, n = n)
 x <- dat$x
 y <- dat$y
 B <- dat$coefficients
@@ -80,13 +79,10 @@ e$y <- dat$y
 fit_std_e <- TPR.fit(e, method="standard")
 
 ## ----------- Use dataset "square" included in the package ------------- ##
-# Note: it is time-consuming
-\dontrun{
-  data("square")
-  x <- square$x
-  y <- square$y
-  fit_std <- TPR.fit(x, y, method="standard")
-}
+data("square")
+x <- square$x
+y <- square$y
+fit_std <- TPR.fit(x, y, method="standard")
 
 }
 \references{
@@ -101,9 +97,9 @@ Zhang, X., Li, L. (2017). Tensor Envelope Partial Least-Squares Regression. Tech
 
 The generic functions \code{\link{coef}, \link{residuals}, \link{fitted}}.
 
-\code{\link{TensPLS_cv2d3d}} for selecting the dimension of envelope by cross-validation.
+\code{\link{TPRdim}} for selecting the dimension of envelope by cross-validation.
 
-\code{\link{TPR_sim}} for generating the simulated data used in tensor prediction regression.
+\code{\link{TPRsim}} for generating the simulated data used in tensor prediction regression.
 
 The simulated data \code{\link{square}} used in tensor predictor regression.
 }

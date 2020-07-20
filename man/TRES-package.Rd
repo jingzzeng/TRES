@@ -6,7 +6,7 @@
 \alias{TRES}
 \title{Tensor Regression with Envelope Structure and Three Generic Envelope Estimation Approaches}
 \description{
-Provides three estimators for tensor response regression (TRR) and tensor predictor regression (TPR) models with tensor envelope structure. The three types of estimation approaches are generic and can be applied to any envelope estimation problems. The full Grassmannian (FG) optimization is often associated with likelihood-based estimation but requires heavy computation and good initialization; the one-directional optimization approaches (1D and ECD algorithms) are faster, stable and does not require carefully chosen initial values; the SIMPLS-type is motivated by the partial least squares regression and is computationally the least expensive.
+Provides the ordinary least squares estimator and the three types of tensor envelope structured estimators for tensor response regression (TRR) and tensor predictor regression (TPR) models. The three types of tensor envelope structured approaches are generic and can be applied to any envelope estimation problems. The full Grassmannian (FG) optimization is often associated with likelihood-based estimation but requires heavy computation and good initialization; the one-directional optimization approaches (1D and ECD algorithms) are faster, stable and does not require carefully chosen initial values; the SIMPLS-type is motivated by the partial least squares regression and is computationally the least expensive.
 }
 \examples{
 library(TRES)
@@ -25,6 +25,11 @@ coef(fit_1D)
 ## Print the summary
 summary(fit_1D)
 
+## Extract the mean squared error, p-value and standard error from summary
+summary(fit_1D)$mse
+summary(fit_1D)$p_val
+summary(fit_1D)$se
+
 ## Make the prediction on the original dataset
 predict(fit_1D, x)
 
@@ -39,7 +44,6 @@ Cook RD, Zhang X (2016). “Algorithms for Envelope Estimation.” Journal of Co
   Li L, Zhang X (2017). “Parsimonious Tensor Response Regression.” Journal of the American Statistical Association, 112(519), 1131–1146.
 
 Zhang X, Li L (2017). “Tensor Envelope Partial Least Squares Regression.” Technometrics, 59(4), 426–436.
-
 
 Cook RD, Zhang X (2018). “Fast Envelope Algorithms.” Statistica Sinica, 28(3), 1179–1197.
 }

@@ -17,35 +17,36 @@
 )
 }
 \arguments{
-\item{x}{An object of class \code{"Tenv"}, as from \code{TPR.fit} or \code{TRR.fit}.}
+\item{x}{An object of class \code{"Tenv"}, as the ones returend from \code{TPR.fit} or \code{TRR.fit}.}
 
-\item{level}{Significant level of p-value. Default is 0.05.}
+\item{level}{The significant level of p-value. Default is 0.05.}
 
-\item{main}{Title to coefficient plot.}
+\item{main}{The title of coefficient plot.}
 
-\item{main_p}{Title to \eqn{p}-value plot.}
+\item{main_p}{The title of \eqn{p}-value plot.}
 
-\item{xlab}{The title for the x axis.}
+\item{xlab}{The title of x-axis.}
 
-\item{ylab}{The title for the y axis.}
+\item{ylab}{The title of y-axis.}
 
-\item{axes}{Logical value. Specify whether the axes should be drawn.}
+\item{axes}{A logical value specifying whether the axes should be drawn.}
 
-\item{ask}{Logical. If TRUE (default), the user is prompted before the second plot (if exists).}
+\item{ask}{A logical value. If it is TRUE (default), the user is prompted before the second plot is shown (if exists).}
 
-\item{...}{Other parameters to be passed through to plotting functions.}
+\item{...}{Other parameters to be passed to the plotting functions.}
 }
 \description{
 Plot method for object returned from \code{TRR.fit} and \code{TPR.fit} functions.
 }
 \details{
-\code{coef(x)} must be a two-way tensor or a matrix. For the object return from \code{TPR.fit}, only the coefficients plot is displayed. For the object return from \code{TRR.fit}, both the coefficients plot and \eqn{p}-value plot are displayed.
+\code{coef(x)} must be a two-way tensor or a matrix.
 
 Since \eqn{p}-value depend on \eqn{\widehat{\mathrm{cov}}^{-1}\{\mathrm{vec}(\mathbf{X})\}} which is unavailable for the ultra-high dimensional \eqn{\mathrm{vec}(\mathbf{X})} in tensor predictor regression (TPR), the \eqn{p}-value plot is not provided for the object returned from \code{TPR.fit}.
+Therefore, for the object return from \code{TPR.fit}, only the coefficients plot is displayed. And for the object return from \code{TRR.fit}, both the coefficients plot and \eqn{p}-value plot are displayed.
 
-\code{main} and \code{main_p} control the titles of coefficient plot and \eqn{p}-value plot separately. Some other arguments used in function \link{graphics::image}, e.g., \code{xlim, ylim, zlim, col, xaxs, yaxs, etc.,} can be passed to \code{...}
+\code{main} and \code{main_p} control the titles of coefficient plot and \eqn{p}-value plot separately. Some other arguments used in function \code{graphics::image}, e.g., \code{xlim, ylim, zlim, col, xaxs, yaxs, etc.,} can be passed to \code{...}
 
-The \code{ask} can be set as \code{FALSE} if the pause before the second plot is not preferred. If \code{x} is an object from \code{TPR.fit}, no pause is enabled.
+\code{ask} can be set as \code{FALSE} if the pause before the second plot is not preferred. If \code{x} is an object from \code{TPR.fit}, no pause is enabled.
 }
 \examples{
  data("bat")
@@ -58,5 +59,5 @@ The \code{ask} can be set as \code{FALSE} if the pause before the second plot is
  plot(fit, level = 0.1)
 }
 \seealso{
-\code{\link{TRR.fit}, \link{TPR.fit}, \link{graphics::image}}
+\code{\link{TRR.fit}, \link{TPR.fit}}
 }

@@ -1,10 +1,10 @@
 #' Predict method for Tenv object.
 #'
-#' Predict response for object returned from \code{\link{TRR.fit}} and \code{\link{TPR.fit}} functions.
+#' Predict response for the object returned from \code{\link{TRR.fit}} and \code{\link{TPR.fit}} functions.
 #'
-#' @param object An object of class \code{"Tenv"}, as from \code{\link{TPR.fit}} or \code{\link{TRR.fit}}.
-#' @param newdata The data to be used for prediction. It can be vector, matrix or tensor for the fit returned from\code{\link{TRR.fit}}, and can be matrix or tensor for the fit returned from \code{\link{TPR.fit}}.
-#' @param ... Arguments passed to or from other methods.
+#' @param object An object of class \code{"Tenv"}, as the ones returned from \code{\link{TPR.fit}} or \code{\link{TRR.fit}}.
+#' @param newdata The data to be used for prediction. It can be a vector, a matrix or a tensor if \code{object} is returned from\code{\link{TRR.fit}}, and can be a matrix or a tensor if \code{object} is returned from \code{\link{TPR.fit}}.
+#' @param ... Additional arguments. No available arguments exist in this version.
 #' @return
 #' Return the predicted response.
 #' @note If \code{newdata} is missing, the fitted response from \code{object} is returned.

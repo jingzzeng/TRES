@@ -2,14 +2,16 @@
 #'
 #' This function is used for estimation of tensor response regression. The available method including standard OLS type estimation, PLS type of estimation as well as envelope estimation with FG, 1D and ECD approaches.
 #'
-#' Please refer to \strong{Details} of \code{\link{TRR_sim}} about the description of the tensor response regression model.
+#' Please refer to \strong{Details} part of \code{\link{TRRsim}} for the description of the tensor response regression model.
+#'
+#' When samples are insufficient, it is possbile that the estimation of error covariance matrix \code{Sigma} is not available. However, if using ordinary least square method (\code{method = "standard"}), as long as sample covariance matrix of predictor \code{x} is nonsingular, \code{coefficients}, \code{fitted.values}, \code{residuals} are still returned.
 #'
 #' @aliases TRR
-#' @usage TRR.fit(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init)
+#' @usage TRR.fit(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init = NULL)
 #'
 #' @param x The predictor matrix of dimension \eqn{p \times n}. Vector of length \eqn{n} is acceptable. If \code{y} is missing, \code{x} should be a list or an environment consisting of predictor and response datasets.
 #' @param y The response tensor instance with dimension \eqn{r_1\times r_2\times\cdots\times r_m \times n}, where \eqn{n} is the sample size. Array with the same dimensions and matrix with dimension \eqn{r\times n} are acceptable.
-#' @param u The dimension of envelope subspace. \eqn{u=(u_1,\cdots, u_m)}. Used for methods "FG", "1D", "ECD" and "PLS". User can use \code{\link{TensEnv_dim}} to select dimension.
+#' @param u The dimension of envelope subspace. \eqn{u=(u_1,\cdots, u_m)}. Used for methods "FG", "1D", "ECD" and "PLS". User can use \code{\link{TRRdim}} to select dimension.
 #' @param method The method used for estimation of tensor response regression. There are four possible choices.
 #' \itemize{
 #'   \item{\code{"standard"}}: The standard OLS type estimation.
@@ -18,13 +20,13 @@
 #'   \item{\code{"ECD"}}: Envelope estimation with one dimensional optimization approaches by ECD algorithm.
 #'   \item{\code{"PLS"}}: The SIMPLS-type estimation without manifold optimization.
 #' }
-#' @param Gamma_init A list specifying the initial envelope subspace basis for "FG" method. If unspecified, use the estimation from "1D" algorithm.
+#' @param Gamma_init A list specifying the initial envelope subspace basis for "FG" method. By default, the estimators given by "1D" algorithm is used.
 #'
 #' @return
 #'  \item{x}{The original predictor dataset.}
 #'  \item{y}{The original response dataset.}
 #'  \item{call}{The matched call.}
-#'  \item{method}{The method used.}
+#'  \item{method}{The implemented method.}
 #'  \item{coefficients}{The estimation of regression coefficient tensor.}
 #'  \item{Gamma}{The estimation of envelope subspace basis.}
 #'  \item{Sigma}{A lists of estimated covariance matrices at each mode for the error term.}
@@ -32,7 +34,6 @@
 #'  \item{residuals}{The residuals tensor.}
 #'
 #' @examples
-#'
 #' rm(list=ls())
 #'
 #' # The dimension of response
@@ -44,8 +45,8 @@
 #' # The sample size
 #' n <- 100
 #'
-#' # Simulate the data with TRR_sim.
-#' dat <- TRR_sim(r = r, p = p, u = u, n = n)
+#' # Simulate the data with TRRsim.
+#' dat <- TRRsim(r = r, p = p, u = u, n = n)
 #' x <- dat$x
 #' y <- dat$y
 #' B <- dat$coefficients
@@ -61,6 +62,11 @@
 #' rTensor::fnorm(B-stats::coef(fit_1D))
 #' rTensor::fnorm(B-stats::coef(fit_pls))
 #' rTensor::fnorm(B-stats::coef(fit_ECD))
+#'
+#' # Extract the mean squared error, p-value and standard error from summary
+#' summary(fit_std)$mse
+#' summary(fit_std)$p_val
+#' summary(fit_std)$se
 #'
 #' ## ----------- Pass a list or an environment to x also works ------------- ##
 #' # Pass a list to x
@@ -87,9 +93,9 @@
 #'
 #' The generic functions \code{\link{coef}, \link{residuals}, \link{fitted}}.
 #'
-#' \code{\link{TensEnv_dim}} for selecting the dimension of envelope by information criteria.
+#' \code{\link{TRRdim}} for selecting the dimension of envelope by information criteria.
 #'
-#' \code{\link{TRR_sim}} for generating the simulated data used in tensor response regression.
+#' \code{\link{TRRsim}} for generating the simulated data used in tensor response regression.
 #'
 #' The simulated data \code{\link{bat}} used in tensor response regression.
 #'
@@ -99,7 +105,7 @@
 #' @importFrom pracma sqrtm
 
 # This function gives all the estimation of tensor response regression
-TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init) {
+TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init = NULL) {
   cl <- match.call()
   method <- match.arg(method)
   if(missing(y)){
@@ -153,61 +159,63 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
   tmp1 <- lapply(1:n, function(x) muy)
   tmp1 <- array(unlist(tmp1), c(r, n))
   tmp2 <- y@data-tmp1
-
   y <- rTensor::as.tensor(tmp2)
   x_inv <- chol2inv(chol(tcrossprod(x))) %*% x
   Btil <- rTensor::ttm(y, x_inv, m+1)
   En <- y - rTensor::ttm(Btil, t(x), m+1)
-  res <- kroncov(En)
-  lambda <- res$lambda
-  Sig <- res$S
 
-  if(method == "standard") {
-    Bhat = Btil
-    Gamma1 = NULL
-  }else {
-    if(missing(u)){stop("A user-defined u is required.")}
-    Sinvhalf <- NULL
-    for (i in 1:m) {
-      Sinvhalf[[i]] <- sqrtm(Sig[[i]])$Binv
+  res <- try(kroncov(En))
+  if(inherits(res, "try-error")){
+    if(method == "standard") {
+      message("Warning: The estimation of error covariance is unavailable, which may due to insufficient samples. The coefficient, fitted values and residuals are returned.")
+      Bhat <- Btil
+      Gamma1 <- NULL
+      Sig <- NULL
+    }else{
+      stop("Error: The estimation of error covariance is unavailable, which may due to insufficient samples.")
     }
-    Gamma1 <- PGamma <- NULL
-    for (i in 1:m) {
-      M <- lambda*Sig[[i]]
-      idx <-  c(1:(m+1))[-i]
-      len <- length(idx)
-      if (len > 1) {
-        Ysn <- rTensor::ttl(y, Sinvhalf[c(idx[1:(len-1)])], ms=idx[1:(len-1)])
-      }else {
-        Ysn <- rTensor::ttl(y, Sinvhalf, ms=1)
+  }else{
+    lambda <- res$lambda
+    Sig <- res$S
+    if(method == "standard") {
+      Bhat <- Btil
+      Gamma1 <- NULL
+    }else{
+      if(missing(u)){stop("A user-defined u is required.")}
+      Sinvhalf <- vector("list", m)
+      for (i in 1:m) {
+        Sinvhalf[[i]] <- sqrtm(Sig[[i]])$Binv
       }
-
-      idxprod <- (r[i]/n)/prodr
-      YsnYsn <- ttt(Ysn, Ysn, ms=idx)@data*idxprod
-      U <- YsnYsn - M
-
-      if (method == "1D") {
-        Gamma1[[i]] <- OptimballGBB1D(M, U, u[i], opts=NULL)
-      }else if(method == "ECD") {
-        Gamma1[[i]] <- ECD(M, U, u[i])
-      }else if(method == "PLS") {
-        Gamma1[[i]] <- EnvMU(M, U, u[i])
-      }else if(method == "FG"){
-        if(missing(Gamma_init)){
-          init <-  OptimballGBB1D(M, U, u[i], opts=NULL)
-        }else{
-          init <- Gamma_init[[i]]
+      Gamma1 <- PGamma <- vector("list", m)
+      for (i in 1:m) {
+        #one-step estimator
+        M <- lambda*Sig[[i]]
+        idx <-  c(1:(m+1))[-i]
+        len <- length(idx)
+        if (len > 1) {
+          Ysn <- rTensor::ttl(y, Sinvhalf[c(idx[1:(len-1)])], ms=idx[1:(len-1)])
+        }else {
+          Ysn <- rTensor::ttl(y, Sinvhalf, ms=1)
         }
-        Gamma1[[i]] <- OptStiefelGBB(init, opts=NULL, FGfun, M, U)$Gamma
+        idxprod <- (r[i]/n)/prodr
+        YsnYsn <- ttt(Ysn, Ysn, ms=idx)@data*idxprod
+        U <- YsnYsn - M
+        if (method == "1D"){
+          Gamma1[[i]] <- OptM1D(M, U, u[i])
+        }else if(method == "ECD"){
+          Gamma1[[i]] <- ECD(M, U, u[i])
+        }else if(method == "PLS"){
+          Gamma1[[i]] <- simplsMU(M, U, u[i])
+        }else if(method == "FG"){
+          Gamma1[[i]] <- OptMFG(M, U, u[i])
+        }
+        PGamma[[i]] <- tcrossprod(Gamma1[[i]])
       }
-      PGamma[[i]] <- tcrossprod(Gamma1[[i]])
+      tp <- rTensor::ttl(y, PGamma, ms=1:m)
+      Bhat <- rTensor::ttm(tp, x_inv, m+1)
     }
-    tp <- rTensor::ttl(y, PGamma, ms=1:m)
-    Bhat <- rTensor::ttm(tp, x_inv, m+1)
-
   }
-  m <- Bhat@num_modes
-  fitted.values <- rTensor::ttm(Bhat, t(x_old), m)
+  fitted.values <- rTensor::ttm(Bhat, t(x_old), m+1)
   residuals <- y_old - fitted.values
   output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma1, Sigma=Sig, fitted.values = fitted.values, residuals = residuals)
   class(output) <- "Tenv"

@@ -25,9 +25,10 @@
 #' @keywords datasets
 #' @examples
 #' data("EEG")
-#' x <- EEG$x; y <- EEG$y
+#' x <- EEG$x
+#' y <- EEG$y
 #' ## Estimate the envelope dimension, the output should be c(1,1).
-#' \dontrun{u <- TensEnv_dim(x, y)}
+#' \dontrun{u <- TRRdim(x, y)$u}
 #' u <- c(1,1)
 #'
 #' ## Fit the dataset with TRR.fit

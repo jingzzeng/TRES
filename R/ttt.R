@@ -1,6 +1,22 @@
+#' Matrix product of two tensors
+#'
+#' Matrix product of two tensors unfolded on the specified modes.
+#'
+#' @param x A tensor instance.
+#' @param y A tensor instance.
+#' @param ms The indices of the modes to compute on. A single value or a vector.
+#'
+#' @return Return the matrix product of tensors \code{x} and \code{y}.
+#'
+#' @details Suppose \code{x} is a \eqn{s}-way tensor with dimension \eqn{p_1 \times \ldots \times p_s} and \code{y} is a t-way tensor with dimension \eqn{r_1 \times \ldots \times r_t}. \code{ms} specifies the indices on which the tensors \code{x} and \code{y} are unfolded as columns. Thus, \code{ms} must be a subset of \code{1:min{s,t}}. Meanwhile, the sizes of the dimensions specified by \code{ms} must match, e.g., if \code{ms = 1:k} where \code{k <= min{s,t}}, then \eqn{p_1\times \ldots p_k = s_1\times \ldots s_k}. Let \eqn{X_0} and \eqn{Y_0}  denote the unfolded matrices, the matrix \eqn{X_0 \times Y_0^T} is returned. See \strong{Examples} for a better illustration.
+#'
+#' @examples
+#' X <- rTensor::as.tensor(array(runif(24), c(3, 4, 2)))
+#' Y <- rTensor::as.tensor(array(runif(24), c(3, 4, 2)))
+#' Z <- ttt(X, Y, 1:2)
+#'
 #' @import rTensor
 #' @export
-
 
 ttt <- function(X, Y, ms) {
    s1 <- dim(X)

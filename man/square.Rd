@@ -4,27 +4,36 @@
 \name{square}
 \alias{square}
 \title{Square simulated data}
-\format{A list consisting of two components:
+\format{A list consisting of four components:
 \describe{
  \item{x}{A \eqn{32 \times 32 \times 200} tensor, each matrix \code{x@data[,,i]} represents a predictor observation.}
  \item{y}{A \eqn{1 \times 200} matrix, each entry represents a response observation.}
+ \item{coefficients}{A \eqn{32\times 32 \times 1} tensor with a square pattern.}
+ \item{Gamma}{A list consisting of two \eqn{32 \times 2} envelope basis.}
 }}
 \usage{
 data("square")
 }
 \description{
-Simulated data under tensor predictor regression (TPR) model. Each response observation is univariate, and each predictor observation is a matrix.
+Synthetic data generated from tensor predictor regression (TPR) model. Each response observation is univariate, and each predictor observation is a matrix.
 }
 \details{
 The dataset is generated from the tensor predictor regression (TPR) model:
-\deqn{Y_i = \langle\mathbf{B}, \mathbf{X}_i\rangle + \epsilon_i, \quad i = 1,\ldots, n,}
-where \eqn{n=200} and the regression coefficient \eqn{\mathbf{B} \in R^{32\times 32}} is a given image with rank 2, which has a square pattern. All the elements of the coefficient matrix \eqn{\mathbf{B}} are either 0.1 or 1. To make the model conform to the envelope structure, we construct the envelope basis \eqn{\boldsymbol{\Gamma}_k} and the covariance matrices \eqn{\boldsymbol{\Sigma}_k, k=1,2}, of predictor \eqn{\mathbf{X}} as following. With the singular value decomposition of \eqn{\mathbf{B}}, namely \eqn{\mathbf{B} = \boldsymbol{\Gamma}_1 \boldsymbol{\Lambda} \boldsymbol{\Gamma}_2^{\top}}, we choose the envelope basis as \eqn{\boldsymbol{\Gamma}_k \in R^{32 \times 2}, k=1,2}. Then the envelope dimensions are \eqn{u_1 =  u_2 = 2}. We set matrices \eqn{\boldsymbol{\Omega}_k = \mathbf{I}_2}  and  \eqn{\boldsymbol{\Omega}_{0k} = 0.01\mathbf{I}_{30}}, \eqn{k=1,2}. Then we generate the covariance matrices \eqn{\boldsymbol{\Sigma}_k = \boldsymbol{\Gamma}_k\boldsymbol{\Omega}_k\boldsymbol{\Gamma}_k^{\top} + \boldsymbol{\Gamma}_{0k}\boldsymbol{\Omega}_{0k}\boldsymbol{\Gamma}_{0k}^{\top}}, followed by normalization with their Frobenius norms. The predictor \eqn{\mathbf{X}_i} is then generated from two-way tensor (matrix) normal distribution \eqn{TN(\mathbf{0}; \boldsymbol{\Sigma}_1, \boldsymbol{\Sigma}_2)}. And the error term \eqn{\epsilon_i} is generated from standard normal distribution.
+\deqn{Y_i = B_{(m+1)}vec(X_i) + \epsilon_i, \quad i = 1,\ldots, n,}
+where \eqn{n=200} and the regression coefficient \eqn{B \in R^{32\times 32}} is a given image with rank 2, which has a square pattern. All the elements of the coefficient matrix \eqn{B} are either 0.1 or 1. To make the model conform to the envelope structure, we construct the envelope basis \eqn{\Gamma_k} and the covariance matrices \eqn{\Sigma_k, k=1,2}, of predictor \eqn{X} as following. With the singular value decomposition of \eqn{B}, namely \eqn{B = \Gamma_1 \Lambda \Gamma_2^T}, we choose the envelope basis as \eqn{\Gamma_k \in R^{32 \times 2}, k=1,2}. Then the envelope dimensions are \eqn{u_1 =  u_2 = 2}. We set matrices \eqn{\Omega_k = I_2}  and  \eqn{\Omega_{0k} = 0.01 I_{30}}, \eqn{k=1,2}. Then we generate the covariance matrices \eqn{\Sigma_k = \Gamma_k \Omega_k \Gamma_k^T + \Gamma_{0k}\Omega_{0k}\Gamma_{0k}^T}, followed by normalization with their Frobenius norms. The predictor \eqn{X_i} is then generated from two-way tensor (matrix) normal distribution \eqn{TN(0; \Sigma_1, \Sigma_2)}. And the error term \eqn{\epsilon_i} is generated from standard normal distribution.
 }
 \examples{
+## Fit square dataset with the tensor predictor regression model
 data("square")
-## Coefficients
-coeff <- square$coefficients
-image(-coeff@data[, , 1], axes=TRUE, col = grey(seq(0, 1, length = 256)))
-title('Coefficient matrix')
+x <- square$x
+y <- square$y
+# Model fitting with ordinary least square.
+fit_std <- TPR.fit(x, y, method="standard")
+# Draw the coefficient plot.
+plot(fit_std)
+
+}
+\references{
+Zhang, X., Li, L. (2017). Tensor Envelope Partial Least-Squares Regression. Technometrics, 59(4), 426-436.
 }
 \keyword{datasets}
