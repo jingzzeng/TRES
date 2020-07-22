@@ -13,7 +13,7 @@ License: GPL-3
 Encoding: UTF-8
 Language: en-US
 LazyData: true
-Depends: R (>= 3.6.3), ManifoldOptim (>= 1.0.0)
+Depends: R (>= 3.6.0), ManifoldOptim (>= 1.0.0)
 Imports: MASS, methods, pracma (>= 2.2.5), rTensor (>= 1.4), stats
 URL: https://github.com/jerryfsu3333/TRES
 BugReports: https://github.com/jerryfsu3333/TRES/issues

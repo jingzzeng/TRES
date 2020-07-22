@@ -36,7 +36,7 @@
 #' fit_1D <- TRR.fit(x, y, u, method = "1D")
 #' plot(fit_1D, xlab = "Time", ylab = "Channels")
 #'
-#' ## Uncomment to display the plots from different methods.
+#' ## Uncomment display the plots from different methods.
 #' # fit_ols <- TRR.fit(x, y, method = "standard")
 #' # fit_pls <- TRR.fit(x, y, u, method = "PLS")
 #' # plot(fit_ols, xlab = "Time", ylab = "Channels")

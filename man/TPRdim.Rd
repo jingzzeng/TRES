@@ -45,14 +45,15 @@ x <- dat$x
 y <- dat$y
 TPRdim(x, y, maxdim = 5)
 
-## Use dataset square.
+## Use dataset square. (time-consuming)
+\dontrun{
 data("square")
 x <- square$x
 y <- square$y
 # check the dimension of x
 dim(x)
 # use 32 as the maximal envelope dimension
-TPRdim(x, y, maxdim=32)
+TPRdim(x, y, maxdim=32)}
 
 }
 \references{

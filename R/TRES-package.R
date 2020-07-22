@@ -23,27 +23,33 @@
 #' x <- bat$x
 #' y <- bat$y
 #'
-#' ## Fitting with OLS and 1D envelope method.
+#' ## 1. Fitting with OLS method.
 #' fit_ols <- TRR.fit(x, y, method="standard")
-#' fit_1D <- TRR.fit(x, y, u = c(14,14), method="1D") # pass envelope rank (14,14)
 #'
 #' ## Print cofficient
-#' coef(fit_1D)
+#' coef(fit_ols)
 #'
 #' ## Print the summary
-#' summary(fit_1D)
+#' summary(fit_ols)
 #'
 #' ## Extract the mean squared error, p-value and standard error from summary
-#' summary(fit_1D)$mse
-#' summary(fit_1D)$p_val
-#' summary(fit_1D)$se
+#' summary(fit_ols)$mse
+#' summary(fit_ols)$p_val
+#' summary(fit_ols)$se
 #'
 #' ## Make the prediction on the original dataset
-#' predict(fit_1D, x)
+#' predict(fit_ols, x)
 #'
 #' ## Draw the plots of two-way coefficient tensor (i.e., matrix) and p-value tensor.
 #' plot(fit_ols)
-#' plot(fit_1D)
+#'
+#' ## 2. Fitting with 1D envelope algorithm. (time-consuming)
+#' \dontrun{
+#' fit_1D <- TRR.fit(x, y, u = c(14,14), method="1D") # pass envelope rank (14,14)
+#' coef(fit_1D)
+#' summary(fit_1D)
+#' predict(fit_1D, x)
+#' plot(fit_1D)}
 #'
 #' @seealso Useful links:
 #' \itemize{
