@@ -33,7 +33,6 @@ TensPLS_fit <- function(x, y, SigX, u) {
   p <- ss[1:(len-1)]
   m <- length(p)
 
-
   ##center the data
   muy <- as.matrix(apply(y, 1, mean))
   y <- y - muy[, rep(1, n)]
@@ -42,28 +41,26 @@ TensPLS_fit <- function(x, y, SigX, u) {
   ttmp <- array(unlist(ttmp), c(p, n))
   ttmp2 <- x@data - ttmp
 
-  x <- rTensor::as.tensor(ttmp2)
-
-
+  x <- as.tensor(ttmp2)
   SigY <- (n-1)*cov(t(y))/n
 
   Sinvhalf <- NULL
   for (i in 1:m) {
-    Sinvhalf[[i]] <- pracma::sqrtm(SigX[[i]])$Binv
+    Sinvhalf[[i]] <- sqrtm(SigX[[i]])$Binv
   }
 
-  Sinvhalf[[m+1]] <- pracma::sqrtm(SigY)$Binv
+  Sinvhalf[[m+1]] <- sqrtm(SigY)$Binv
 
-  C <- rTensor::ttm(x, y, m+1)/n
+  C <- ttm(x, y, m+1)/n
 
   Gamma <- PGamma <- NULL
   for (i in 1:m) {
     M <- SigX[[i]]
     idx <- c(1:(m+1))[-i]
 
-    Ck <- rTensor::ttl(C, Sinvhalf[idx], ms = idx)
+    Ck <- ttl(C, Sinvhalf[idx], ms = idx)
 
-    U <- rTensor::unfold(Ck, row_idx = i, col_idx = idx)@data
+    U <- unfold(Ck, row_idx = i, col_idx = idx)@data
     Uk <- tcrossprod(U)
 
     Gamma[[i]] <- simplsMU(M, Uk, u[i])

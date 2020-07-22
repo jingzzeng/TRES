@@ -1,5 +1,5 @@
 ## Test environments
-* local OS X install, R 3.6.1
+* macOS 10.13.6 High Sierra (on R-hub), R-release, CRAN's setup
 * Ubuntu 16.04.6 LTS (on travis-ci), R 3.6.2
 * win-builder (devel, release and oldrelease)
 

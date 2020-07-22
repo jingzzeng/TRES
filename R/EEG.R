@@ -28,13 +28,12 @@
 #' x <- EEG$x
 #' y <- EEG$y
 #' ## Estimate the envelope dimension, the output should be c(1,1).
-#' \dontrun{u <- TRRdim(x, y)$u}
+#' \dontrun{
+#' u <- TRRdim(x, y)$u}
 #' u <- c(1,1)
 #'
-#' ## Fit the dataset with TRR.fit
+#' ## Fit the dataset with TRR.fit and draw the coefficient plot and p-value plot
 #' fit_1D <- TRR.fit(x, y, u, method = "1D")
-#'
-#' ## The coefficient plot and p-value plot
 #' plot(fit_1D, xlab = "Time", ylab = "Channels")
 #'
 #' ## Uncomment to display the plots from different methods.

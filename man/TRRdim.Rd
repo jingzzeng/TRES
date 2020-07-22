@@ -11,7 +11,7 @@ TRRdim(x, y, C = NULL, maxdim = 10, ...)
 
 \item{y}{The response tensor instance with dimension \eqn{r_1\times r_2\times\cdots\times r_m \times n}, where \eqn{n} is the sample size. Array with the same dimensions and matrix with dimension \eqn{r\times n} are acceptable.}
 
-\item{C}{The parameter passed to \code{\link{ondDbic}}. Default is \code{nrow(x) = p}.}
+\item{C}{The parameter passed to \code{\link{oneD_bic}}. Default is \code{nrow(x) = p}.}
 
 \item{maxdim}{The maximum envelope dimension to be considered. Default is 10.}
 

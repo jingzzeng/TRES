@@ -11,10 +11,10 @@
 #' x <- bat$x
 #' y <- bat$y
 #' fit <- TRR.fit(x, y, method="standard")
-#' stderr(fit)
+#' std_err(fit)
 #' @export
 #'
-stderr <- function(object){
+std_err <- function(object){
   cl <- object$call
   if(cl[1] == "TPR.fit()"){stop("there is no standard error for the object returned from TPR.fit().")}
   if(cl[1] == "TRR.fit()"){

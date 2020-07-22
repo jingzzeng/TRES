@@ -6,40 +6,6 @@ options(digits = 3)
 library(TRES)
 ## ----------------------------- Section 3.1 ----------------------------- ##
 
-######### REMOVE
-# set.seed(1)
-# data("bat")
-# str(bat)
-# # FG and weighted-FG
-# fit_fg <- TRR.fit(bat$x, bat$y, u = c(14,14), method = 'FG')
-# fit_wtfg <- TRR.fit(bat$x, bat$y, u = c(14,14), method = 'wtFG')
-#
-# # 1D and weighted-1D
-# fit_wt1D <- TRR.fit(bat$x, bat$y, u = c(14,14), method = 'wt1D')
-# fit_1D <- TRR.fit(bat$x, bat$y, u = c(14,14), method = '1D')
-#
-# # plots
-# plot(fit_fg)
-# plot(fit_wtfg)
-# plot(fit_1D)
-# plot(fit_wt1D)
-#
-# # estimation error for coefficients
-# dist_fg <- rTensor::fnorm(coef(fit_fg) - bat$coefficient)
-# dist_wtfg <- rTensor::fnorm(coef(fit_wtfg) - bat$coefficient)
-# dist_1D <- rTensor::fnorm(coef(fit_1D) - bat$coefficient)
-# dist_wt1D <- rTensor::fnorm(coef(fit_wt1D) - bat$coefficient)
-#
-# set.seed(1)
-# data("square")
-# str(square)
-
-# Fitting the TPR model with different methods
-# fit_ols2 <- TPR.fit(square$x, square$y, method = "standard")
-# fit_fg2 <- TPR.fit(square$x, square$y, u = c(2, 2), method = "FG")
-# fit_1d2 <- TPR.fit(square$x, square$y, u = c(2, 2), method = "1D")
-############
-
 # The TRR model: estimation, coefficient plots, coefficients distance and subspace distance
 set.seed(1)
 
@@ -48,11 +14,11 @@ data("bat")
 str(bat)
 
 # Fitting the TRR model with different methods
-fit_ols1 <- TRR.fit(bat$x, bat$y, method = 'standard')
-fit_fg1 <- TRR.fit(bat$x, bat$y, u = c(14,14), method = 'FG')
-fit_1d1 <- TRR.fit(bat$x, bat$y, u = c(14,14), method = '1D')
-fit_ecd1 <- TRR.fit(bat$x, bat$y, u = c(14,14), method = 'ECD')
-fit_pls1 <- TRR.fit(bat$x, bat$y, u = c(14,14), method = 'PLS')
+fit_ols1 <- TRR.fit(bat$x, bat$y, method = "standard")
+fit_fg1 <- TRR.fit(bat$x, bat$y, u = c(14,14), method = "FG")
+fit_1d1 <- TRR.fit(bat$x, bat$y, u = c(14,14), method = "1D")
+fit_ecd1 <- TRR.fit(bat$x, bat$y, u = c(14,14), method = "ECD")
+fit_pls1 <- TRR.fit(bat$x, bat$y, u = c(14,14), method = "PLS")
 
 fit_1d1
 coef(fit_1d1)
@@ -197,8 +163,9 @@ plot(fit_ecd1, cex.main = 2, cex.axis= 2, level = 0.05)
 plot(fit_pls1, cex.main = 2, cex.axis= 2, level = 0.05)
 
 ## ----------------------------- Section 3.5 ----------------------------- ##
-
 set.seed(1)
+library(ggplot2)
+
 data("EEG")
 str(EEG)
 u_eeg <- TRRdim(EEG$x, EEG$y)
@@ -211,6 +178,44 @@ fit_eeg_pls <- TRR.fit(EEG$x, EEG$y, u_eeg$u, method = "PLS")
 plot(fit_eeg_ols, xlab = "Time", ylab = "Channels", cex.main = 2, cex.axis= 2, cex.lab=1.5)
 plot(fit_eeg_1D, xlab = "Time", ylab = "Channels", cex.main = 2, cex.axis= 2, cex.lab = 1.5)
 plot(fit_eeg_pls, xlab = "Time", ylab = "Channels", cex.main = 2, cex.axis= 2, cex.lab = 1.5)
+
+# The material part of y
+Gamma <- lapply(fit_eeg_1D$Gamma, t)
+material <- ttl(EEG$y, Gamma, 1:2)
+material <- drop(material@data)
+material <- material/sd(material)
+data_m <- data.frame(data = material, class = as.factor(EEG$x))
+ggplot(data_m, aes(x = data))+
+  geom_density(aes(linetype = class))+
+  labs(title = "Material information in response")+
+  # scale_linetype_discrete(name = "Predictor x")+
+  theme_bw()+
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 16),
+        title = element_text(size = 18),
+        legend.position = "none",
+        axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 14))
+
+# The immaterial part of y.
+Gamma0 <- lapply(fit_eeg_1D$Gamma, function(x){
+  t(qr.Q(qr(x),complete=TRUE)[, sample(2:64, size = 1), drop = FALSE])
+})
+immaterial <- ttl(EEG$y, Gamma0, 1:2)
+immaterial <- drop(immaterial@data)
+immaterial <- immaterial/sd(immaterial)
+data_im <- data.frame(data = immaterial, class = as.factor(EEG$x))
+ggplot(data_im, aes(x = data))+
+  geom_density(aes(linetype = class))+
+  labs(title = "Immaterial information in response") +
+  # scale_linetype_discrete(name = "Predictor x")+
+  theme_bw()+
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 16),
+        title = element_text(size = 18),
+        legend.position = "none",
+        axis.text.x = element_text(size = 14),
+        axis.text.y = element_text(size = 14))
 
 ## ----------------------------- Section 4.3, Table 3 ----------------------------- ##
 

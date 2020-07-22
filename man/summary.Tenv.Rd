@@ -54,5 +54,7 @@ summary(fit)
 summary(fit)$p_val
 summary(fit)$se
 
+}
+\seealso{
 Fitting functions \code{\link{TRR.fit}}, \code{\link{TPR.fit}}.
 }

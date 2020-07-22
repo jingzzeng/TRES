@@ -46,7 +46,8 @@ x <- dat$x
 y <- dat$y
 TPRdim(x, y, maxdim = 5)
 
-## Use dataset square
+## Use dataset square.
+set.seed(1)
 data("square")
 x <- square$x
 y <- square$y

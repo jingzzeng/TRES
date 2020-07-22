@@ -4,7 +4,7 @@
 #'
 #' Please refer to \strong{Details} part of \code{\link{TRRsim}} for the description of the tensor response regression model.
 #'
-#' When samples are insufficient, it is possbile that the estimation of error covariance matrix \code{Sigma} is not available. However, if using ordinary least square method (\code{method = "standard"}), as long as sample covariance matrix of predictor \code{x} is nonsingular, \code{coefficients}, \code{fitted.values}, \code{residuals} are still returned.
+#' When samples are insufficient, it is possible that the estimation of error covariance matrix \code{Sigma} is not available. However, if using ordinary least square method (\code{method = "standard"}), as long as sample covariance matrix of predictor \code{x} is nonsingular, \code{coefficients}, \code{fitted.values}, \code{residuals} are still returned.
 #'
 #' @aliases TRR
 #' @usage TRR.fit(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init = NULL)
@@ -159,6 +159,8 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
   tmp1 <- lapply(1:n, function(x) muy)
   tmp1 <- array(unlist(tmp1), c(r, n))
   tmp2 <- y@data-tmp1
+  ###
+
   y <- rTensor::as.tensor(tmp2)
   x_inv <- chol2inv(chol(tcrossprod(x))) %*% x
   Btil <- rTensor::ttm(y, x_inv, m+1)
@@ -169,7 +171,7 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
     if(method == "standard") {
       message("Warning: The estimation of error covariance is unavailable, which may due to insufficient samples. The coefficient, fitted values and residuals are returned.")
       Bhat <- Btil
-      Gamma1 <- NULL
+      Gamma <- NULL
       Sig <- NULL
     }else{
       stop("Error: The estimation of error covariance is unavailable, which may due to insufficient samples.")
@@ -179,14 +181,14 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
     Sig <- res$S
     if(method == "standard") {
       Bhat <- Btil
-      Gamma1 <- NULL
+      Gamma <- NULL
     }else{
       if(missing(u)){stop("A user-defined u is required.")}
       Sinvhalf <- vector("list", m)
       for (i in 1:m) {
         Sinvhalf[[i]] <- sqrtm(Sig[[i]])$Binv
       }
-      Gamma1 <- PGamma <- vector("list", m)
+      Gamma <- PGamma <- vector("list", m)
       for (i in 1:m) {
         #one-step estimator
         M <- lambda*Sig[[i]]
@@ -201,15 +203,15 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
         YsnYsn <- ttt(Ysn, Ysn, ms=idx)@data*idxprod
         U <- YsnYsn - M
         if (method == "1D"){
-          Gamma1[[i]] <- OptM1D(M, U, u[i])
+          Gamma[[i]] <- OptM1D(M, U, u[i])
         }else if(method == "ECD"){
-          Gamma1[[i]] <- ECD(M, U, u[i])
+          Gamma[[i]] <- ECD(M, U, u[i])
         }else if(method == "PLS"){
-          Gamma1[[i]] <- simplsMU(M, U, u[i])
+          Gamma[[i]] <- simplsMU(M, U, u[i])
         }else if(method == "FG"){
-          Gamma1[[i]] <- OptMFG(M, U, u[i])
+          Gamma[[i]] <- OptMFG(M, U, u[i])
         }
-        PGamma[[i]] <- tcrossprod(Gamma1[[i]])
+        PGamma[[i]] <- tcrossprod(Gamma[[i]])
       }
       tp <- rTensor::ttl(y, PGamma, ms=1:m)
       Bhat <- rTensor::ttm(tp, x_inv, m+1)
@@ -217,7 +219,7 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
   }
   fitted.values <- rTensor::ttm(Bhat, t(x_old), m+1)
   residuals <- y_old - fitted.values
-  output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma1, Sigma=Sig, fitted.values = fitted.values, residuals = residuals)
+  output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma, Sigma=Sig, fitted.values = fitted.values, residuals = residuals)
   class(output) <- "Tenv"
   output
 }

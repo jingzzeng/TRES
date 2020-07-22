@@ -1,10 +1,10 @@
 #' Envelope dimension selection for tensor response regression (TRR)
 #'
-#' This function uses the 1D-BIC criterion proposed by Zhang, X., & Mai, Q. (2018) to select envelope dimensions in tensor response regression. Refer to \code{\link{oneD_bic}} for more detials.
+#' This function uses the 1D-BIC criterion proposed by Zhang, X., & Mai, Q. (2018) to select envelope dimensions in tensor response regression. Refer to \code{\link{oneD_bic}} for more details.
 #'
 #' @param x The predictor matrix of dimension \eqn{p \times n}. Vector of length \eqn{n} is acceptable.
 #' @param y The response tensor instance with dimension \eqn{r_1\times r_2\times\cdots\times r_m \times n}, where \eqn{n} is the sample size. Array with the same dimensions and matrix with dimension \eqn{r\times n} are acceptable.
-#' @param C The parameter passed to \code{\link{ondDbic}}. Default is \code{nrow(x) = p}.
+#' @param C The parameter passed to \code{\link{oneD_bic}}. Default is \code{nrow(x) = p}.
 #' @param maxdim The maximum envelope dimension to be considered. Default is 10.
 #' @param ... Additional arguments passed to \code{\link{oneD_bic}}.
 #'

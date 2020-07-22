@@ -22,7 +22,7 @@
 #' Tenv_Pval(x, y, fit_std$coefficients)
 #'
 #' @export
-#' @import rTensor
+#' @importFrom rTensor as.tensor
 #' @importFrom stats pt
 Tenv_Pval <- function(x, y, Bhat){
   ss <- dim(y)

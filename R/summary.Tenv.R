@@ -27,6 +27,8 @@
 #'  \item{p_val}{The p-value for coefficients. Only for the object returned from \code{TRR.fit}.}
 #'  \item{se}{The standard error for coefficients. Only for the object returned from \code{TRR.fit}.}
 #'
+#' @seealso Fitting functions \code{\link{TRR.fit}}, \code{\link{TPR.fit}}.
+#'
 #' @examples
 #' data("bat")
 #' x <- bat$x
@@ -39,8 +41,6 @@
 #' summary(fit)$p_val
 #' summary(fit)$se
 #'
-#' Fitting functions \code{\link{TRR.fit}}, \code{\link{TPR.fit}}.
-
 #' @rdname summary.Tenv
 #' @export
 #' @importFrom stats coef residuals
@@ -79,8 +79,6 @@ print.summary.Tenv <- function(x, ...){
       "\n", sep = "")
   cat("Dimensions: ", "x:", "(", paste(x$xdim, collapse = ","), "), ", "y:", "(", paste(x$ydim, collapse = ","), ")", "\n", sep = "")
   cat("Method: ", "\"", x$method, "\"", ", ", "sample size: ", x$n, ", ", "mean squared error: ", x$mse, "\n\n", sep = "")
-  # cat("Sample size:", x$n, "\n\n")
-  # cat("Mean squared error:", x$mse, "\n\n")
   cat("Coefficients:\n")
   print(coef(x))
   cat("\n")

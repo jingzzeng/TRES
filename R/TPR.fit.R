@@ -21,7 +21,7 @@
 #' @param Gamma_init A list specifying the initial envelope subspace basis for "FG" method. By default, the estimators given by "1D" algorithm is used.
 #'
 #' @return
-#'   \item{x}{The riginal predictor dataset.}
+#'   \item{x}{The original predictor dataset.}
 #'   \item{y}{The original response dataset.}
 #'   \item{call}{The matched call.}
 #'   \item{method}{The implemented method.}
@@ -90,6 +90,7 @@
 #' @references Zhang, X., Li, L. (2017). Tensor Envelope Partial Least-Squares Regression. Technometrics, 59(4), 426-436.
 #'
 #' @export
+#' @import rTensor
 #' @importFrom pracma sqrtm kron
 
 # This function gives all the estimation of tensor predictor regression
@@ -148,91 +149,55 @@ TPR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
   ttmp <- lapply(1:n, function(x) mux)
   ttmp <- array(unlist(ttmp), c(p, n))
   ttmp2 <- x@data - ttmp
+  ###
 
-  x <- rTensor::as.tensor(ttmp2)
+  x <- as.tensor(ttmp2)
   vecx <- matrix(x@data, prod(p), n)
   res <- kroncov(x)
   lambda <- res$lambda
   Sigx <- res$S
   Sigx[[1]] <- lambda*Sigx[[1]]
 
-
   if(method == "standard") {
     Sigxinv <- lapply(Sigx, function(x){chol2inv(chol(x))})
     Bhat <- ttl(x, c(Sigxinv, list(y)), 1:(m+1))/n
-    Gamma1 <- NULL
+    Gamma <- NULL
   }else{
     if(missing(u)){stop("A user-defined u is required.")}
-    if(method == "PLS") {
-      res_PLS <- TensPLS_fit(x, y, Sigx, u)
-      Gamma1 <- res_PLS$Gamma; PGamma <- res_PLS$PGamma
-    }else if(method == "1D"){
-      Sinvhalf <- vector("list", m)
-      for (i in 1:m) {
-        Sinvhalf[[i]] <- sqrtm(Sigx[[i]])$Binv
-      }
-      SigY <- (n-1)*cov(t(y))/n
-      Sinvhalf[[m+1]] <- sqrtm(SigY)$Binv
-
-      C <- ttm(x, y, m+1)/n
-      Gamma1 <- PGamma <- vector("list", m)
-      for (i in 1:m) {
-        idx <- c(1:(m+1))[-i]
-        Ck <- ttl(C, Sinvhalf[idx], ms = idx)
-        U <- unfold(Ck, row_idx = i, col_idx = idx)@data
-        Uk <- tcrossprod(U)
-        Gamma1[[i]] <- OptM1D(Sigx[[i]], Uk, u[i])
-        tmp8 <- t(Gamma1[[i]]) %*% Sigx[[i]] %*% Gamma1[[i]]
-        PGamma[[i]] <- Gamma1[[i]] %*% chol2inv(chol(tmp8)) %*% t(Gamma1[[i]]) %*% Sigx[[i]]
-      }
-    }else if(method == "ECD") {
-      Sinvhalf <- vector("list", m)
-      for (i in 1:m) {
-        Sinvhalf[[i]] <- sqrtm(Sigx[[i]])$Binv
-      }
-      SigY <- (n-1)*cov(t(y))/n
-      Sinvhalf[[m+1]] <- sqrtm(SigY)$Binv
-
-      C <- ttm(x, y, m+1)/n
-      Gamma1 <- PGamma <- vector("list", m)
-      for (i in 1:m) {
-        idx <- c(1:(m+1))[-i]
-        Ck <- ttl(C, Sinvhalf[idx], ms = idx)
-        U <- unfold(Ck, row_idx = i, col_idx = idx)@data
-        Uk <- tcrossprod(U)
-        Gamma1[[i]] <- ECD(Sigx[[i]], Uk, u[i])
-        tmp8 <- t(Gamma1[[i]]) %*% Sigx[[i]] %*% Gamma1[[i]]
-        PGamma[[i]] <- Gamma1[[i]] %*% chol2inv(chol(tmp8)) %*% t(Gamma1[[i]]) %*% Sigx[[i]]
-      }
-    }else if(method=='FG'){
-      Sinvhalf <- vector("list", m)
-      for (i in 1:m) {
-        Sinvhalf[[i]] <- sqrtm(Sigx[[i]])$Binv
-      }
-      SigY <- (n-1)*cov(t(y))/n
-      Sinvhalf[[m+1]] <- sqrtm(SigY)$Binv
-      C <- ttm(x, y, m+1)/n
-      Gamma1 <- PGamma <- vector("list", m)
-      for (i in 1:m) {
-        idx <- c(1:(m+1))[-i]
-        Ck <- ttl(C, Sinvhalf[idx], ms = idx)
-        U <- unfold(Ck, row_idx = i, col_idx = idx)@data
-        # idxprod <- (p[i]/r)/prod(p)
-        # Uk <- idxprod * tcrossprod(U)
-        Uk <- tcrossprod(U)
-        Gamma1[[i]] <- OptMFG(Sigx[[i]], Uk, u[i])
-        tmp8 <- t(Gamma1[[i]]) %*% Sigx[[i]] %*% Gamma1[[i]]
-        PGamma[[i]] <- Gamma1[[i]] %*% chol2inv(chol(tmp8)) %*% t(Gamma1[[i]]) %*% Sigx[[i]]
-      }
+    Sinvhalf <- vector("list", m)
+    for (i in 1:m) {
+      Sinvhalf[[i]] <- sqrtm(Sigx[[i]])$Binv
     }
-
+    Sigy <- (n-1)*cov(t(y))/n
+    Sinvhalf[[m+1]] <- sqrtm(Sigy)$Binv
+    C <- ttm(x, y, m+1)/n
+    Gamma <- PGamma <- vector("list", m)
+    for (i in 1:m){
+      M <- Sigx[[i]]
+      idx <- c(1:(m+1))[-i]
+      Ck <- ttl(C, Sinvhalf[idx], ms = idx)
+      U <- unfold(Ck, row_idx = i, col_idx = idx)@data
+      idxprod <- (p[i]/r)/prod(p)
+      Uk <- idxprod * tcrossprod(U)
+      if(method == "PLS"){
+        Gamma[[i]] <- simplsMU(M, Uk, u[i])
+      }else if(method == "1D"){
+        Gamma[[i]] <- OptM1D(Sigx[[i]], Uk, u[i])
+      }else if(method == "ECD"){
+        Gamma[[i]] <- ECD(Sigx[[i]], Uk, u[i])
+      }else if(method == "FG"){
+        Gamma[[i]] <- OptMFG(Sigx[[i]], Uk, u[i])
+      }
+      tmp <- t(Gamma[[i]]) %*% Sigx[[i]] %*% Gamma[[i]]
+      PGamma[[i]] <- Gamma[[i]] %*% chol2inv(chol(tmp)) %*% t(Gamma[[i]]) %*% Sigx[[i]]
+    }
     Bhat <- ttl(x, c(PGamma, list(y)), 1:(m+1))/n
   }
   tp1 <- matrix(Bhat@data, nrow = c(prod(p)))
   tp2 <- matrix(x_old@data, prod(p), n)
   fitted.values <- crossprod(tp1, tp2)
   residuals <- y_old - fitted.values
-  output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma1, Sigma=Sigx, fitted.values = fitted.values, residuals=residuals)
+  output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma, Sigma=Sigx, fitted.values = fitted.values, residuals=residuals)
   class(output) <- "Tenv"
   output
 }

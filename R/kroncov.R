@@ -8,7 +8,7 @@
 #' If \code{Tn} is a \eqn{p \times n} design matrix for a multivariate random variable, then \code{lambda = 1} and \code{S} is a length-one list containing the sample covariance matrix.
 #'
 #' @param Tn A \eqn{p_1\times\cdots p_m\times n} matrix, array or tensor, where \eqn{n} is the sample size.
-#' @param tol The convergence tolerance with default value \code{1e-6}. The iteration terminates when \eqn{||\Sigma_i^{(t+1)} - \Sigma_i^{(t)}||_F <} \code{tol} for some covariance matrix \eqn{\Sigma_i}. See Manceur, A. M., & Dutilleul, P. (2013) for the discussion on the covergence criterion.
+#' @param tol The convergence tolerance with default value \code{1e-6}. The iteration terminates when \eqn{||\Sigma_i^{(t+1)} - \Sigma_i^{(t)}||_F <} \code{tol} for some covariance matrix \eqn{\Sigma_i}. See Manceur, A. M., & Dutilleul, P. (2013) for the discussion on the convergence criterion.
 #' @param maxiter The maximal number of iterations. The default value is 10.
 #'
 #' @return

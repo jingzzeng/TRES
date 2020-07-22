@@ -7,7 +7,7 @@
 #' @param Gamma \eqn{\Gamma} matrix in the envelope objective function. A \eqn{p}-by-\eqn{u} matrix.
 #'
 #' @details
-#' The generic objective function \eqn{F(\Gamma)} and its gradiant \eqn{G(\Gamma)} are listed below for estimating \eqn{M}-envelope of span(\eqn{U}). For the detailed description, see Cook, R. D., & Zhang, X. (2016).
+#' The generic objective function \eqn{F(\Gamma)} and its gradient \eqn{G(\Gamma)} are listed below for estimating \eqn{M}-envelope of span(\eqn{U}). For the detailed description, see Cook, R. D., & Zhang, X. (2016).
 #'
 #' \deqn{F(\Gamma)=\log|\Gamma^T M \Gamma|+\log| \Gamma^T(M+U)^{-1}\Gamma|}
 #' \deqn{G(\Gamma) = dF/d \Gamma = 2 M \Gamma (\Gamma^T M \Gamma)^{-1} + 2 (M + U)^{-1} \Gamma (\Gamma^T (M + U)^{-1} \Gamma)^{-1}}

@@ -53,6 +53,6 @@ OptMFG <- function(M, U, u, Gamma_init = NULL, ...)
   u <- dim(X)[2]
   opts <- list(...)
 
-  Gamma <- OptStiefelGBB(X, opts, FGfun, M, U)$X
+  Gamma <- OptStiefelGBB(X, FGfun, opts, M, U)$X
   Gamma
 }

@@ -12,7 +12,7 @@
 #' \code{ask} can be set as \code{FALSE} if the pause before the second plot is not preferred. If \code{x} is an object from \code{TPR.fit}, no pause is enabled.
 #'
 #'
-#' @param x An object of class \code{"Tenv"}, as the ones returend from \code{TPR.fit} or \code{TRR.fit}.
+#' @param x An object of class \code{"Tenv"}, as the ones returned from \code{TPR.fit} or \code{TRR.fit}.
 #' @param level The significant level of p-value. Default is 0.05.
 #' @param main The title of coefficient plot.
 #' @param main_p The title of \eqn{p}-value plot.
@@ -37,7 +37,7 @@
 #' @export
 #' @importFrom stats coef
 #' @importFrom grDevices devAskNewPage grey
-#' @importFrom graphics image axis
+#' @importFrom graphics image axis box
 plot.Tenv <- function(x, level = 0.05, main=paste0("Coefficient plot ", "(", x$method, ")"), main_p = paste0("P value plot ", "(", x$method, ")"), xlab="", ylab="", axes=TRUE, ask = TRUE, ...){
   cf <- coef(x)
   data <- drop(cf@data)

@@ -36,7 +36,8 @@
 #' y <- dat$y
 #' TPRdim(x, y, maxdim = 5)
 #'
-#' ## Use dataset square
+#' ## Use dataset square.
+#' set.seed(1)
 #' data("square")
 #' x <- square$x
 #' y <- square$y
@@ -48,7 +49,7 @@
 #' @seealso \code{\link{TPRsim}}.
 #'
 #' @export
-#' @import rTensor
+#' @importFrom rTensor as.tensor ttl
 #' @importFrom pracma kron sqrtm
 TPRdim <- function(x, y, maxdim=10, nfolds=5) {
   if(!is.matrix(y)){
@@ -88,19 +89,17 @@ TPRdim <- function(x, y, maxdim=10, nfolds=5) {
     y_train <- y_train - mu_y[, rep(1, Ntrain)]
     x_train <- x_train - mu_xtrain[, rep(1, Ntrain)]
     tp <- array(x_train, c(p, Ntrain))
-    xtrain_tsr <- rTensor::as.tensor(tp)
+    xtrain_tsr <- as.tensor(tp)
     #centering testing dataset
     y_test <- y_test - mu_y[, rep(1, Ntest)]
     x_test <- x_test - mu_xtrain[, rep(1, Ntest)]
     tp2 <- array(x_test, c(p, Ntest))
-    xtest_tsr <- rTensor::as.tensor(tp2)
-    ##Fit TPLS ##
-    res <- kroncov(xtrain_tsr)
-    lambda <- res$lambda
-    SigX <- res$S
-    SigX[[1]] <- lambda*SigX[[1]]
-    res <- TensPLS_fit(xtrain_tsr, y_train, SigX, rep(maxdim, m))
+    xtest_tsr <- as.tensor(tp2)
+    ## Fit with TPR.fit
+    res <- TPR.fit(xtrain_tsr, y_train, u = rep(maxdim, m), method = "PLS")
     Gamma <- res$Gamma
+    Sigx <- res$Sigma
+    ###
 
     W <- vector("list", m)
     PGamma <- vector("list", m)
@@ -108,12 +107,12 @@ TPRdim <- function(x, y, maxdim=10, nfolds=5) {
       for (j in 1:m){
         if (k==p[j]){
           W[[j]] <- diag(p[j])
-          }else{
-            W[[j]] <- Gamma[[j]][, 1:k, drop = FALSE]
-            }
-        PGamma[[j]] <- W[[j]] %*% chol2inv(chol(t(W[[j]]) %*% SigX[[j]] %*% W[[j]])) %*% t(W[[j]])
+        }else{
+          W[[j]] <- Gamma[[j]][, 1:k, drop = FALSE]
+        }
+        PGamma[[j]] <- W[[j]] %*% chol2inv(chol(t(W[[j]]) %*% Sigx[[j]] %*% W[[j]])) %*% t(W[[j]])
       }
-      Bhat <- rTensor::ttl(xtrain_tsr, c(PGamma, list(y_train)), 1:(m+1))/Ntrain
+      Bhat <- ttl(xtrain_tsr, c(PGamma, list(y_train)), 1:(m+1))/Ntrain
       Bhat_unfold <- matrix(Bhat@data, nrow = c(prod(p)))
       error <- crossprod(Bhat_unfold, x_test) - y_test
       cv_mse[k] <- cv_mse[k] + sum(error^2)/Ntest
