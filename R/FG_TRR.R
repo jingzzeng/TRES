@@ -11,8 +11,6 @@
 #'  \item{Gamma_hat}{The FG estimation of envelope subspace basis.}
 #' }
 #' @examples
-#' rm(list=ls())
-#'
 #' r <- c(10, 10, 10)
 #' m <- length(r)
 #' u <- c(2, 2, 2)

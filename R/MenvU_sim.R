@@ -53,8 +53,8 @@ MenvU_sim <- function(p, u, Omega=NULL, Omega0=NULL, Phi=NULL, jitter = FALSE, w
   ## an exact u-dimensional envelope structure
 
   if (is.null(Omega)) {
-      Omega <- matrix(runif(u^2), u, u)
-      Omega <- tcrossprod(Omega)
+    Omega <- matrix(runif(u^2), u, u)
+    Omega <- tcrossprod(Omega)
   }
   if (is.null(Omega0)) {
     Omega0 <- matrix(runif((p-u)^2),p-u,p-u)

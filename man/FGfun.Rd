@@ -21,7 +21,7 @@ FGfun(Gamma, M, U)
 Calculates the objective function and its gradient for estimating the \eqn{M}-envelope of span(\eqn{U}), where \eqn{M} is positive definite and \eqn{U} is positive semi-definite.
 }
 \details{
-The generic objective function \eqn{F(\Gamma)} and its gradiant \eqn{G(\Gamma)} are listed below for estimating \eqn{M}-envelope of span(\eqn{U}). For the detailed description, see Cook, R. D., & Zhang, X. (2016).
+The generic objective function \eqn{F(\Gamma)} and its gradient \eqn{G(\Gamma)} are listed below for estimating \eqn{M}-envelope of span(\eqn{U}). For the detailed description, see Cook, R. D., & Zhang, X. (2016).
 
 \deqn{F(\Gamma)=\log|\Gamma^T M \Gamma|+\log| \Gamma^T(M+U)^{-1}\Gamma|}
 \deqn{G(\Gamma) = dF/d \Gamma = 2 M \Gamma (\Gamma^T M \Gamma)^{-1} + 2 (M + U)^{-1} \Gamma (\Gamma^T (M + U)^{-1} \Gamma)^{-1}}

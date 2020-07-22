@@ -28,7 +28,7 @@ The default values are: \code{maxiter=500; xtol=1e-08; gtol=1e-08; ftol=1e-12.}}
 Return the estimated orthogonal basis of the envelope subspace.
 }
 \description{
-The FG algorithm to estimate the envelope subspace based on the curvilinear search algorithm for optimization on Stiefel manifold. The algorithm is developed by Wen and Yin (2013) and the Matlab version is in the Matlab package \pkg{OptM}.
+The FG algorithm to estimate the envelope subspace based on the curvilinear search algorithm for optimization on Stiefel manifold. The curvilinear algorithm is developed by Wen and Yin (2013) and the Matlab version is implemented in the Matlab package \pkg{OptM}.
 }
 \details{
 If \code{Gamma_init} is provided, then the envelope dimension \code{u = ncol(Gamma_init)}.

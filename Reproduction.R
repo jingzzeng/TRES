@@ -4,6 +4,146 @@ options(digits = 3)
 # # Install the package if it is not intalled yet
 # install.packages("TRES")
 library(TRES)
+
+bootse <- function(x){
+  result <- sapply(seq_len(1000), function(i){median(sample(x, replace = TRUE))})
+  sd(result)
+}
+
+set.seed(2)
+times <- 50
+
+for (m in c("M2")){
+  # Simulation for each model
+  output <- lapply(seq_len(times), function(i){
+    p <- 20
+    u <- 5
+    ### REMOVE
+    # Construct U and M
+    tmp <- matrix(runif(p*u), p, u)
+    Gamma <- qr.Q(qr(tmp))
+    Gamma0 <- qr.Q(qr(Gamma),complete=T)[,(u+1):p]
+
+    A <- matrix(runif(u^2), u, u)
+    Omega <- A%*%t(A)
+
+    A <- matrix(runif((p-u)^2), p-u, p-u)
+    Omega0 <- A%*%t(A)
+
+    A <- matrix(runif(u^2), u, u)
+    Phi <- A%*%t(A)
+
+    if(m == "M1"){
+      ## Model (M1)
+      U <- Gamma%*%Phi%*%t(Gamma)
+      M <- Gamma%*%Omega%*%t(Gamma) + Gamma0%*%Omega0%*%t(Gamma0)
+      M <- M + 0.00001*diag(1,p,p)
+    }else if(m == "M2"){
+      ## Model (M2)
+      U <- Gamma%*%Phi%*%t(Gamma)
+      M <- Gamma%*%t(Gamma) + 0.01*Gamma0%*%t(Gamma0)
+    }else if(m == "M3"){
+      ## Model (M3)
+      U <- Gamma%*%Phi%*%t(Gamma)
+      M <- 0.01*Gamma%*%t(Gamma) + Gamma0%*%t(Gamma0)
+    }
+    ###
+    # if(m == "M1"){
+    #   data <- MenvU_sim(p, u, jitter = 1e-5)
+    #   Gamma <- data$Gamma
+    #   M <- data$M
+    #   U <- data$U
+    # }else if(m == "M2"){
+    #   Omega <- diag(1, u, u)
+    #   Omega0 <- diag(0.01, p-u, p-u)
+    #   data <- MenvU_sim(p, u, Omega = Omega, Omega0 =  Omega0)
+    #   Gamma <- data$Gamma
+    #   M <- data$M
+    #   U <- data$U
+    # }else if(m == "M3"){
+    #   Omega <- diag(0.01, u, u)
+    #   Omega0 <- diag(1, p-u, p-u)
+    #   data <- MenvU_sim(p, u, Omega = Omega, Omega0 =  Omega0)
+    #   Gamma <- data$Gamma
+    #   M <- data$M
+    #   U <- data$U
+    # }
+
+    start_time <- Sys.time()
+    Ghat_pls <- simplsMU(M, U, u)
+    end_time <- Sys.time()
+    exe_time_1 <- difftime(end_time, start_time, units = 'secs')
+    dist_1 <- subspace(Ghat_pls, Gamma)
+
+    start_time <- Sys.time()
+    Ghat_ecd <- ECD(M, U, u)
+    end_time <- Sys.time()
+    exe_time_2 <- difftime(end_time, start_time, units = 'secs')
+    dist_2 <- subspace(Ghat_ecd, Gamma)
+
+    start_time <- Sys.time()
+    Ghat_mani1D <- manifold1D(M, U, u)
+    end_time <- Sys.time()
+    exe_time_3 <- difftime(end_time, start_time, units = 'secs')
+    dist_3 <- subspace(Ghat_mani1D, Gamma)
+
+    start_time <- Sys.time()
+    Ghat_OptM1D <- OptM1D(M, U, u)
+    end_time <- Sys.time()
+    exe_time_4 <- difftime(end_time, start_time, units = 'secs')
+    dist_4 <- subspace(Ghat_OptM1D, Gamma)
+
+    start_time <- Sys.time()
+    Ghat_maniFG <- manifoldFG(M, U, u)
+    end_time <- Sys.time()
+    exe_time_5 <- difftime(end_time, start_time, units = 'secs')
+    dist_5 <- subspace(Ghat_maniFG, Gamma)
+
+    start_time <- Sys.time()
+    Ghat_OptMFG <- OptMFG(M, U, u)
+    end_time <- Sys.time()
+    exe_time_6 <- difftime(end_time, start_time, units = 'secs')
+    dist_6 <- subspace(Ghat_OptMFG, Gamma)
+
+    list(c(exe_time_1, exe_time_2, exe_time_3, exe_time_4, exe_time_5, exe_time_6),
+         c(dist_1, dist_2, dist_3, dist_4, dist_5, dist_6))
+
+  })
+
+  exe_time <- do.call(rbind, lapply(output, "[[", 1))
+  dist <-  do.call(rbind, lapply(output, "[[", 2))
+
+  # Average execution time
+  median_time <- apply(exe_time, 2, median)
+  ## Bootstrap standard error
+  se_time <- apply(exe_time, 2, bootse)
+
+  # Average subspace distance
+  median_dist <- apply(dist, 2, median)
+  ## Bootstrap standard error
+  se_dist <- apply(dist, 2, bootse)
+
+  cat("--------------------------------------------------------------------------------\n")
+  cat("Model:", m, "\n")
+  cat("Median execution time (standard error)\n")
+  tmp <- paste0(format(median_time, digits = 2), '(', format(se_time, scientific = TRUE), ')')
+  names(tmp) <-  c('PLS', 'ECD', '1D_Mani', '1D_OptM', 'FG_Mani', 'FG_OptM')
+  print(tmp, quote=FALSE, print.gap=2L)
+  cat("\n--------------------------------------------------------------------------------\n")
+
+  cat("--------------------------------------------------------------------------------\n")
+  cat("Model:", m, "\n")
+  cat("Estimation accuracy (standard error)\n")
+  tmp <- paste0(format(median_dist, scientific = 2), '(', format(se_dist, scientific = TRUE), ')')
+  names(tmp) <-  c('PLS', 'ECD', '1D_Mani', '1D_OptM', 'FG_Mani', 'FG_OptM')
+  print(tmp, quote=FALSE, print.gap=2L)
+  cat("\n--------------------------------------------------------------------------------\n")
+}
+
+
+
+
+
 ## ----------------------------- Section 3.1 ----------------------------- ##
 
 # The TRR model: estimation, coefficient plots, coefficients distance and subspace distance
@@ -30,7 +170,7 @@ predict(fit_1d1, bat$x)
 # True coefficient plots (p-value plots are also generated)
 true_B <- bat$coefficients@data[, , 1] # switch the sign so that pattern area is highlighted
 image(x = 1:nrow(true_B), y = 1:ncol(true_B), z=-t(true_B), ylim = c(ncol(true_B), 1), col = grey(seq(0, 1, length = 256)), xlab = "", ylab="", main='True coefficient matrix', cex.main=2, cex.axis = 2)
-box()
+graphics::box()
 
 # Coefficient plots for each estimators (p-value plots are also generated)
 plot(fit_ols1, cex.main = 2, cex.axis= 2)
@@ -224,6 +364,12 @@ ggplot(data_im, aes(x = data))+
 set.seed(1)
 times <- 50
 
+## Calculate the standard error of median based on 1000 boostrap samples.
+bootse <- function(x){
+  result <- sapply(seq_len(1000), function(i){median(sample(x, replace = TRUE))})
+  sd(result)
+}
+
 for (m in c("M1", "M2", "M3")){
   # Simulation for each model
   output <- lapply(seq_len(times), function(i){
@@ -269,10 +415,10 @@ for (m in c("M1", "M2", "M3")){
     dist_3 <- subspace(Ghat_mani1D, Gamma)
 
     start_time <- Sys.time()
-    Ghat_feasi1D <- OptM1D(M, U, u)
+    Ghat_OptM1D <- OptM1D(M, U, u)
     end_time <- Sys.time()
     exe_time_4 <- difftime(end_time, start_time, units = 'secs')
-    dist_4 <- subspace(Ghat_feasi1D, Gamma)
+    dist_4 <- subspace(Ghat_OptM1D, Gamma)
 
     start_time <- Sys.time()
     Ghat_maniFG <- manifoldFG(M, U, u)
@@ -281,10 +427,10 @@ for (m in c("M1", "M2", "M3")){
     dist_5 <- subspace(Ghat_maniFG, Gamma)
 
     start_time <- Sys.time()
-    Ghat_feasiFG <- OptMFG(M, U, u)
+    Ghat_OptMFG <- OptMFG(M, U, u)
     end_time <- Sys.time()
     exe_time_6 <- difftime(end_time, start_time, units = 'secs')
-    dist_6 <- subspace(Ghat_feasiFG, Gamma)
+    dist_6 <- subspace(Ghat_OptMFG, Gamma)
 
     list(c(exe_time_1, exe_time_2, exe_time_3, exe_time_4, exe_time_5, exe_time_6),
         c(dist_1, dist_2, dist_3, dist_4, dist_5, dist_6))
@@ -294,27 +440,29 @@ for (m in c("M1", "M2", "M3")){
   exe_time <- do.call(rbind, lapply(output, "[[", 1))
   dist <-  do.call(rbind, lapply(output, "[[", 2))
 
-  # Average execution time and standard error for each method
-  mean_time <- apply(exe_time, 2, mean)
-  se_time <- apply(exe_time, 2, sd)/sqrt(times)
+  # Average execution time
+  median_time <- apply(exe_time, 2, median)
+  ## Standard error based on 1000 bootstrap samples
+  se_time <- apply(exe_time, 2, bootse)
 
-  # Average subspace distance and standard error for each method
-  mean_dist <- apply(dist, 2, mean)
-  se_dist <- apply(dist, 2, sd)/sqrt(times)
+  # Average subspace distance
+  median_dist <- apply(dist, 2, median)
+  ## Standard error based on 1000 bootstrap samples
+  se_dist <- apply(dist, 2, bootse)
 
   cat("--------------------------------------------------------------------------------\n")
   cat("Model:", m, "\n")
-  cat("Averaged execution time (standard error)\n")
-  tmp <- paste0(format(mean_time, digits = 2), '(', format(se_time, scientific = TRUE), ')')
-  names(tmp) <-  c('PLS', 'ECD', '1D_Mani', '1D_Feasi', 'FG_Mani', 'FG_Feasi')
+  cat("Median execution time (standard error)\n")
+  tmp <- paste0(format(median_time, digits = 2), '(', format(se_time, scientific = TRUE), ')')
+  names(tmp) <-  c('PLS', 'ECD', '1D_Mani', '1D_OptM', 'FG_Mani', 'FG_OptM')
   print(tmp, quote=FALSE, print.gap=2L)
   cat("\n--------------------------------------------------------------------------------\n")
 
   cat("--------------------------------------------------------------------------------\n")
   cat("Model:", m, "\n")
   cat("Estimation accuracy (standard error)\n")
-  tmp <- paste0(format(mean_dist, scientific = 2), '(', format(se_dist, scientific = TRUE), ')')
-  names(tmp) <-  c('PLS', 'ECD', '1D_Mani', '1D_Feasi', 'FG_Mani', 'FG_Feasi')
+  tmp <- paste0(format(median_dist, scientific = 2), '(', format(se_dist, scientific = TRUE), ')')
+  names(tmp) <-  c('PLS', 'ECD', '1D_Mani', '1D_OptM', 'FG_Mani', 'FG_OptM')
   print(tmp, quote=FALSE, print.gap=2L)
   cat("\n--------------------------------------------------------------------------------\n")
 }

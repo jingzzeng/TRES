@@ -17,7 +17,7 @@
 )
 }
 \arguments{
-\item{x}{An object of class \code{"Tenv"}, as the ones returend from \code{TPR.fit} or \code{TRR.fit}.}
+\item{x}{An object of class \code{"Tenv"}, as the ones returned from \code{TPR.fit} or \code{TRR.fit}.}
 
 \item{level}{The significant level of p-value. Default is 0.05.}
 

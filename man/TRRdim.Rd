@@ -23,7 +23,7 @@ TRRdim(x, y, C = NULL, maxdim = 10, ...)
 \item{mse}{The mean squared error with the selected envelope basis.}
 }
 \description{
-This function uses the 1D-BIC criterion proposed by Zhang, X., & Mai, Q. (2018) to select envelope dimensions in tensor response regression. Refer to \code{\link{oneD_bic}} for more detials.
+This function uses the 1D-BIC criterion proposed by Zhang, X., & Mai, Q. (2018) to select envelope dimensions in tensor response regression. Refer to \code{\link{oneD_bic}} for more details.
 }
 \details{
 See \code{\link{oneD_bic}} for more details on the definition of 1D-BIC criterion and on the arguments \eqn{C} and the additional arguments.
@@ -31,8 +31,6 @@ See \code{\link{oneD_bic}} for more details on the definition of 1D-BIC criterio
 Let \eqn{B} denote the estimated envelope with the selected dimension \code{u}, then the prediction is \eqn{\hat{Y}_i = B \bar{\times}_{(m+1)} X_i} for each observation. And the mean squared error is defined as \eqn{1/n\sum_{i=1}^n||Y_i-\hat{Y}_i||_F^2}, where \eqn{||\cdot||_F} denotes the Frobenius norm.
 }
 \examples{
-rm(list=ls())
-
 # The dimension of response
 r <- c(10, 10, 10)
 # The envelope dimensions u.

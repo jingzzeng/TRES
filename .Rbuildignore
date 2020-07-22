@@ -1,8 +1,12 @@
+.DS_Store
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
-cran-comments.md
 ^CRAN-RELEASE$
-data_EEG_LiBing.mat
-\Figures
-Reproduction.R
+^Reproduction\.R$
+^cran-comments\.md$
+^\.DS_Store$
+^\.Rapp\.history$
+^\.Rhistory$
+^\.git$
+^\.gitignore$

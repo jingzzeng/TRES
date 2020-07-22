@@ -1,8 +1,7 @@
 context("Test auxiliary functions")
-# library("TRES")
 
-# testthat::skip('skip')
-# testthat::skip_if_not(as.numeric(strsplit(packageDescription("TRES")$Version, "\\.")[[1]][3]) == 1)
+## Set up RNG kind
+RNGkind("L'Ecuyer-CMRG")
 
 test_that("Tenv_Pval function works", {
   set.seed(1)
@@ -25,8 +24,8 @@ test_that("TRRdim works", {
   x <- dat$x
   y <- dat$y
   result <- TRRdim(x, y)
-  expect_equal(result$mse, 2465.4516196)
-  expect_equal(result$bicval, c(-1061.34245959, -990.29055815, -1126.47314475))
+  expect_equal(result$mse, 2255.3026655)
+  expect_equal(result$bicval, c(-902.36909312, -742.50254547, -772.98204908), tolerance = 1e-6)
   expect_equal(result$u, c(2,2,2))
 })
 
@@ -41,6 +40,6 @@ test_that("PMSE works", {
   y <- dat$y
   fit_std <- TPR.fit(x, y, u, method="standard")
   result <- PMSE(x, y, fit_std$coefficients)
-  expect_equal(result$mse, 384.69608034)
-  expect_equal(result$pred[3, 51:55], c(-8.7722310529, 5.4961530259, 9.2623739155, 1.8764567351, -3.1972341381))
+  expect_equal(result$mse, 426.62145357)
+  expect_equal(result$pred[3, 51:55], c(2.35594143958, -7.30311921112,  0.89509183803,  4.56270438511,  5.52483875989))
 })

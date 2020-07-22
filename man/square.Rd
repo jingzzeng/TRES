@@ -4,13 +4,15 @@
 \name{square}
 \alias{square}
 \title{Square simulated data}
-\format{A list consisting of four components:
+\format{
+A list consisting of four components:
 \describe{
  \item{x}{A \eqn{32 \times 32 \times 200} tensor, each matrix \code{x@data[,,i]} represents a predictor observation.}
  \item{y}{A \eqn{1 \times 200} matrix, each entry represents a response observation.}
  \item{coefficients}{A \eqn{32\times 32 \times 1} tensor with a square pattern.}
  \item{Gamma}{A list consisting of two \eqn{32 \times 2} envelope basis.}
-}}
+}
+}
 \usage{
 data("square")
 }

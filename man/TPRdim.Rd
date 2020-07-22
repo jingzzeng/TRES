@@ -32,7 +32,6 @@ For each dimension \code{u} in \code{1:maxdim}, we obtain the prediction
 where \eqn{nk} is the sample size of the \eqn{k}-th testing dataset and \eqn{||\cdot||_F} denotes the Frobenius norm. Then, the average of \code{nfolds} mean squared error is recorded as cross-validation mean squared error for the dimension \code{u}.
 }
 \examples{
-rm(list = ls())
 # The dimension of predictor
 p <- c(10, 10, 10)
 # The envelope dimensions u.
@@ -47,7 +46,6 @@ y <- dat$y
 TPRdim(x, y, maxdim = 5)
 
 ## Use dataset square.
-set.seed(1)
 data("square")
 x <- square$x
 y <- square$y

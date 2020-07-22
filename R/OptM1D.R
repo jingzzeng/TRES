@@ -3,7 +3,7 @@
 ##################################################
 #' Estimate the envelope subspace (\pkg{OptM} 1D)
 #'
-#' The 1D algorithm to estimate the envelope subspace based on the line search algorithm for optimization on manifold. The algorithm is developed by Wen and Yin (2013) and the Matlab version is in the Matlab package \pkg{OptM}.
+#' The 1D algorithm to estimate the envelope subspace based on the line search algorithm for optimization on manifold. The line search algorithm is developed by Wen and Yin (2013) and the Matlab version is implemented in the Matlab package \pkg{OptM}.
 #'
 #' @param M The \eqn{p}-by-\eqn{p} positive definite matrix \eqn{M} in the envelope objective function.
 #' @param U The \eqn{p}-by-\eqn{p} positive semi-definite matrix \eqn{U} in the envelope objective function.

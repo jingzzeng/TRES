@@ -4,11 +4,13 @@
 \name{EEG}
 \alias{EEG}
 \title{Electroencephalography (EEG) dataset for alcoholism study.}
-\format{A list consisting of two components:
+\format{
+A list consisting of two components:
 \describe{
  \item{x}{A \eqn{1 \times 84} matrix, denoting the subject in alcoholic and control groups as 1 and 0 respectively.}
  \item{y}{A \eqn{64 \times 64 \times 84} tensor, consisting 84 \emph{channels} by \emph{time} EEG images.}
-}}
+}
+}
 \usage{
 data("EEG")
 }

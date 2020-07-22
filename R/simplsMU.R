@@ -1,8 +1,7 @@
 #' SIMPLS-type algorithm for estimating the envelope subspace
 #'
-#' Estimate the envelope subspace with the SIMPLS-type algorithm.
+#' This algorithm is a generalization of the SIMPLS algorithm in De Jong, S. (1993). See Cook (2018) Section 6.5 for more details of this generalized moment-based envelope algorithm; see Cook, Helland, and Su (2013) for a connection between SIMPLS and the predictor envelope in linear model.
 #'
-#' This algorithm is a generalization of the PLS algorithm in De Jong, S. (1993) and Cook, R. D., Helland, I. S., & Su, Z. (2013). It generalizes from predictor envelopes to an arbitrary \code{M}-envelope of \code{span(U)}.
 #'
 #' @param M The \eqn{p}-by-\eqn{p} positive definite matrix \eqn{M} in the envelope objective function.
 #' @param U The \eqn{p}-by-\eqn{p} positive semi-definite matrix \eqn{U} in the envelope objective function.
@@ -10,9 +9,13 @@
 #'
 #' @return Returns the estimated orthogonal basis of the envelope subspace.
 #'
-#' @references Cook, R. D., Helland, I. S., Su, Z. (2013). Envelopes and partial least squares regression. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 75(5), 851-877.
-#'
+#' @references
 #' De Jong, S. (1993). SIMPLS: an alternative approach to partial least squares regression. Chemometrics and intelligent laboratory systems, 18(3), 251-263.
+#'
+#' Cook, R. D., Helland, I. S., Su, Z. (2013). Envelopes and partial least squares regression. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 75(5), 851-877.
+#'
+#' Cook, R. D. (2018). An introduction to envelopes: dimension reduction for efficient estimation in multivariate statistics (Vol. 401). John Wiley & Sons.
+#'
 #'
 #' @examples
 #' ##simulate two matrices M and U with an envelope structure#

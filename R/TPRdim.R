@@ -22,7 +22,6 @@
 #' @references Zhang, X., & Li, L. (2017). Tensor Envelope Partial Least-Squares Regression. Technometrics, 59(4), 426-436.
 #'
 #' @examples
-#' rm(list = ls())
 #' # The dimension of predictor
 #' p <- c(10, 10, 10)
 #' # The envelope dimensions u.
@@ -37,7 +36,6 @@
 #' TPRdim(x, y, maxdim = 5)
 #'
 #' ## Use dataset square.
-#' set.seed(1)
 #' data("square")
 #' x <- square$x
 #' y <- square$y

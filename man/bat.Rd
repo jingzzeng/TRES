@@ -4,13 +4,15 @@
 \name{bat}
 \alias{bat}
 \title{Bat simulated data}
-\format{A list consisting of four components:
+\format{
+A list consisting of four components:
 \describe{
  \item{x}{A \eqn{1 \times 20} matrix, each entry takes values 0 and 1, representing two groups.}
  \item{y}{A \eqn{64\times 64\times 20} tensor, each matrix \code{y@data[,,i]} represents an image.}
  \item{coeffiicients}{A \eqn{64\times 64 \times 1} tensor with the bat pattern.}
  \item{Gamma}{A list consisting of two \eqn{64 \times 14} envelope basis.}
-}}
+}
+}
 \usage{
 data("bat")
 }

@@ -20,8 +20,6 @@
 #' @seealso \code{\link{oneD_bic}}, \code{\link{TRRsim}}.
 #'
 #' @examples
-#' rm(list=ls())
-#'
 #' # The dimension of response
 #' r <- c(10, 10, 10)
 #' # The envelope dimensions u.
@@ -61,7 +59,7 @@ TRRdim <- function(x, y, C = NULL, maxdim = 10, ...){
     else stop("x should be vector or matrix.")
   }
   if(!inherits(y, "Tensor")){
-    if(is.matrix(y) || inherits(y, "array")){
+    if(is.matrix(y) || is.array(y)){
       y <- as.tensor(y)
     }
     else stop("y should be matrix, array or Tensor.")

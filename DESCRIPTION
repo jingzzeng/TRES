@@ -13,12 +13,12 @@ License: GPL-3
 Encoding: UTF-8
 Language: en-US
 LazyData: true
-Depends: R (>= 3.5.0), ManifoldOptim
-Imports: MASS, methods, pracma, rTensor, stats
+Depends: R (>= 3.6.3), ManifoldOptim (>= 1.0.0)
+Imports: MASS, methods, pracma (>= 2.2.5), rTensor (>= 1.4), stats
 URL: https://github.com/jerryfsu3333/TRES
 BugReports: https://github.com/jerryfsu3333/TRES/issues
 RcppModules: ManifoldOptim_module
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 NeedsCompilation: no
 Repository: CRAN
 Suggests: 

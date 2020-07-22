@@ -42,11 +42,9 @@ This function is used for estimation of tensor response regression. The availabl
 \details{
 Please refer to \strong{Details} part of \code{\link{TRRsim}} for the description of the tensor response regression model.
 
-When samples are insufficient, it is possbile that the estimation of error covariance matrix \code{Sigma} is not available. However, if using ordinary least square method (\code{method = "standard"}), as long as sample covariance matrix of predictor \code{x} is nonsingular, \code{coefficients}, \code{fitted.values}, \code{residuals} are still returned.
+When samples are insufficient, it is possible that the estimation of error covariance matrix \code{Sigma} is not available. However, if using ordinary least square method (\code{method = "standard"}), as long as sample covariance matrix of predictor \code{x} is nonsingular, \code{coefficients}, \code{fitted.values}, \code{residuals} are still returned.
 }
 \examples{
-rm(list=ls())
-
 # The dimension of response
 r <- c(10, 10, 10)
 # The envelope dimensions u.

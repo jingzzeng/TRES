@@ -1,10 +1,7 @@
 context("Test reproducible examples in the paper.")
-# library("TRES")
 
-## Skip if the version is not 1.1.1
-# testthat::skip('skip')
-# testthat::skip_if_not(as.numeric(strsplit(packageDescription("TRES")$Version, "\\.")[[1]][3]) == 1)
-
+## Set up RNG kind
+RNGkind("L'Ecuyer-CMRG")
 
 test_that("Section 3.1", {
   set.seed(1)
@@ -58,8 +55,8 @@ test_that("Section 3.5", {
   u_eeg <- c(1,1)
   fit_eeg_ols <- TRR.fit(EEG$x, EEG$y, method = "standard")
   fit_eeg_1D <- TRR.fit(EEG$x, EEG$y, u_eeg, method = "1D")
-  testthat::expect_equal(fit_eeg_ols$coefficients@data[8:12,8,1], c(-0.366630830, -0.261239935, -0.219068713, -0.446891195, -0.052921259))
-  testthat::expect_equal(fit_eeg_1D$coefficients@data[8:12,25,1], c(0.89687379902, 0.90835127523, 0.38472666044, 0.41908589959, 0.47720497460))
+  testthat::expect_equal(fit_eeg_ols$coefficients@data[8:12,8,1], c(-0.366630829630, -0.261239934548, -0.219068713316, -0.446891195270, -0.052921258942))
+  testthat::expect_equal(fit_eeg_1D$coefficients@data[8:12,25,1], c(0.89692691067, 0.90840436579, 0.38470099196, 0.41905761624, 0.47724350241), tolerance = 1e-4)
 })
 
 test_that("Section 4.3", {
@@ -91,7 +88,7 @@ test_that("Section 4.3", {
   G8 <- OptMFG(M, U, u, Gamma_init = A)
   d7 <- subspace(G7, Gamma)
   d8 <- subspace(G8, Gamma)
-  expect_equal(c(d1,d2,d3,d4,d5,d6,d7,d8), c(1.4656091082e-09, 5.7760373252e-13, 5.1506432311e-10, 1.9246746873e-09, 4.5243985165e-10, 1.7448436515e-09, 4.4721359550e-01, 6.0979971922e-01))
+  expect_equal(c(d1,d2,d3,d4,d5,d6,d7,d8), c(1.2998375801e-08, 4.1871487339e-13, 1.3689449324e-07, 2.5737304665e-08, 1.3151709806e-07, 2.4338580287e-08, 6.3245553203e-01, 7.2155626963e-01))
 })
 
 
@@ -109,7 +106,7 @@ test_that("Section 4.4", {
     output <- oneD_bic(M, U, n, maxdim = p/2)
     u_est3[i] <- output$u
   }
-  expect_equal(u_est3, c(9,5))
+  expect_equal(u_est3, c(11,5))
 })
 
 

@@ -1,11 +1,9 @@
 context("Test TRR and TPR with .sim function, bat and square.")
-# library("TRES")
 
-# testthat::skip('skip')
-# skip_if_not(as.numeric(strsplit(packageDescription("TRES")$Version, "\\.")[[1]][3]) == 1)
+## Set up RNG kind
+RNGkind("L'Ecuyer-CMRG")
 
-test_that("TRR and TPR works with .sim function", {
-  ## TRR
+test_that("TRR works with .sim function", {
   set.seed(1)
   r <- c(10, 10, 10)
   u <- c(2, 2, 2)
@@ -17,12 +15,13 @@ test_that("TRR and TPR works with .sim function", {
   B <- dat$coefficients
   fit_std <- TRR.fit(x, y, method="standard")
   fit_1D <- TRR.fit(x, y, u, method="1D")
-  expect_equal(fit_std$fitted.values@data[1:5,2,2,2], c(0.60646833, -0.25093892, -0.19145049, -0.22467693, -0.05699922))
-  expect_equal(fit_1D$fitted.values@data[1:5,2,2,2], c(-0.022359405833, -0.026888949671, -0.055316716989, -0.064956126162, -0.036918476815))
-  expect_equal(rTensor::fnorm(B-stats::coef(fit_std)), 9.9016367)
-  expect_equal(rTensor::fnorm(B-stats::coef(fit_1D)), 0.22109903471)
+  expect_equal(fit_std$fitted.values@data[1:5,2,2,2], c(-0.35577737,  0.49003598,  0.02182803,  0.10934437,  0.28544817))
+  expect_equal(fit_1D$fitted.values@data[1:5,2,2,2], c(-0.047196540, -0.056589661,  0.016332660, -0.014613523,  0.003886516))
+  expect_equal(rTensor::fnorm(B-stats::coef(fit_std)), 10.104526002)
+  expect_equal(rTensor::fnorm(B-stats::coef(fit_1D)), 0.19323578)
+})
 
-  ## TPR
+test_that("TPR works with .sim function", {
   set.seed(1)
   p <- c(10, 10, 10)
   u <- c(1, 1, 1)
@@ -34,10 +33,10 @@ test_that("TRR and TPR works with .sim function", {
   B <- dat$coefficients
   fit_std <- TPR.fit(x, y, method="standard")
   fit_pls <- TPR.fit(x, y, u, method="PLS")
-  expect_equal(fit_std$fitted.values[3, 51:55], c(-8.7722310529, 5.4961530259, 9.2623739155, 1.8764567351, -3.1972341381))
-  expect_equal(fit_pls$fitted.values[3, 51:55], c(-11.7888643451, 16.9736184146, 1.1881597301, 8.2860773355, -1.9265788809))
-  expect_equal(rTensor::fnorm(B-stats::coef(fit_std)), 2424.2593189)
-  expect_equal(rTensor::fnorm(B-stats::coef(fit_pls)), 8.1809065472)
+  expect_equal(fit_std$fitted.values[3, 51:55], c(2.35594144, -7.30311921,  0.89509184,  4.56270439,  5.52483876))
+  expect_equal(fit_pls$fitted.values[3, 51:55], c(0.32107521, -4.36888451,  3.42342640, -2.17142435,  3.97609705))
+  expect_equal(rTensor::fnorm(B-stats::coef(fit_std)), 2639.8270557)
+  expect_equal(rTensor::fnorm(B-stats::coef(fit_pls)), 8.5626061395)
 })
 
 test_that("TRR and TPR works with bat and square datasets", {
@@ -47,7 +46,7 @@ test_that("TRR and TPR works with bat and square datasets", {
   x <- bat$x
   y <- bat$y
   fit_std <- TRR.fit(x, y, method="standard")
-  expect_equal(fit_std$fitted.values@data[1:5,3,2], c(0.005919749, -0.004850022, -0.001173755, -0.002218994, -0.003877271))
+  expect_equal(fit_std$fitted.values@data[1:5,3,2], c(0.0059197489885, -0.0048500220339, -0.0011737549541, -0.0022189939226, -0.0038772714662))
 
   ## square
   data("square")

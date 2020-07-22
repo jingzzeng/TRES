@@ -40,7 +40,7 @@ manifold1D(M, U, u, ...)
 Return the estimated orthogonal basis of the envelope subspace.
 }
 \description{
-The 1D algorithm to estimate the envelope subspace with specified dimension based on R package \pkg{ManifoldOptim}.
+The 1D algorithm (Cook and Zhang 2016) implemented with Riemannian manifold optimization from R package \pkg{ManifoldOptim}.
 }
 \details{
 Estimate \code{M}-envelope of \code{span(U)}. The dimension of the envelope is \code{u}.

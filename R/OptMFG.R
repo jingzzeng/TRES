@@ -1,6 +1,6 @@
 #' Estimate the envelope subspace (\pkg{OptM} FG)
 #'
-#' The FG algorithm to estimate the envelope subspace based on the curvilinear search algorithm for optimization on Stiefel manifold. The algorithm is developed by Wen and Yin (2013) and the Matlab version is in the Matlab package \pkg{OptM}.
+#' The FG algorithm to estimate the envelope subspace based on the curvilinear search algorithm for optimization on Stiefel manifold. The curvilinear algorithm is developed by Wen and Yin (2013) and the Matlab version is implemented in the Matlab package \pkg{OptM}.
 #'
 #' @param M The \eqn{p}-by-\eqn{p} positive definite matrix \eqn{M} in the envelope objective function.
 #' @param U The \eqn{p}-by-\eqn{p} positive semi-definite matrix \eqn{U} in the envelope objective function.

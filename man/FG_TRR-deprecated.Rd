@@ -23,8 +23,6 @@ FG_TRR(Xn, Yn, Gamma_init)
 This function is used for envelope estimation of tensor response regression with the full Grassmannian (FG) optimization.
 }
 \examples{
-rm(list=ls())
-
 r <- c(10, 10, 10)
 m <- length(r)
 u <- c(2, 2, 2)

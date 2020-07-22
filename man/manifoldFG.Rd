@@ -41,7 +41,7 @@ The default values are: \code{maxiter = 500; tol = 1e-08; method = "RCG"; check 
 Return the estimated orthogonal basis of the envelope subspace.
 }
 \description{
-The FG algorithm to estimate the envelope subspace with specified dimension based on R package \pkg{ManifoldOptim}.
+The FG algorithm (Cook and Zhang 2016) implemented with Riemannian manifold optimization from R package \pkg{ManifoldOptim}.
 }
 \details{
 Estimate \code{M}-envelope of \code{span(U)}. The dimension of the envelope is \code{u}.
@@ -57,5 +57,7 @@ subspace(Gamma_FG, G)
 
 }
 \references{
+Cook, R. D., & Zhang, X. (2016). Algorithms for envelope estimation. Journal of Computational and Graphical Statistics, 25(1), 284-300.
+
 Huang, W., Absil, P. A., Gallivan, K. A., & Hand, P. (2018). ROPTLIB: an object-oriented C++ library for optimization on Riemannian manifolds. ACM Transactions on Mathematical Software (TOMS), 44(4), 43.
 }

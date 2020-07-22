@@ -2,7 +2,7 @@
 # Manifold   function 1D                         #
 ##################################################
 #' @import ManifoldOptim
-#' @import methods
+#' @importFrom methods new
 mod <- Module("ManifoldOptim_module", PACKAGE = "ManifoldOptim")
 mani.params <- get.manifold.params(IsCheckParams = TRUE)
 
@@ -50,7 +50,7 @@ first1D <- function(M, U, ...) {
 ##################################################
 #' Estimate the envelope subspace (\pkg{ManifoldOptim} 1D)
 #'
-#' The 1D algorithm to estimate the envelope subspace with specified dimension based on R package \pkg{ManifoldOptim}.
+#' The 1D algorithm (Cook and Zhang 2016) implemented with Riemannian manifold optimization from R package \pkg{ManifoldOptim}.
 #'
 #' @param M The \eqn{p}-by-\eqn{p} positive definite matrix \eqn{M} in the envelope objective function.
 #' @param U The \eqn{p}-by-\eqn{p} positive semi-definite matrix \eqn{U} in the envelope objective function.

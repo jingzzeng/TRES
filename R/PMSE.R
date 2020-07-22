@@ -52,14 +52,15 @@
 #' @export
 
 PMSE <- function(x, y, B){
-  if(inherits(x, "array") || inherits(x, "Tensor")){
+  if((inherits(x, "array") && !inherits(x, "matrix")) || inherits(x, "Tensor")){
+  ## If x is tensor and y is matrix
     if(inherits(x, "Tensor")) x <- x@data
     if(!is.matrix(y)){
       if(is.vector(y)){
         y <- t(as.matrix(y))
       }else stop("x is array (or tensor), y should be vector or matrix.")
     }
-    if(!inherits(B, "array")){
+    if(!inherits(B, "array") || inherits(B, "matrix")){
       if(inherits(B, "Tensor")){
         B <- B@data
       }else stop("x is array (or tensor), B should be array or Tensor.")
@@ -78,7 +79,8 @@ PMSE <- function(x, y, B){
     pred <- crossprod(tp1, tp2)
     res <- y - pred
     mse <- sum(res^2)/n
-  }else if(inherits(y, "array") || inherits(y, "Tensor")){
+  }else if((inherits(y, "array") && !inherits(y, "matrix")) || inherits(y, "Tensor")){
+    ## If y is tensor and x is matrix
     if(inherits(y, "Tensor")) y <- y@data
     if(!is.matrix(x)){
       if(is.vector(x)){
@@ -86,7 +88,7 @@ PMSE <- function(x, y, B){
       }else stop("y is array (or tensor), x should be vector or matrix.")
     }
     if(!inherits(B, "Tensor")){
-      if(inherits(B, "array")){
+      if(inherits(B, "array") && !inherits(B, "matrix")){
         B <- as.tensor(B)
       }else stop("y is array (or tensor), B should be array or Tensor.")
     }

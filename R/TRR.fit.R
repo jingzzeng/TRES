@@ -34,8 +34,6 @@
 #'  \item{residuals}{The residuals tensor.}
 #'
 #' @examples
-#' rm(list=ls())
-#'
 #' # The dimension of response
 #' r <- c(10, 10, 10)
 #' # The envelope dimensions u.
