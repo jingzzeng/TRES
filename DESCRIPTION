@@ -15,8 +15,8 @@ Language: en-US
 LazyData: true
 Depends: R (>= 3.6.0), ManifoldOptim (>= 1.0.0)
 Imports: MASS, methods, pracma (>= 2.2.5), rTensor (>= 1.4), stats
-URL: https://github.com/jerryfsu3333/TRES
-BugReports: https://github.com/jerryfsu3333/TRES/issues
+URL: https://github.com/leozeng15/TRES
+BugReports: https://github.com/leozeng15/TRES/issues
 RcppModules: ManifoldOptim_module
 RoxygenNote: 7.1.1
 NeedsCompilation: no

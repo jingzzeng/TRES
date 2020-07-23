@@ -56,8 +56,8 @@ Cook, R.D. and Zhang, X., 2018. Fast envelope algorithms. Statistica Sinica, 28(
 \seealso{
 Useful links:
 \itemize{
- \item \url{https://github.com/jerryfsu3333/TRES}
- \item Report bugs at \url{https://github.com/jerryfsu3333/TRES/issues}
+ \item \url{https://github.com/leozeng15/TRES}
+ \item Report bugs at \url{https://github.com/leozeng15/TRES/issues}
 }
 }
 \author{

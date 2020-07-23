@@ -19,7 +19,7 @@ You can install the released version of TRES from [CRAN](https://CRAN.R-project.
 install.packages("TRES")
 
 # Or the development version from GitHub:
-remotes::install_github("jerryfsu3333/TRES")
+remotes::install_github("leozeng15/TRES")
 ```
 
 ## Example 1: Tensor response regression analysis
@@ -97,6 +97,6 @@ G[[6]] <- OptMFG(M, U, u)
 *ECD algorithm*: Cook, R.D. and Zhang, X., 2018. Fast envelope algorithms. Statistica Sinica, 28(3), pp.1179-1197.
 
  <!-- badges: start -->
-  [![Travis build status](https://travis-ci.org/jerryfsu3333/TRES.svg?branch=master)](https://travis-ci.org/jerryfsu3333/TRES)
+  [![Travis build status](https://travis-ci.org/leozeng15/TRES.svg?branch=master)](https://travis-ci.org/leozeng15/TRES)
   <!-- badges: end -->
 
