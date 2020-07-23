@@ -51,7 +51,7 @@ fit_std <- TRR.fit(x, y, method="standard")
 
 }
 \references{
-Li L, Zhang X (2017). “Parsimonious Tensor Response Regression.” Journal of the American Statistical Association, 112(519), 1131–1146.
+Li, L. and Zhang, X., 2017. Parsimonious tensor response regression. Journal of the American Statistical Association, 112(519), pp.1131-1146.
 }
 \seealso{
 \code{\link{TPR.fit}, \link{TPRsim}}.

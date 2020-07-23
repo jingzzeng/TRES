@@ -4,13 +4,13 @@
 #'
 #' @author Wenjing Wang, Jing Zeng and Xin Zhang
 #'
-#' @references Cook RD, Zhang X (2016). “Algorithms for Envelope Estimation.” Journal of Computational and Graphical Statistics, 25(1), 284–300. doi:10.1080/10618600.2015.1029577.
+#' @references Cook, R.D. and Zhang, X., 2016. Algorithms for envelope estimation. Journal of Computational and Graphical Statistics, 25(1), pp.284-300.
 #'
-#'   Li L, Zhang X (2017). “Parsimonious Tensor Response Regression.” Journal of the American Statistical Association, 112(519), 1131–1146.
+#'   Li, L. and Zhang, X., 2017. Parsimonious tensor response regression. Journal of the American Statistical Association, 112(519), pp.1131-1146.
 #'
-#' Zhang X, Li L (2017). “Tensor Envelope Partial Least Squares Regression.” Technometrics, 59(4), 426–436.
+#' Zhang, X. and Li, L., 2017. Tensor envelope partial least-squares regression. Technometrics, 59(4), pp.426-436.
 #'
-#' Cook RD, Zhang X (2018). “Fast Envelope Algorithms.” Statistica Sinica, 28(3), 1179–1197.
+#' Cook, R.D. and Zhang, X., 2018. Fast envelope algorithms. Statistica Sinica, 28(3), pp.1179-1197.
 #'
 #' @docType package
 #' @name TRES-package

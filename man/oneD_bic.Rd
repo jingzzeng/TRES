@@ -58,9 +58,9 @@ main="Envelope Dimension Selection")
 
 }
 \references{
-Zhang, X., & Mai, Q. (2018). Model-free envelope dimension selection. Electronic Journal of Statistics, 12(2), 2193-2216.
+Zhang, X. and Mai, Q., 2018. Model-free envelope dimension selection. Electronic Journal of Statistics, 12(2), pp.2193-2216.
 
-Wen, Z., & Yin, W. (2013). A feasible method for optimization with orthogonality constraints. Mathematical Programming, 142(1-2), 397-434.
+Wen, Z. and Yin, W., 2013. A feasible method for optimization with orthogonality constraints. Mathematical Programming, 142(1-2), pp.397-434.
 }
 \seealso{
 \code{\link{OptM1D}, \link{MenvU_sim}}

@@ -19,7 +19,7 @@
 #' @param xlab The title of x-axis.
 #' @param ylab The title of y-axis.
 #' @param axes A logical value specifying whether the axes should be drawn.
-#' @param ask A logical value. If it is TRUE (default), the user is prompted before the second plot is shown (if exists).
+#' @param ask A logical value. If it is TRUE (default), user is prompted before the second plot is shown (if exists).
 #' @param ... Other parameters to be passed to the plotting functions.
 #'
 #' @seealso \code{\link{TRR.fit}, \link{TPR.fit}}

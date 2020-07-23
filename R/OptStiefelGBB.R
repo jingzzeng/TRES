@@ -27,7 +27,7 @@
 #' \deqn{F(X) = -tr(X^T W X), G(X) = - 2 W X.}
 #' See \strong{Examples} for details.
 #'
-#' @references Wen, Z., & Yin, W. (2013). A feasible method for optimization with orthogonality constraints. Mathematical Programming, 142(1-2), 397-434.
+#' @references Wen, Z. and Yin, W., 2013. A feasible method for optimization with orthogonality constraints. Mathematical Programming, 142(1-2), pp.397-434.
 #'
 #' @examples
 #' n <- 1000

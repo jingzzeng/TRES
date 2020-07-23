@@ -16,7 +16,7 @@
 #' \item{F}{The value of the objective function at \code{Gamma}.}
 #' \item{G}{The value of the gradient function at \code{Gamma}.}
 #'
-#' @references Cook, R. D., & Zhang, X. (2016). Algorithms for envelope estimation. Journal of Computational and Graphical Statistics, 25(1), 284-300.
+#' @references Cook, R.D. and Zhang, X., 2016. Algorithms for envelope estimation. Journal of Computational and Graphical Statistics, 25(1), pp.284-300.
 #'
 #' @export
 FGfun <- function (Gamma, M, U)

@@ -15,7 +15,7 @@
 #' \item{lambda}{The normalizing constant.}
 #' \item{S}{A matrix list, consisting of each normalized covariance matrix \eqn{\Sigma_1,\ldots,\Sigma_m}.}
 #'
-#' @references Manceur, A. M., & Dutilleul, P. (2013). Maximum likelihood estimation for the tensor normal distribution: Algorithm, minimum sample size, and empirical bias and dispersion. Journal of Computational and Applied Mathematics, 239, 37-49.
+#' @references Manceur, A.M. and Dutilleul, P., 2013. Maximum likelihood estimation for the tensor normal distribution: Algorithm, minimum sample size, and empirical bias and dispersion. Journal of Computational and Applied Mathematics, 239, pp.37-49.
 #'
 #' @export
 #' @import rTensor

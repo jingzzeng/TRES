@@ -14,11 +14,11 @@
 #'
 #' @references URL: \url{https://archive.ics.uci.edu/ml/datasets/EEG+Database}.
 #'
-#' Li L, Zhang X (2017). “Parsimonious Tensor Response Regression.” Journal of the American Statistical Association, 112(519), 1131–1146.
+#' Li, L. and Zhang, X., 2017. Parsimonious tensor response regression. Journal of the American Statistical Association, 112(519), pp.1131-1146.
 #'
-#' Zhang, X., Begleiter, H., Porjesz, B.,Wang,W., and Litke, A. (1995), “Event Related Potentials During Object Recognition Tasks,” Brain Research Bulletin, 38, 531–538. [1142]
+#' Zhang, X.L., Begleiter, H., Porjesz, B., Wang, W. and Litke, A., 1995. Event related potentials during object recognition tasks. Brain research bulletin, 38(6), pp.531-538.
 #'
-#' Li, B., Kim, M. K., and Altman, N. (2010), “On Dimension Folding of Matrix-or Array-Valued Statistical Objects,” The Annals of Statistics, pp. 1094–1121. [1142]
+#' Li, B., Kim, M.K. and Altman, N., 2010. On dimension folding of matrix-or array-valued statistical objects. The Annals of Statistics, 38(2), pp.1094-1121.
 #'
 #' @details The original EEG data contains 77 alcoholic individuals and 45 controls. To reduce the size, we randomly select 61 samples and obtain 39 alcoholic individuals and 22 controls. Each individual was measured with 64 electrodes placed on the scalp sampled at 256 Hz for 1 sec, resulting an EEG image of 64 channels by 256 time points. More information about data collection and some analysis can be found in Zhang et al. (1995) and Li, Kim, and Altman (2010). To facilitate the analysis, the data is downsized along the time domain by averaging every four consecutive time points, yielding a 64 × 64 matrix response.
 #'

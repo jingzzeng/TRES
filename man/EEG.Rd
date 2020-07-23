@@ -43,10 +43,10 @@ plot(fit_1D, xlab = "Time", ylab = "Channels")
 \references{
 URL: \url{https://archive.ics.uci.edu/ml/datasets/EEG+Database}.
 
-Li L, Zhang X (2017). “Parsimonious Tensor Response Regression.” Journal of the American Statistical Association, 112(519), 1131–1146.
+Li, L. and Zhang, X., 2017. Parsimonious tensor response regression. Journal of the American Statistical Association, 112(519), pp.1131-1146.
 
-Zhang, X., Begleiter, H., Porjesz, B.,Wang,W., and Litke, A. (1995), “Event Related Potentials During Object Recognition Tasks,” Brain Research Bulletin, 38, 531–538. [1142]
+Zhang, X.L., Begleiter, H., Porjesz, B., Wang, W. and Litke, A., 1995. Event related potentials during object recognition tasks. Brain research bulletin, 38(6), pp.531-538.
 
-Li, B., Kim, M. K., and Altman, N. (2010), “On Dimension Folding of Matrix-or Array-Valued Statistical Objects,” The Annals of Statistics, pp. 1094–1121. [1142]
+Li, B., Kim, M.K. and Altman, N., 2010. On dimension folding of matrix-or array-valued statistical objects. The Annals of Statistics, 38(2), pp.1094-1121.
 }
 \keyword{datasets}

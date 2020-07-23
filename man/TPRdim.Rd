@@ -57,7 +57,7 @@ TPRdim(x, y, maxdim=32)}
 
 }
 \references{
-Zhang, X., & Li, L. (2017). Tensor Envelope Partial Least-Squares Regression. Technometrics, 59(4), 426-436.
+Zhang, X. and Li, L., 2017. Tensor envelope partial least-squares regression. Technometrics, 59(4), pp.426-436.
 }
 \seealso{
 \code{\link{TPRsim}}.

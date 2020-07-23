@@ -32,9 +32,9 @@
 #'
 #' As suggested by Zhang, X., & Mai, Q. (2018), the number \eqn{C} should be set to its default value \eqn{C = 1} when there is no additional model assumption or prior information. However, if additional model assumption or prior information are known, C should be set such that \eqn{Ck} best matches the degree-of-freedom or total number of free parameters of the model or estimation procedure. For example, in TRR model where the predictor design matrix is of dimension \eqn{p \times n}, \eqn{C} should be set as \eqn{p}. See Zhang, X., & Mai, Q. (2018) for more details.
 #'
-#' @references Zhang, X., & Mai, Q. (2018). Model-free envelope dimension selection. Electronic Journal of Statistics, 12(2), 2193-2216.
+#' @references Zhang, X. and Mai, Q., 2018. Model-free envelope dimension selection. Electronic Journal of Statistics, 12(2), pp.2193-2216.
 #'
-#' Wen, Z., & Yin, W. (2013). A feasible method for optimization with orthogonality constraints. Mathematical Programming, 142(1-2), 397-434.
+#' Wen, Z. and Yin, W., 2013. A feasible method for optimization with orthogonality constraints. Mathematical Programming, 142(1-2), pp.397-434.
 #'
 #' @seealso \code{\link{OptM1D}, \link{MenvU_sim}}
 #'

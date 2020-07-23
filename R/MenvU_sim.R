@@ -25,7 +25,7 @@
 #' \item{U}{The \eqn{p}-by-\eqn{p} matrix \code{U}.}
 #' \item{Gamma}{The \eqn{p}-by-\eqn{u} envelope basis.}
 #'
-#' @references Cook, R. D., & Zhang, X. (2018). Fast envelope algorithms. Statistica Sinica, 28(3), 1179-1197.
+#' @references Cook, R.D. and Zhang, X., 2018. Fast envelope algorithms. Statistica Sinica, 28(3), pp.1179-1197.
 #'
 #' @examples
 #' data1 <- MenvU_sim(p = 20, u = 5)

@@ -56,9 +56,9 @@ subspace(Gamma_1D, G)
 
 }
 \references{
-Huang, W., Absil, P. A., Gallivan, K. A., & Hand, P. (2018). ROPTLIB: an object-oriented C++ library for optimization on Riemannian manifolds. ACM Transactions on Mathematical Software (TOMS), 44(4), 43.
+Cook, R.D. and Zhang, X., 2016. Algorithms for envelope estimation. Journal of Computational and Graphical Statistics, 25(1), pp.284-300.
 
-Cook, R. D., & Zhang, X. (2016). Algorithms for envelope estimation. Journal of Computational and Graphical Statistics, 25(1), 284-300.
+Huang, W., Absil, P.A., Gallivan, K.A. and Hand, P., 2018. ROPTLIB: an object-oriented C++ library for optimization on Riemannian manifolds. ACM Transactions on Mathematical Software (TOMS), 44(4), pp.1-21.
 }
 \seealso{
 \code{\link{MenvU_sim}, \link{subspace}}

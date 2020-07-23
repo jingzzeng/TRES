@@ -20,7 +20,7 @@ TRRdim(x, y, C = NULL, maxdim = 10, ...)
 \value{
 \item{bicval}{The minimal BIC values for each mode.}
 \item{u}{The optimal envelope subspace dimension \eqn{(u_1, u_2,\cdots,u_m).}}
-\item{mse}{The mean squared error with the selected envelope basis.}
+\item{mse}{The prediction mean squared error using the selected envelope basis.}
 }
 \description{
 This function uses the 1D-BIC criterion proposed by Zhang, X., & Mai, Q. (2018) to select envelope dimensions in tensor response regression. Refer to \code{\link{oneD_bic}} for more details.
@@ -58,6 +58,11 @@ dim(y)
 TRRdim(x, y, maxdim=32)
 }
 
+}
+\references{
+Li, L. and Zhang, X., 2017. Parsimonious tensor response regression. Journal of the American Statistical Association, 112(519), pp.1131-1146.
+
+Zhang, X. and Mai, Q., 2018. Model-free envelope dimension selection. Electronic Journal of Statistics, 12(2), pp.2193-2216.
 }
 \seealso{
 \code{\link{oneD_bic}}, \code{\link{TRRsim}}.

@@ -30,9 +30,9 @@ subspace(Gamma_pls, G)
 
 }
 \references{
-De Jong, S. (1993). SIMPLS: an alternative approach to partial least squares regression. Chemometrics and intelligent laboratory systems, 18(3), 251-263.
+De Jong, S., 1993. SIMPLS: an alternative approach to partial least squares regression. Chemometrics and intelligent laboratory systems, 18(3), pp.251-263.
 
-Cook, R. D., Helland, I. S., Su, Z. (2013). Envelopes and partial least squares regression. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 75(5), 851-877.
+Cook, R.D., Helland, I.S. and Su, Z., 2013. Envelopes and partial least squares regression. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 75(5), pp.851-877.
 
-Cook, R. D. (2018). An introduction to envelopes: dimension reduction for efficient estimation in multivariate statistics (Vol. 401). John Wiley & Sons.
+Cook, R.D., 2018. An introduction to envelopes: dimension reduction for efficient estimation in multivariate statistics (Vol. 401). John Wiley & Sons.
 }

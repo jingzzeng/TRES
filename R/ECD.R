@@ -98,7 +98,7 @@ optimECD <- function(A, B, w0, maxiter=500, tol=1e-08) {
 #'
 #' @return Return the orthogonal basis of the envelope subspace with each column represent the sequential direction. For example, the first column is the most informative direction.
 #'
-#' @references Cook, R. D., & Zhang, X. (2018). Fast envelope algorithms. Statistica Sinica, 28(3), 1179-1197.
+#' @references Cook, R.D. and Zhang, X., 2018. Fast envelope algorithms. Statistica Sinica, 28(3), pp.1179-1197.
 #'
 #' @examples
 #' ##simulate two matrices M and U with an envelope structure#

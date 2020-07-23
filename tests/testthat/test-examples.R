@@ -1,5 +1,6 @@
 context("Test reproducible examples in the paper.")
 
+testthat::skip('skip')
 ## Set up RNG kind
 RNGkind("L'Ecuyer-CMRG")
 

@@ -1,7 +1,34 @@
 # TRES 1.1.2
 
+## Major changes
+
+- Renaming: `TRR_sim -> TRRsim; TPR_sim -> TPRsim; TensEnv_dim -> TRRdim; ballGBB1D_bic -> oneD_bic; TensPLS_cv2d3d -> TPRdim; OptimballGBB1D -> OptM1D; EnvMU -> simplsMU`
+- Deprecate:
+- `plot.Tenv`:
+    - Correct the direction of y axis. The coordinates of x and y increase from left to right, top to bottom; 
+    - Add arguments `xlab = ""`, `ylab = ""`, `axes = TRUE`, `ask = TRUE`, remove arguments `xticks`, `yticks`. `axes` is a logical value specifying whether the axes should be drawn. If `ask = TRUE`, user is prompted before the second plot is shown (if exists).
+- `ECD, simplsMU, manifold1D, manifoldFG, OptM1D, OptMFG`: Change optional arguments like `maxiter`, `tol`, to three dots `...`
+- `fun1D, get_ini1D, ballGBB1D, OptManiMulitBallGBB`: Collected into file "1Dfunction.R". Help documentation are no longer supported.
+- `MenvU_sim`: An option `wishart = FALSE` is provided to return the population matrices `M` and `U`. Other argument like `jitter` is also provided which adds an scaler matrix to `M` to ensures it positive-definiteness.
+- `PMSE`: Calculates the prediction and mean squared error for both TRR and TPR models.
+- `kroncov`: Add convergence criterion `tol` and the maximal iteration `maxiter`.
+
+
+## Minor changes
+- `OptStiefelGBB`: Hide `out` from the output.
+- `manifoldFG`: Set default value for `Gamma_init`.
+- `ttt.R`: Change arguments `X,Y` to `x,y`.
+- `oneD_bic`: Add the estimated envelope basis `Gamma` to the output.
+- `TRRdim`: Output the mean squared error using the selected envelope basis.
+- `TRRdim, oneD_bic`: Argument `multiD` is changed to `C` to comply with the paper Zhang X, Mai Q (2018). "Model-Free Envelope Dimension Selection." Electronic Journal of Statistics.
+
+### New functions
+- `OptMFG`: New FG optimization function encapsulating the core function `OptStiefelGBB`.
+- `show`: overloads `show` in package `rTensor`. With the overloaded `show`, only  the first 6 elements of tensor is printed out.
+
 ## Bugs
 - In documentation of `subspace()`, the formula of subspace distance should be ||P_{A} - P_{B}||_F/√{2d}.
+- Fix bat dataset where `x` was not binary.
 
 ---
 

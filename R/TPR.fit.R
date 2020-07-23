@@ -87,7 +87,7 @@
 #'
 #' The simulated data \code{\link{square}} used in tensor predictor regression.
 #'
-#' @references Zhang, X., Li, L. (2017). Tensor Envelope Partial Least-Squares Regression. Technometrics, 59(4), 426-436.
+#' @references Zhang, X. and Li, L., 2017. Tensor envelope partial least-squares regression. Technometrics, 59(4), pp.426-436.
 #'
 #' @export
 #' @import rTensor

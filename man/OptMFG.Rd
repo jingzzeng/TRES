@@ -49,7 +49,7 @@ Gamma_FG <- OptMFG(M, U, u=5)
 subspace(Gamma_FG, G)
 }
 \references{
-Wen, Z., & Yin, W. (2013). A feasible method for optimization with orthogonality constraints. Mathematical Programming, 142(1-2), 397-434.
+Wen, Z. and Yin, W., 2013. A feasible method for optimization with orthogonality constraints. Mathematical Programming, 142(1-2), pp.397-434.
 }
 \seealso{
 \code{\link{OptStiefelGBB}}

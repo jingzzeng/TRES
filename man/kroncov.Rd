@@ -27,5 +27,5 @@ The individual component covariance matrices \eqn{\Sigma_i, i=1,\ldots, m} are n
 If \code{Tn} is a \eqn{p \times n} design matrix for a multivariate random variable, then \code{lambda = 1} and \code{S} is a length-one list containing the sample covariance matrix.
 }
 \references{
-Manceur, A. M., & Dutilleul, P. (2013). Maximum likelihood estimation for the tensor normal distribution: Algorithm, minimum sample size, and empirical bias and dispersion. Journal of Computational and Applied Mathematics, 239, 37-49.
+Manceur, A.M. and Dutilleul, P., 2013. Maximum likelihood estimation for the tensor normal distribution: Algorithm, minimum sample size, and empirical bias and dispersion. Journal of Computational and Applied Mathematics, 239, pp.37-49.
 }

@@ -31,7 +31,7 @@
 
 \item{axes}{A logical value specifying whether the axes should be drawn.}
 
-\item{ask}{A logical value. If it is TRUE (default), the user is prompted before the second plot is shown (if exists).}
+\item{ask}{A logical value. If it is TRUE (default), user is prompted before the second plot is shown (if exists).}
 
 \item{...}{Other parameters to be passed to the plotting functions.}
 }

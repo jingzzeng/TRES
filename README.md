@@ -22,9 +22,9 @@ install.packages("TRES")
 remotes::install_github("jerryfsu3333/TRES")
 ```
 
-## Example
+## Example 1: Tensor response regression analysis
 
-This is a basic example providing you a guidance on how to use the primary function `TRR.fit` and several **S**3 methods in Tensor Response Regression (TRR) model. The ordinary least square method and 1D envelope method are implemented.
+This is a basic example providing you a guidance on how to use the primary function `TRR.fit` and several **S**3 methods in Tensor Response Regression (TRR) model. The ordinary least square method and 1D envelope method are implemented. See Li and Zhang (2017) for more background.
 
 ``` r
 library(TRES)
@@ -63,15 +63,38 @@ The coefficients plots from OLS and 1D methods are aligned in the first row belo
  <img src="man/figures/p_value_std.png" width="300"/><img src="man/figures/p_value_1D.png" width="300"/>
 </div>
 
+## Example 2: Model-free envelope estimation
+This example shows how to use the function `MenU_sim` to simulate the matrices `M` and `U` with envelope structure, and how to use different core functions to implement different envelope estimation algorithms. See Cook and Zhang (2016) for more details.
+``` r
+## Generate matrices M and U
+p <- 50
+u <- 5
+n <- 200
+data <- MenvU_sim(p, u, jitter = 1e-5, wishart = TRUE, n = n)
+Gamma <- data$Gamma
+M <- data$M
+U <- data$U
+
+## Use different envelope algorithms
+G <- vector("list", 6)
+G[[1]] <- simplsMU(M, U, u)
+G[[2]] <- ECD(M, U, u)
+G[[3]] <- manifold1D(M, U, u)
+G[[4]] <- OptM1D(M, U, u)
+G[[5]] <- manifoldFG(M, U, u)
+G[[6]] <- OptMFG(M, U, u)
+```
+
 ## References
 
-*TRR*: Li, Lexin, and Xin Zhang. "Parsimonious tensor response regression." Journal of the American Statistical Association 112.519 (2017): 1131-1146.
+*1D algorithm*: Cook, R.D. and Zhang, X., 2016. Algorithms for envelope estimation. Journal of Computational and Graphical Statistics, 25(1), pp.284-300.
 
-*TPR*: Zhang, Xin, and Lexin Li. "Tensor envelope partial least-squares regression." Technometrics 59.4 (2017): 426-436.
+*TRR*: Li, L. and Zhang, X., 2017. Parsimonious tensor response regression. Journal of the American Statistical Association, 112(519), pp.1131-1146.
 
-*1D algorithm*: Cook, R. D., & Zhang, X. (2016). Algorithms for envelope estimation. Journal of Computational and Graphical Statistics, 25(1), 284-300.
+*TPR*: Zhang, X. and Li, L., 2017. Tensor envelope partial least-squares regression. Technometrics, 59(4), pp.426-436.
 
-*ECD algorithm*: Cook, R. D., & Zhang, X. (2018). Fast envelope algorithms. Statistica Sinica, 28(3), 1179-1197.
+
+*ECD algorithm*: Cook, R.D. and Zhang, X., 2018. Fast envelope algorithms. Statistica Sinica, 28(3), pp.1179-1197.
 
  <!-- badges: start -->
   [![Travis build status](https://travis-ci.org/jerryfsu3333/TRES.svg?branch=master)](https://travis-ci.org/jerryfsu3333/TRES)

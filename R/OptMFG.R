@@ -25,7 +25,7 @@
 #'
 #' @return Return the estimated orthogonal basis of the envelope subspace.
 #'
-#' @references Wen, Z., & Yin, W. (2013). A feasible method for optimization with orthogonality constraints. Mathematical Programming, 142(1-2), 397-434.
+#' @references Wen, Z. and Yin, W., 2013. A feasible method for optimization with orthogonality constraints. Mathematical Programming, 142(1-2), pp.397-434.
 #'
 #' @seealso \code{\link{OptStiefelGBB}}
 #'

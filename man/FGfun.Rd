@@ -27,5 +27,5 @@ The generic objective function \eqn{F(\Gamma)} and its gradient \eqn{G(\Gamma)} 
 \deqn{G(\Gamma) = dF/d \Gamma = 2 M \Gamma (\Gamma^T M \Gamma)^{-1} + 2 (M + U)^{-1} \Gamma (\Gamma^T (M + U)^{-1} \Gamma)^{-1}}
 }
 \references{
-Cook, R. D., & Zhang, X. (2016). Algorithms for envelope estimation. Journal of Computational and Graphical Statistics, 25(1), 284-300.
+Cook, R.D. and Zhang, X., 2016. Algorithms for envelope estimation. Journal of Computational and Graphical Statistics, 25(1), pp.284-300.
 }

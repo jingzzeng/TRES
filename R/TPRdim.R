@@ -19,7 +19,7 @@
 #'  \deqn{1/nk \sum_{i=1}^{nk}||Y_i-\hat{Y}_i||_F^2,}
 #' where \eqn{nk} is the sample size of the \eqn{k}-th testing dataset and \eqn{||\cdot||_F} denotes the Frobenius norm. Then, the average of \code{nfolds} mean squared error is recorded as cross-validation mean squared error for the dimension \code{u}.
 #'
-#' @references Zhang, X., & Li, L. (2017). Tensor Envelope Partial Least-Squares Regression. Technometrics, 59(4), 426-436.
+#' @references Zhang, X. and Li, L., 2017. Tensor envelope partial least-squares regression. Technometrics, 59(4), pp.426-436.
 #'
 #' @examples
 #' # The dimension of predictor

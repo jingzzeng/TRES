@@ -33,9 +33,9 @@
 #' Gamma_1D <- OptM1D(M, U, u = 5)
 #' subspace(Gamma_1D, G)
 #'
-#' @references Cook, R. D., & Zhang, X. (2016). Algorithms for envelope estimation. Journal of Computational and Graphical Statistics, 25(1), 284-300.
+#' @references Cook, R.D. and Zhang, X., 2016. Algorithms for envelope estimation. Journal of Computational and Graphical Statistics, 25(1), pp.284-300.
 #'
-#' Wen, Z., & Yin, W. (2013). A feasible method for optimization with orthogonality constraints. Mathematical Programming, 142(1-2), 397-434.
+#' Wen, Z. and Yin, W., 2013. A feasible method for optimization with orthogonality constraints. Mathematical Programming, 142(1-2), pp.397-434.
 #'
 #' @export
 OptM1D <- function(M, U, u, ...) {
