@@ -4,18 +4,10 @@
 * win-builder (devel, release and oldrelease)
 
 ## R CMD check results
-There were no ERRORs or WARNINGs.
-
-There was a NOTE:
-
-    installed size is  5.2Mb
-    sub-directories of 1Mb or more:
-      data   4.6Mb
-
-
+There were no ERRORs, WARNINGs or NOTEs.
 
 ## Downstream dependencies
 No reverse dependence packages.
 
 ## Updates
-* This is the updated version of old package TRES_1.1.0. 
+* This is the updated version of old package TRES_1.1.1. 

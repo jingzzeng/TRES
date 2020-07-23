@@ -49,15 +49,15 @@ test_that("Section 3.2", {
   expect_equal(c(dist_ols2, dist_1d2, dist_ecd2, dist_pls2, dist_ols2, Pdist_fg2, Pdist_1d2, Pdist_ecd2, Pdist_pls2), c(2225.63779502817, 5.79782569895, 5.79782589677, 5.59056824394, 2225.63779502817, 1.41425438027, 1.41425441003, 1.41425440173, 0.15631639801))
 })
 
-# test_that("Section 3.5", {
-#   set.seed(1)
-#   data("EEG")
-#   u_eeg <- c(1,1)
-#   fit_eeg_ols <- TRR.fit(EEG$x, EEG$y, method = "standard")
-#   fit_eeg_1D <- TRR.fit(EEG$x, EEG$y, u_eeg, method = "1D")
-#   testthat::expect_equal(fit_eeg_ols$coefficients@data[8:12,8,1], c(-0.366630829630, -0.261239934548, -0.219068713316, -0.446891195270, -0.052921258942))
-#   testthat::expect_equal(fit_eeg_1D$coefficients@data[8:12,25,1], c(0.89692691067, 0.90840436579, 0.38470099196, 0.41905761624, 0.47724350241), tolerance = 1e-4)
-# })
+test_that("Section 3.5", {
+  set.seed(1)
+  data("EEG")
+  u_eeg <- c(1,1)
+  fit_eeg_ols <- TRR.fit(EEG$x, EEG$y, method = "standard")
+  fit_eeg_1D <- TRR.fit(EEG$x, EEG$y, u_eeg, method = "1D")
+  testthat::expect_equal(fit_eeg_ols$coefficients@data[8:12,8,1], c(-0.08669501, -0.10257079, -0.03880391, 0.02420581,  0.08765343))
+  testthat::expect_equal(fit_eeg_1D$coefficients@data[8:12,25,1], c(1.1223038, 1.0996184, 0.4879741, 0.5078613, 0.6050595), tolerance = 1e-4)
+})
 
 test_that("Section 4.3", {
   set.seed(1)

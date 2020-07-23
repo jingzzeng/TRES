@@ -7,8 +7,8 @@
 \format{
 A list consisting of two components:
 \describe{
- \item{x}{A \eqn{1 \times 84} matrix, denoting the subject in alcoholic and control groups as 1 and 0 respectively.}
- \item{y}{A \eqn{64 \times 64 \times 84} tensor, consisting 84 \emph{channels} by \emph{time} EEG images.}
+ \item{x}{A binary vector with length of 61.}
+ \item{y}{A \eqn{64 \times 64 \times 61} tensor, consisting of 61 \emph{channels} by \emph{time} EEG images.}
 }
 }
 \usage{
@@ -18,7 +18,7 @@ data("EEG")
 EEG images data of subjects in alcoholic and control groups.
 }
 \details{
-The EEG data contains 77 alcoholic individuals and 44 controls. Each individual was measured with 64 electrodes placed on the scalp sampled at 256 Hz for 1 sec, resulting an EEG image of 64 channels by 256 time points. More information about data collection and some analysis can be found in Zhang et al. (1995) and Li, Kim, and Altman (2010). To facilitate the analysis, the data is downsized along the time domain by averaging every four consecutive time points, yielding a 64 × 64 matrix response.
+The original EEG data contains 77 alcoholic individuals and 45 controls. To reduce the size, we randomly select 61 samples and obtain 39 alcoholic individuals and 22 controls. Each individual was measured with 64 electrodes placed on the scalp sampled at 256 Hz for 1 sec, resulting an EEG image of 64 channels by 256 time points. More information about data collection and some analysis can be found in Zhang et al. (1995) and Li, Kim, and Altman (2010). To facilitate the analysis, the data is downsized along the time domain by averaging every four consecutive time points, yielding a 64 × 64 matrix response.
 }
 \examples{
 data("EEG")

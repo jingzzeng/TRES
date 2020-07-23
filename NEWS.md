@@ -1,7 +1,7 @@
-# TRES 1.1.1.9000 (development version)
+# TRES 1.1.2
 
 ## Bugs
-- In documentation, the denominator in the formula for `subspace()` should be $\sqrt{2d}$.
+- In documentation of `subspace()`, the formula of subspace distance should be ||P_{A} - P_{B}||_F/√{2d}.
 
 ---
 
