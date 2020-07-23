@@ -2,6 +2,8 @@
 # TRES
 
 <!-- badges: start -->
+[![Travis build status](https://travis-ci.org/leozeng15/TRES.svg?branch=master)](https://travis-ci.org/leozeng15/TRES)
+[![cran webpage](https://img.shields.io/badge/cran-1.1.2-blue)](https://CRAN.R-project.org/package=TRES)
 <!-- badges: end -->
 
 The package **TRES** implements the least squares and envelope estimation under the framework of tensor regression models. The general model-free envelope models can also be flexibly handled by the package via three types of envelope estimation algorithms: 
@@ -95,11 +97,6 @@ G[[6]] <- OptMFG(M, U, u)
 
 
 *ECD algorithm*: Cook, R.D. and Zhang, X., 2018. Fast envelope algorithms. Statistica Sinica, 28(3), pp.1179-1197.
-
- <!-- badges: start -->
-  [![Travis build status](https://travis-ci.org/leozeng15/TRES.svg?branch=master)](https://travis-ci.org/leozeng15/TRES)
-  [![cran webpage](https://img.shields.io/badge/cran-1.1.2-blue)](https://CRAN.R-project.org/package=TRES)
-  <!-- badges: end -->
 
 
 
