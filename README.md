@@ -98,5 +98,8 @@ G[[6]] <- OptMFG(M, U, u)
 
  <!-- badges: start -->
   [![Travis build status](https://travis-ci.org/leozeng15/TRES.svg?branch=master)](https://travis-ci.org/leozeng15/TRES)
+  [![cran webpage](https://img.shields.io/badge/cran-1.1.2-blue)](https://CRAN.R-project.org/package=TRES)
   <!-- badges: end -->
+
+
 
