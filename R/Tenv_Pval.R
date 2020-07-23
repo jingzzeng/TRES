@@ -1,4 +1,4 @@
-#' The \eqn{p}-value and standard error of each element in the estimator of the tensor response regression (TRR) coefficient
+#' The \eqn{p}-value and standard error of coefficient in tensor response regression (TRR) model.
 #'
 #' Obtain \eqn{p}-value of each element in the tensor regression coefficient estimator. Two-sided t-tests are implemented on the coefficient estimator, where asymptotic covariance of the OLS estimator is used.
 #'

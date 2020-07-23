@@ -2,7 +2,7 @@
 % Please edit documentation in R/Tenv_Pval.R
 \name{Tenv_Pval}
 \alias{Tenv_Pval}
-\title{The \eqn{p}-value and standard error of each element in the estimator of the tensor response regression (TRR) coefficient}
+\title{The \eqn{p}-value and standard error of coefficient in tensor response regression (TRR) model.}
 \usage{
 Tenv_Pval(x, y, Bhat)
 }
