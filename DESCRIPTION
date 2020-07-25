@@ -2,7 +2,7 @@ Package: TRES
 Type: Package
 Title: Tensor Regression with Envelope Structure and Three Generic
         Envelope Estimation Approaches
-Version: 1.1.2
+Version: 1.1.2.9000
 Date: 2020-07-21
 Authors@R: c(
     person("Wenjing", "Wang", email = "wenjing.wang@stat.fsu.edu", role = c("aut")),
