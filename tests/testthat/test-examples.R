@@ -2,46 +2,49 @@ context("Test reproducible examples in the paper.")
 
 # testthat::skip('skip')
 ## Set up RNG kind
-RNGkind("L'Ecuyer-CMRG")
+# RNGkind("L'Ecuyer-CMRG")
+# set.seed(1)
 
 test_that("Section 3.1", {
+  RNGkind("L'Ecuyer-CMRG")
   set.seed(1)
   data("bat")
   fit_ols1 <- TRR.fit(bat$x, bat$y, method = 'standard')
-  # fit_fg1 <- TRR.fit(bat$x, bat$y, u = c(14,14), method = "FG")
+  fit_fg1 <- TRR.fit(bat$x, bat$y, u = c(14,14), method = "FG")
   fit_1d1 <- TRR.fit(bat$x, bat$y, u = c(14,14), method = "1D")
   fit_ecd1 <- TRR.fit(bat$x, bat$y, u = c(14,14), method = "ECD")
   fit_pls1 <- TRR.fit(bat$x, bat$y, u = c(14,14), method = 'PLS')
   dist_ols1 <- rTensor::fnorm(coef(fit_ols1) - bat$coefficients)
-  # dist_fg1 <- rTensor::fnorm(coef(fit_fg1) - bat$coefficients)
+  dist_fg1 <- rTensor::fnorm(coef(fit_fg1) - bat$coefficients)
   dist_1d1 <- rTensor::fnorm(coef(fit_1d1) - bat$coefficients)
   dist_ecd1 <- rTensor::fnorm(coef(fit_ecd1) - bat$coefficients)
   dist_pls1 <- rTensor::fnorm(coef(fit_pls1) - bat$coefficient)
-  # Pdist_fg1 <- rep(NA_real_, 2)
+  Pdist_fg1 <- rep(NA_real_, 2)
   Pdist_1d1 <- rep(NA_real_, 2)
   Pdist_ecd1 <- rep(NA_real_, 2)
   Pdist_pls1 <- rep(NA_real_, 2)
   for (i in 1:2){
-    # Pdist_fg1[i] <- subspace(bat$Gamma[[i]],fit_fg1$Gamma[[i]])
+    Pdist_fg1[i] <- subspace(bat$Gamma[[i]],fit_fg1$Gamma[[i]])
     Pdist_1d1[i] <- subspace(bat$Gamma[[i]],fit_1d1$Gamma[[i]])
     Pdist_ecd1[i] <- subspace(bat$Gamma[[i]],fit_ecd1$Gamma[[i]])
     Pdist_pls1[i] <- subspace(bat$Gamma[[i]],fit_pls1$Gamma[[i]])
   }
-  # Pdist_fg1 <- sum(Pdist_fg1)
+  Pdist_fg1 <- sum(Pdist_fg1)
   Pdist_1d1 <- sum(Pdist_1d1)
   Pdist_ecd1 <- sum(Pdist_ecd1)
   Pdist_pls1 <- sum(Pdist_pls1)
 
   expect_equal(fit_ols1$coefficients@data[1:6], c(-0.23776572,0.00374166,0.07267266,0.07700538,-0.02571225,-0.02067925), tol = 1e-8)
-  # expect_equal(fit_fg1$coefficients@data[1:6], c(-0.00003057,-0.00003878,0.00000770,0.00001446,0.00002130,0.00001392), tol = 1e-8)
+  expect_equal(fit_fg1$coefficients@data[1:6], c(-0.00003057,-0.00003878,0.00000770,0.00001446,0.00002130,0.00001392), tol = 1e-8)
   expect_equal(fit_1d1$coefficients@data[1:6], c(-0.00003080,-0.00003882,0.00000861,0.00001522,0.00002113,0.00001237), tol = 1e-8)
   expect_equal(fit_ecd1$coefficients@data[1:6], c(-0.00005015,-0.00004211,0.00000448,0.00000875,0.00001045,0.00000893), tol = 1e-8)
   expect_equal(fit_pls1$coefficients@data[1:6], c(-0.24471205,-0.00664075,0.06630047,0.06801656,-0.02625363,-0.02765261), tol = 1e-8)
-  # expect_equal(c(dist_ols1, dist_fg1, dist_1d1, dist_ecd1, dist_pls1), c(0.97204003,0.04395745,0.04428458,0.04452115,1.19191181), tol = 1e-8)
-  # expect_equal(c(Pdist_fg1, Pdist_1d1, Pdist_ecd1, Pdist_pls1), c(0.11138601,0.11434039,0.12347292,1.46626921), tol = 1e-8)
+  expect_equal(c(dist_ols1, dist_fg1, dist_1d1, dist_ecd1, dist_pls1), c(0.97204003,0.04395745,0.04428458,0.04452115,1.19191181), tol = 1e-8)
+  expect_equal(c(Pdist_fg1, Pdist_1d1, Pdist_ecd1, Pdist_pls1), c(0.11138601,0.11434039,0.12347292,1.46626921), tol = 1e-8)
 })
 
 test_that("Section 3.2", {
+  RNGkind("L'Ecuyer-CMRG")
   set.seed(1)
   data("square")
   fit_ols2 <- TPR.fit(square$x, square$y, method = "standard")
@@ -77,6 +80,7 @@ test_that("Section 3.2", {
 })
 
 test_that("Section 3.5", {
+  RNGkind("L'Ecuyer-CMRG")
   set.seed(1)
   data("EEG")
   u_eeg <- c(1,1)
@@ -89,6 +93,7 @@ test_that("Section 3.5", {
 })
 
 test_that("Section 4.3", {
+  RNGkind("L'Ecuyer-CMRG")
   set.seed(1)
   p <- 20
   u <- 5
@@ -117,11 +122,12 @@ test_that("Section 4.3", {
   G8 <- OptMFG(M, U, u, Gamma_init = A)
   d7 <- subspace(G7, Gamma)
   d8 <- subspace(G8, Gamma)
-  expect_equal(c(d1,d2,d3,d4,d5,d6,d7,d8), c(0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.00000000,0.44721360,0.60979972), tol = 1e-8)
+  expect_equal(c(d1,d2,d3,d4,d5,d6,d7,d8), c(0.00000001,0.00000000,0.00000014,0.00000003,0.00000013,0.00000002,0.63245553,0.72155627), tol = 1e-8)
 })
 
 
 test_that("Section 4.4", {
+  RNGkind("L'Ecuyer-CMRG")
   set.seed(1)
   p <- 50
   u <- 5
