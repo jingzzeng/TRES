@@ -317,7 +317,8 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
       if (itr %% 2 == 0)
         tau <- sum(s*s)/sy else { tau <- sy/sum(y*y)}
 
-      tau <- max(min(tau, 1e+20), 1e-20)
+      # tau <- max(min(tau, 1e+20), 1e-20)
+      tau <- max(min(tau, 1e+10), 1e-10)
     }
     Qp <- Q; Q <- gamma*Qp + 1
     Cval <- (gamma*Qp*Cval + f)/Q
