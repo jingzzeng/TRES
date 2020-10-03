@@ -6,7 +6,13 @@ r:
   - oldrel
   - release
   - devel
-r_github_packages: ManifoldOptim, MASS, methods, pracma, rTensor, stats
+r_github_packages: 
+  - ManifoldOptim
+  - MASS
+  - methods
+  - pracma
+  - rTensor
+  - stats
 
 os:
  - linux
