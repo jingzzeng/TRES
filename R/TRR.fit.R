@@ -179,6 +179,10 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
     if(method == "standard") {
       Bhat <- Btil
       Gamma <- NULL
+      ##
+      M_list <- NULL
+      U_list <- NULL
+      ##
     }else{
       if(missing(u)){stop("A user-defined u is required.")}
       Sinvhalf <- vector("list", m)
