@@ -1,6 +1,7 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: r
+warnings_are_errors: true
 r:
   - oldrel
   - release
@@ -9,3 +10,4 @@ cache: packages
 
 os:
  - linux
+ - macos

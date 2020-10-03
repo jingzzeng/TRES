@@ -17,14 +17,13 @@
 #' predict(fit, x)
 
 #' @export
-#' @importFrom stats coef
 
 predict.Tenv <- function(object, newdata, ...){
   if(missing(newdata)){
     warning("newdata is missing, the fitted response from the model is returned.")
     return(object$fitted.values)
   }
-  Bhat <- coef(object)
+  Bhat <- stats::coef(object)
   if(object$call[1] == "TRR.fit()"){
     if(!is.matrix(newdata)){
       if(is.vector(newdata)){

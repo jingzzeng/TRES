@@ -19,7 +19,6 @@
 #'
 #' @export
 #' @import rTensor
-#' @importFrom pracma sqrtm
 kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
   ss <- dim(Tn)
   if(is.null(ss) || length(ss) <= 1) stop("The dimension of Tn should be larger than one.")
@@ -64,15 +63,15 @@ kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
          Tsn <- ttl(Tn, Sinvhalf[c(idx[1:(len-1)])], ms=idx[1:(len-1)])
          idxprod <- (r[i]/n)/prodr
          TsnTsn <- ttt(Tsn, Tsn, ms = idx)@data*idxprod
-         S[[i]] <- TsnTsn/norm(TsnTsn, type = "F")
-         Sinvhalf[[i]] <- sqrtm(S[[i]])$Binv
-         if(norm(Si0 - S[[i]], type = "F") < tol[i]){flag <- 1;break}
+         S[[i]] <- TsnTsn/sqrt(sum(TsnTsn^2))
+         Sinvhalf[[i]] <- pracma::sqrtm(S[[i]])$Binv
+         if(sqrt(sum((Si0 - S[[i]])^2)) < tol[i]){flag <- 1;break}
        }
       if(flag == 1) break
     }
     Tsn <- ttl(Tn, Sinvhalf, 1:m)
     lambda <- sum((Tsn@data)^2)/prod(c(r, n))
-  }else{
+  } else {
     # If Tn is matrix
     lambda <- 1
     S[[m]] <- ttt(Tn, Tn, ms = 2)@data*(1/n)

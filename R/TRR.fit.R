@@ -100,7 +100,6 @@
 #' @references Li, L. and Zhang, X., 2017. Parsimonious tensor response regression. Journal of the American Statistical Association, 112(519), pp.1131-1146.
 #'
 #' @export
-#' @importFrom pracma sqrtm
 
 # This function gives all the estimation of tensor response regression
 TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init = NULL) {
@@ -184,7 +183,7 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
       if(missing(u)){stop("A user-defined u is required.")}
       Sinvhalf <- vector("list", m)
       for (i in 1:m) {
-        Sinvhalf[[i]] <- sqrtm(Sig[[i]])$Binv
+        Sinvhalf[[i]] <- pracma::sqrtm(Sig[[i]])$Binv
       }
       Gamma <- PGamma <- vector("list", m)
       for (i in 1:m) {

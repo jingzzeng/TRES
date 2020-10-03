@@ -17,5 +17,5 @@ subspace <- function(A,B){
   Pb <- qr.Q(qr(B))
   Pb <- tcrossprod(Pb)
   u <- dim(A)[2]
-  return(norm(Pa-Pb, type="F")/sqrt(2*u))
+  return(sqrt(sum((Pa-Pb)^2))/sqrt(2*u))
 }

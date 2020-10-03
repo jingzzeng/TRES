@@ -1,6 +1,6 @@
 context("Test auxiliary functions")
 
-testthat::skip('skip')
+# testthat::skip('skip')
 ## Set up RNG kind
 RNGkind("L'Ecuyer-CMRG")
 

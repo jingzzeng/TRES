@@ -69,7 +69,7 @@ optimECD <- function(A, B, w0, maxiter=500, tol=1e-08) {
   }
   w <- Gp %*% v1
 
-  w <- w/norm(w, type = "2")
+  w <- w/sqrt(sum(w^2))
   return(w)
 }
 

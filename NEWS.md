@@ -1,4 +1,7 @@
-# TRES 1.1.2.9000
+# TRES 1.1.3
+
+## Major changes
+- Replace the `base::norm()` function with more direct calculation, e.g., replace `norm(x, type = 'F')` with `sqrt(sum(x^2))`. 
 
 ---
 

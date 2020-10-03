@@ -6,7 +6,7 @@ print.Tenv <- function(x, ...){
   cat("Call:\n", paste(deparse(x$call), sep = "\n", collapse = "\n"),
       "\n\n", sep = "")
   cat("Coefficients:\n")
-  cf <- coef(x)
+  cf <- stats::coef(x)
   if (!is.null(cf)) {
     print(cf)
   }

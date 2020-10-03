@@ -39,7 +39,6 @@
 #' @references Li, L. and Zhang, X., 2017. Parsimonious tensor response regression. Journal of the American Statistical Association, 112(519), pp.1131-1146.
 
 #' @export
-#' @importFrom stats rnorm
 TRRsim <- function(r, p, u, n){
   if(length(r) != length(u)){stop("The length of r must match the length of u.")}
   if(any(r < u)){stop("u must be less than r element-wise.")}
@@ -57,14 +56,14 @@ TRRsim <- function(r, p, u, n){
     Omega0[[i]] <- tcrossprod(A)
     Sig[[i]] <- Gamma[[i]] %*% Omega[[i]] %*% t(Gamma[[i]])+
       Gamma0[[i]] %*% Omega0[[i]] %*% t(Gamma0[[i]])
-    Sig[[i]] <- 10*Sig[[i]]/norm(Sig[[i]], type="F")+0.01*diag(r[i])
+    Sig[[i]] <- 10*Sig[[i]]/sqrt(sum(Sig[[i]]^2)) + 0.01*diag(r[i])
     Sigsqrtm[[i]] <- pracma::sqrtm(Sig[[i]])$B
   }
   eta <- array(runif(prod(u)*p), c(u, p))
   eta <- rTensor::as.tensor(eta)
   B <- rTensor::ttl(eta, Gamma, ms=1:m)
-  x <- matrix(rnorm(p*n), p, n)
-  Epsilon <- array(rnorm(prod(r)*n), c(r, n))
+  x <- matrix(stats::rnorm(p*n), p, n)
+  Epsilon <- array(stats::rnorm(prod(r)*n), c(r, n))
   Epsilon <- rTensor::as.tensor(Epsilon)
   Epsilon <- rTensor::ttl(Epsilon, Sigsqrtm, ms=1:m)
   y <- Epsilon + rTensor::ttm(B, t(x), m+1)

@@ -2,7 +2,6 @@
 # Manifold   function 1D                         #
 ##################################################
 #' @import ManifoldOptim
-#' @importFrom methods new
 mod <- Module("ManifoldOptim_module", PACKAGE = "ManifoldOptim")
 mani.params <- get.manifold.params(IsCheckParams = TRUE)
 
@@ -13,7 +12,7 @@ fun1D_mfd <- function(M, U) {
   g <- function(w) { W <- mw(w); 2*(M %*% W/(as.numeric(t(W) %*% M %*% W))+
                                       chol2inv(chol(M+U)) %*% W/(as.numeric(t(W) %*% chol2inv(chol(M+U)) %*% W))) }
 
-  prob <- new(mod$RProblem, f, g)
+  prob <- methods::new(mod$RProblem, f, g)
   mani.defn <- ManifoldOptim::get.stiefel.defn(n, 1)
 
   return(list(prob=prob, mani.defn=mani.defn))

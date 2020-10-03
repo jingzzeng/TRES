@@ -23,7 +23,7 @@
 #'
 #' @export
 #' @importFrom rTensor as.tensor
-#' @importFrom stats pt
+#' @importFrom stats pt cov
 Tenv_Pval <- function(x, y, Bhat){
   ss <- dim(y)
   len <- length(ss)

@@ -69,6 +69,7 @@ NULL
 #' For \code{FG_TPR}, use \code{\link{TPR.fit}} with \code{method = "FG"}.
 #'
 #' @export
+#' @importFrom stats cov
 
 # This function gives FG estimation of tensor predictor regression
 FG_TPR <- function(Xn, Yn, Gamma_init){

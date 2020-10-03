@@ -25,7 +25,6 @@ NULL
 #' @export
 #' @import rTensor
 #' @importFrom pracma kron sqrtm
-#' @importFrom stats cov
 TensPLS_fit <- function(x, y, SigX, u) {
   ss <- dim(x)
   len <- length(ss)
@@ -42,7 +41,7 @@ TensPLS_fit <- function(x, y, SigX, u) {
   ttmp2 <- x@data - ttmp
 
   x <- as.tensor(ttmp2)
-  SigY <- (n-1)*cov(t(y))/n
+  SigY <- (n-1)*stats::cov(t(y))/n
 
   Sinvhalf <- NULL
   for (i in 1:m) {

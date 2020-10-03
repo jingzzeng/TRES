@@ -92,6 +92,7 @@
 #' @export
 #' @import rTensor
 #' @importFrom pracma sqrtm kron
+#' @importFrom stats cov
 
 # This function gives all the estimation of tensor predictor regression
 # The tensor predictor should be 2-dimensional or 3-dimensional

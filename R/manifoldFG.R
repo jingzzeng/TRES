@@ -2,7 +2,6 @@
 # Manifold   function full                       #
 ##################################################
 #' @import ManifoldOptim
-#' @importFrom methods new
 mod <- Module("ManifoldOptim_module", PACKAGE = "ManifoldOptim")
 mani.params <- get.manifold.params(IsCheckParams = TRUE)
 
@@ -12,7 +11,7 @@ FGfun_mfd <- function(M, U, u) {
   f <- function(w) { W <- mw(w); log(det(t(W) %*% M %*% W)) + log(det(t(W) %*% chol2inv(chol(M+U)) %*% W))  }
   g <- function(w) { W <- mw(w); 2*(M %*% W %*% chol2inv(chol(t(W) %*% M %*% W))+ chol2inv(chol(M+U)) %*% W %*% chol2inv(chol((t(W) %*% chol2inv(chol(M + U)) %*% W))) ) }
 
-  prob <- new(mod$RProblem, f, g)
+  prob <- methods::new(mod$RProblem, f, g)
   mani.defn <- ManifoldOptim::get.stiefel.defn(n, u)
 
   return(list(prob=prob, mani.defn=mani.defn))

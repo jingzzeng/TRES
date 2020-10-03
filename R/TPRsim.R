@@ -53,12 +53,12 @@ TPRsim <- function(p, r, u, n){
     Omega0[[i]] <- 0.01*diag(p[i]-u[i])
     Sig[[i]] <- Gamma[[i]] %*% Omega[[i]] %*% t(Gamma[[i]])+
       Gamma0[[i]] %*% Omega0[[i]] %*% t(Gamma0[[i]])
-    Sig[[i]] <- 2*Sig[[i]]/norm(Sig[[i]], type="F")
+    Sig[[i]] <- 2*Sig[[i]]/sqrt(sum(Sig[[i]]^2))
     Sigsqrtm[[i]] <- pracma::sqrtm(Sig[[i]])$B
   }
   A <- matrix(runif(r^2), r, r)
   SigY <- tcrossprod(A)
-  SigY <- SigY/norm(SigY, type="F")
+  SigY <- SigY/sqrt(sum(SigY^2))
 
   ##generate data
   Epsilon <- MASS::mvrnorm(n, mu=rep(0, r), Sigma=SigY)

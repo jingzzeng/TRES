@@ -135,7 +135,7 @@ OptStiefelGBB <- function(X, fun, opts=NULL, ...){
     VX <- crossprod(V, X)
   }
   dtX <- G - X %*% GX
-  nrmG <- norm(dtX, type = "F")
+  nrmG <- sqrt(sum(dtX^2))
 
   Q <- 1
   Cval <- F
@@ -196,9 +196,9 @@ OptStiefelGBB <- function(X, fun, opts=NULL, ...){
       VX <- crossprod(V, X)
     }
     dtX <- G - X %*% GX
-    nrmG <- norm(dtX, type = "F")
+    nrmG <- sqrt(sum(dtX^2))
     S <- X - XP
-    XDiff <- norm(S, type = "F")/sqrt(n)
+    XDiff <- sqrt(sum(S^2))/sqrt(n)
     tau <- opts$tau
     FDiff <- abs(FP - F)/(abs(FP) + 1)
 
@@ -249,14 +249,14 @@ OptStiefelGBB <- function(X, fun, opts=NULL, ...){
   if (itr >= opts$maxiter)
     out$msg = "exceed max iteration"
 
-  out$feasi <- norm((crossprod(X)- diag(k)), type = "F")
+  out$feasi <- sqrt(sum((crossprod(X)- diag(k))^2))
   if (out$feasi > 1e-13) {
     X <- qr.Q(qr(X))
     args <- list(X, ...)
     eva <- do.call(fun, args)
     F <- eva$F; G <- eva$G
     out$nfe <- out$nfe + 1
-    out$feasi <- norm((crossprod(X)- diag(k)), type = "F")
+    out$feasi <- sqrt(sum((crossprod(X)- diag(k))^2))
   }
   out$nrmG <- nrmG
   out$fval <- F
