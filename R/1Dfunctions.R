@@ -21,6 +21,10 @@ get_ini1D <- function(M, U){
   v1 <- eigen(M)$vectors
   v2 <- eigen(M+U)$vectors
   v <- cbind(v1, v2)
+  ##
+  index <- v[1,] < 0
+  v[,index] <- -v[,index]
+  ##
   W0 <- Re(v[, 1]) ## Ensure the real number
   # Fw0 <- fun1D(W0, M, U)$F
   ##
