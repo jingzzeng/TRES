@@ -77,7 +77,7 @@ ballGBB1D <- function(M, U, ...) {
   fit <- OptManiMulitBallGBB(W0, opts, fun1D, M, U)
   X <- fit$X
   # return(X)
-  list(X = X, W0 = W0)
+  list(X = X, W0 = W0, test_out = fit$test_out)
 }
 
 ###########################################################################
@@ -182,6 +182,10 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   ##
   nrmX <- apply(X*X, 2, sum)
   ##
+  ##
+  test_out <- NULL
+  test_out$nrmX <- nrmX
+  ##
   nrmX <- matrix(nrmX, 1, k)
   if (sqrt(sum((nrmX-1)^2)) > 1e-8) {
     X <- sweep(X, 2, sqrt(nrmX),"/")
@@ -189,6 +193,10 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   args = list(X, ...)
   eva <- do.call(fun, args)
   f <- eva$F; g <- as.matrix(eva$G)
+  ##
+  test_out$f <- f
+  test_out$g <- g
+  ##
   out <- c()
   out$nfe <- 1
 
@@ -212,6 +220,11 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   temp <- sweep(X, 2, Xtg, "*")
   dtX <- matrix(temp, n, k) - g
   nrmG <- sqrt(sum((dtX)^2))
+
+  ##
+  test_out$dtX <- dtX
+  test_out$nrmG <- nrmG
+  ##
 
   Q <- 1; Cval <- f; tau <- opts$tau
 
@@ -341,5 +354,8 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   out$fval <- f
   out$itr <- itr
 
-  return(list(X = X, g = g, out = out))
+  # return(list(X = X, g = g, out = out))
+  ##
+  return(list(X = X, g = g, out = out, test_out = test_out))
+  ##
 }

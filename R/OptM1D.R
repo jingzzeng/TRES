@@ -50,6 +50,7 @@ OptM1D <- function(M, U, u, ...) {
     G0 <- diag(p)
     ##
     W0_list <- vector("list", u)
+    test_out_list <- vector("list", u)
     ##
     for(k in 1:u){
       # gk <- ballGBB1D(Mnew, Unew, ...)
@@ -57,6 +58,7 @@ OptM1D <- function(M, U, u, ...) {
       fit <- ballGBB1D(Mnew, Unew, ...)
       gk <- fit$X
       W0_list[[k]] <- fit$W0
+      test_out_list[[k]] <- fit$test_out
       ##
       G[, k] <- G0 %*% gk
       G0 <- qr.Q(qr(G[, 1:k]),complete=T)[,(k+1):p]
@@ -69,6 +71,6 @@ OptM1D <- function(M, U, u, ...) {
   }
   # Gamma
   ##
-  list(Gamma = Gamma, W0_list = W0_list)
+  list(Gamma = Gamma, W0_list = W0_list, test_out_list = test_out_list)
   ##
 }
