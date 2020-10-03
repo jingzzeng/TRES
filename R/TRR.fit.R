@@ -182,6 +182,7 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
       ##
       M_list <- NULL
       U_list <- NULL
+      W0_list <- NULL
       ##
     }else{
       if(missing(u)){stop("A user-defined u is required.")}
@@ -193,6 +194,7 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
       ##
       M_list <- vector("list", 2)
       U_list <- vector("list", 2)
+      W0_list <- vector("list", 2)
       ##
       for (i in 1:m) {
         #one-step estimator
@@ -212,7 +214,12 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
         U_list[[i]] <- U
         ##
         if (method == "1D"){
-          Gamma[[i]] <- OptM1D(M, U, u[i])
+          # Gamma[[i]] <- OptM1D(M, U, u[i])
+          ##
+          fit <- OptM1D(M, U, u[i])
+          Gamma[[i]] <- fit$Gamma
+          W0_list[[i]] <- fit$W0_list
+          ##
         }else if(method == "ECD"){
           Gamma[[i]] <- ECD(M, U, u[i])
         }else if(method == "PLS"){
@@ -229,7 +236,7 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
   fitted.values <- rTensor::ttm(Bhat, t(x_old), m+1)
   residuals <- y_old - fitted.values
   # output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma, Sigma=Sig, fitted.values = fitted.values, residuals = residuals)
-  output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma, Sigma=Sig, fitted.values = fitted.values, residuals = residuals, M_list = M_list, U_list = U_list)
+  output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma, Sigma=Sig, fitted.values = fitted.values, residuals = residuals, M_list = M_list, U_list = U_list, W0_list = W0_list)
   class(output) <- "Tenv"
   output
 }

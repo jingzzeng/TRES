@@ -60,8 +60,11 @@ ballGBB1D <- function(M, U, ...) {
   # if (is.null(opts$record)) opts$record <- 0
   if (is.null(opts$eps)) opts$eps <- 1e-14
 
-  X <- OptManiMulitBallGBB(W0, opts, fun1D, M, U)$X
-  return(X)
+  # X <- OptManiMulitBallGBB(W0, opts, fun1D, M, U)$X
+  fit <- OptManiMulitBallGBB(W0, opts, fun1D, M, U)
+  X <- fit$X
+  # return(X)
+  list(X = X, W0 = W0)
 }
 
 ###########################################################################

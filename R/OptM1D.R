@@ -48,8 +48,16 @@ OptM1D <- function(M, U, u, ...) {
     Unew <- U
     G <- matrix(0, p, u)
     G0 <- diag(p)
+    ##
+    W0_list <- vector("list", u)
+    ##
     for(k in 1:u){
-      gk <- ballGBB1D(Mnew, Unew, ...)
+      # gk <- ballGBB1D(Mnew, Unew, ...)
+      ##
+      fit <- ballGBB1D(Mnew, Unew, ...)
+      gk <- fit$X
+      W0_list[[k]] <- fit$W0
+      ##
       G[, k] <- G0 %*% gk
       G0 <- qr.Q(qr(G[, 1:k]),complete=T)[,(k+1):p]
       Mnew <- t(G0) %*% M %*% G0
@@ -59,5 +67,8 @@ OptM1D <- function(M, U, u, ...) {
   }else{
     Gamma <- diag(p)
   }
-  Gamma
+  # Gamma
+  ##
+  list(Gamma = Gamma, W0_list = W0_list)
+  ##
 }
