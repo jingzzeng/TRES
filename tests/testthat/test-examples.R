@@ -1,12 +1,8 @@
 context("Test reproducible examples in the paper.")
 
 # testthat::skip('skip')
-## Set up RNG kind
-# RNGkind("L'Ecuyer-CMRG")
-# set.seed(1)
 
 test_that("Section 3.1", {
-  RNGkind("L'Ecuyer-CMRG")
   set.seed(1)
   data("bat")
   fit_ols1 <- TRR.fit(bat$x, bat$y, method = 'standard')
@@ -44,7 +40,6 @@ test_that("Section 3.1", {
 })
 
 test_that("Section 3.2", {
-  RNGkind("L'Ecuyer-CMRG")
   set.seed(1)
   data("square")
   fit_ols2 <- TPR.fit(square$x, square$y, method = "standard")
@@ -80,7 +75,6 @@ test_that("Section 3.2", {
 })
 
 test_that("Section 3.5", {
-  RNGkind("L'Ecuyer-CMRG")
   set.seed(1)
   data("EEG")
   u_eeg <- c(1,1)
@@ -93,7 +87,6 @@ test_that("Section 3.5", {
 })
 
 test_that("Section 4.3", {
-  RNGkind("L'Ecuyer-CMRG")
   set.seed(1)
   p <- 20
   u <- 5
@@ -127,7 +120,6 @@ test_that("Section 4.3", {
 
 
 test_that("Section 4.4", {
-  RNGkind("L'Ecuyer-CMRG")
   set.seed(1)
   p <- 50
   u <- 5
