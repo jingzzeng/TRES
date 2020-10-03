@@ -235,6 +235,9 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   # }
   # if (record == 10) out$fvec = f
 
+  ##
+  X_list <- vector("list", opts$maxiter)
+  ##
   ##main iteration
   for (itr in 1:opts$maxiter) {
     Xp <- X; fp <- f; gp <- g; dtXP <- dtX
@@ -260,6 +263,9 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
       tau <- eta * tau
       nls <- nls + 1
     }
+    ##
+    X_list[[itr]] <- X
+    ##
 
     # if (record == 10)
     #   out$fvec <- rbind(out$fvec,f)
@@ -317,8 +323,7 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
       if (itr %% 2 == 0)
         tau <- sum(s*s)/sy else { tau <- sy/sum(y*y)}
 
-      # tau <- max(min(tau, 1e+20), 1e-20)
-      tau <- max(min(tau, 1e+10), 1e-10)
+      tau <- max(min(tau, 1e+20), 1e-20)
     }
     Qp <- Q; Q <- gamma*Qp + 1
     Cval <- (gamma*Qp*Cval + f)/Q
@@ -335,6 +340,7 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   out$feasi <- svd(Xn - 1)$d[1]
 
   ##
+  test_out$X_list <- X_list
   test_out$X <- X
   ##
 
