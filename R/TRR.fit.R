@@ -186,6 +186,10 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
         Sinvhalf[[i]] <- pracma::sqrtm(Sig[[i]])$Binv
       }
       Gamma <- PGamma <- vector("list", m)
+      ##
+      M_list <- vector("list", 2)
+      U_list <- vector("list", 2)
+      ##
       for (i in 1:m) {
         #one-step estimator
         M <- lambda*Sig[[i]]
@@ -199,6 +203,10 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
         idxprod <- (r[i]/n)/prodr
         YsnYsn <- ttt(Ysn, Ysn, ms=idx)@data*idxprod
         U <- YsnYsn - M
+        ##
+        M_list[[i]] <- M
+        U_list[[i]] <- U
+        ##
         if (method == "1D"){
           Gamma[[i]] <- OptM1D(M, U, u[i])
         }else if(method == "ECD"){
@@ -216,7 +224,8 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
   }
   fitted.values <- rTensor::ttm(Bhat, t(x_old), m+1)
   residuals <- y_old - fitted.values
-  output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma, Sigma=Sig, fitted.values = fitted.values, residuals = residuals)
+  # output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma, Sigma=Sig, fitted.values = fitted.values, residuals = residuals)
+  output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma, Sigma=Sig, fitted.values = fitted.values, residuals = residuals, M_list = M_list, U_list = U_list)
   class(output) <- "Tenv"
   output
 }
