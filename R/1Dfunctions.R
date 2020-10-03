@@ -237,6 +237,10 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
 
   ##
   X_list <- vector("list", opts$maxiter)
+  XDiff_list <- vector("list", opts$maxiter)
+  FDiff_list <- vector("list", opts$maxiter)
+  Q_list <- vector("list", opts$maxiter)
+  Cval_list <- vector("list", opts$maxiter)
   ##
   ##main iteration
   for (itr in 1:opts$maxiter) {
@@ -295,6 +299,12 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
     XDiff <- sqrt(sum(s^2))/sqrt(n)
     FDiff <- abs(fp - f)/(abs(fp) + 1)
 
+
+    ##
+    XDiff_list[[itr]] <- XDiff
+    FDiff_list[[itr]] <- FDiff
+    ##
+
     # if (record >= 1)
     #   cat(paste('------ Gradient Method with Line search ----- ',"\n"),
     #       sprintf("%4s %8s %8s %10s %10s %10s", 'Iter', 'tau', 'F(X)', 'nrmG', 'XDiff','nls'))
@@ -327,6 +337,11 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
     }
     Qp <- Q; Q <- gamma*Qp + 1
     Cval <- (gamma*Qp*Cval + f)/Q
+
+    ##
+    Q_list[[itr]] <- Q
+    Cval_list[[itr]] <- Cval
+    ##
   }
 
   if (itr >= opts$maxiter)
@@ -342,6 +357,10 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   ##
   test_out$X_list <- X_list
   test_out$X <- X
+  test_out$XDiff_list <- XDiff_list
+  test_out$FDiff_list <- FDiff_list
+  test_out$Q_list <- Q_list
+  test_out$Cval_list <- Cval_list
   ##
 
   if (out$feasi > eps) {
