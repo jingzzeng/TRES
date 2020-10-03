@@ -7,7 +7,10 @@ fun1D <- function(W, M, U){
   f <- log(t(W) %*% M %*% W) + log(t(W) %*% chol2inv(chol(M+U)) %*% W)
   df <- 2*(M %*% W/(as.numeric(t(W) %*% M %*% W))+
              solve(M+U) %*% W/(as.numeric(t(W) %*% chol2inv(chol(M+U)) %*% W)))
-  list(F = f, G = df)
+  # list(F = f, G = df)
+  ##
+  list(FF = f, G = df)
+  ##
 }
 
 ##################################################
@@ -19,10 +22,16 @@ get_ini1D <- function(M, U){
   v2 <- eigen(M+U)$vectors
   v <- cbind(v1, v2)
   W0 <- Re(v[, 1]) ## Ensure the real number
-  Fw0 <- fun1D(W0, M, U)$F
+  # Fw0 <- fun1D(W0, M, U)$F
+  ##
+  Fw0 <- fun1D(W0, M, U)$FF
+  ##
   for (i in 2:(2*p)) {
     W <- Re(v[, i])
-    Fw <- fun1D(W, M, U)$F
+    # Fw <- fun1D(W, M, U)$F
+    ##
+    Fw <- fun1D(W, M, U)$FF
+    ##
     if (Fw < Fw0) {
       W0 <- W
       Fw0 <- Fw
