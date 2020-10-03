@@ -333,6 +333,10 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   Xn <- matrix(Xn, 1, k)
   out$feasi <- svd(Xn - 1)$d[1]
 
+  ##
+  test_out$X <- X
+  ##
+
   if (out$feasi > eps) {
     # nrmX <- colSums(X*X)
     ##
