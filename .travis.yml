@@ -6,11 +6,8 @@ r:
   - oldrel
   - release
   - devel
-r_github_packages: 
-  - cran/ManifoldOptim
-  - cran/MASS
-  - cran/pracma
-  - cran/rTensor
+
+cache: packages
 
 os:
  - linux
