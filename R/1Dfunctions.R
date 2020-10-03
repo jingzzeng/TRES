@@ -178,7 +178,10 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   # record <- opts$record
 
   # normalize x so that ||x||_2 = 1
-  nrmX <- colSums(X*X)
+  # nrmX <- colSums(X*X)
+  ##
+  nrmX <- apply(X*X, 2, sum)
+  ##
   nrmX <- matrix(nrmX, 1, k)
   if (sqrt(sum((nrmX-1)^2)) > 1e-8) {
     X <- sweep(X, 2, sqrt(nrmX),"/")
@@ -190,11 +193,20 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   out$nfe <- 1
 
 
-  Xtg <- colSums(X*g)
+  # Xtg <- colSums(X*g)
+  ##
+  Xtg <- apply(X*g, 2, sum)
+  ##
   Xtg <- matrix(Xtg, 1, k)
-  gg <- colSums(g*g)
+  # gg <- colSums(g*g)
+  ##
+  gg <- apply(g*g, 2, sum)
+  ##
   gg <- matrix(gg, 1, k)
-  XX <- colSums(X*X)
+  # XX <- colSums(X*X)
+  ##
+  XX <- apply(X*X, 2, sum)
+  ##
   XX <- matrix(XX, 1, k)
   XXgg <- XX*gg
   temp <- sweep(X, 2, Xtg, "*")
@@ -240,11 +252,20 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
     #   out$fvec <- rbind(out$fvec,f)
 
     #Xtg <- sapply(1:k, function(d) sum(X[,d]*g[,d]))
-    Xtg <- colSums(X*g)
+    # Xtg <- colSums(X*g)
+    ##
+    Xtg <- apply(X*g, 2, sum)
+    ##
     Xtg <- matrix(Xtg, 1, k)
-    gg <- colSums(g*g)
+    # gg <- colSums(g*g)
+    ##
+    gg <- apply(g*g, 2, sum)
+    ##
     gg <- matrix(gg, 1, k)
-    XX <- colSums(X*X)
+    # XX <- colSums(X*X)
+    ##
+    XX <- apply(X*X, 2, sum)
+    ##
     XX <- matrix(XX, 1, k)
     XXgg <- XX*gg
     temp <- sweep(X, 2, Xtg, "*")
@@ -262,7 +283,11 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
     crit[itr,] <- cbind(nrmG, XDiff, FDiff)
     r <- length((itr - min(nt, itr)+1):itr)
     temp1 <- matrix(crit[(itr - min(nt, itr)+1):itr,], r, 3)
-    mcrit <- colMeans(temp1)
+    # mcrit <- colMeans(temp1)
+    ##
+    mcrit <- apply(temp1, 2, mean)
+    ##
+
 
     if ((XDiff < xtol && FDiff < ftol) || nrmG < gtol
         || all(mcrit[2:3] < 10 * c(xtol, ftol))) {
@@ -288,18 +313,27 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   if (itr >= opts$maxiter)
     out$msg <- "exceed max iteration"
 
-  Xn <- colSums(X*X)
+  # Xn <- colSums(X*X)
+  ##
+  Xn <- apply(X*X, 2, sum)
+  ##
   Xn <- matrix(Xn, 1, k)
   out$feasi <- svd(Xn - 1)$d[1]
 
   if (out$feasi > eps) {
-    nrmX <- colSums(X*X)
+    # nrmX <- colSums(X*X)
+    ##
+    nrmX <- apply(X*X, 2, sum)
+    ##
     X <- sweep(X, 2, sqrt(nrmX),"/")
     args = list(X, ...)
     eva <- do.call(fun, args)
     f <- eva$F; g <- as.matrix(eva$G)
     out$nfe <- out$nfe + 1
-    nrmX.n <- colSums(X*X)
+    # nrmX.n <- colSums(X*X)
+    ##
+    nrmX.n <- apply(X*X, 2, sum)
+    ##
     out$feasi <- svd(nrmX.n - 1)$d[1]
   }
 
