@@ -53,11 +53,20 @@ kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
       if(length(tol) != m) stop("length(tol) must be 1 or length(dim(Tn))-1.")
     }
 
+  ##
+  S_list_1 <- vector("list", maxiter)
+  S_list_2 <- vector("list", maxiter)
+  ##
+
   if (m > 1) {
     flag <- 0
     for(iter in seq_len(maxiter)){
        for (i in 1:m){
          Si0 <- S[[i]]
+         ##
+         if(i == 1) S_list_1[[iter]] <- Si0
+         if(i == 2) S_list_2[[iter]] <- Si0
+         ##
          idx <- c(1:(m+1))[-i]
          len <- length(idx)
          Tsn <- ttl(Tn, Sinvhalf[c(idx[1:(len-1)])], ms=idx[1:(len-1)])
@@ -65,9 +74,6 @@ kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
          TsnTsn <- ttt(Tsn, Tsn, ms = idx)@data*idxprod
          S[[i]] <- TsnTsn/sqrt(sum(TsnTsn^2))
          Sinvhalf[[i]] <- pracma::sqrtm(S[[i]])$Binv
-         ##
-         # Sinvhalf[[i]] <- pracma::sqrtm(S[[i]], tol = 1e-8)$Binv
-         ##
          if(sqrt(sum((Si0 - S[[i]])^2)) < tol[i]){flag <- 1;break}
        }
       if(flag == 1) break
@@ -80,5 +86,8 @@ kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
     S[[m]] <- ttt(Tn, Tn, ms = 2)@data*(1/n)
   }
 
-  list(lambda=lambda, S=S)
+  # list(lambda=lambda, S=S)
+  ##
+  list(lambda=lambda, S=S, S_list_1 = S_list_1, S_list_2 = S_list_2)
+  ##
 }
