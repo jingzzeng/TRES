@@ -239,7 +239,7 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
   fitted.values <- rTensor::ttm(Bhat, t(x_old), m+1)
   residuals <- y_old - fitted.values
   # output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma, Sigma=Sig, fitted.values = fitted.values, residuals = residuals)
-  output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma, Sigma=Sig, fitted.values = fitted.values, residuals = residuals, M_list = M_list, U_list = U_list, W0_list = W0_list, test_out_list = test_out_list, En = En, S_list_1 = res$S_list_1, S_list_2 = res$S_list_2, Tsn_list_1 = res$Tsn_list_1, Tsn_list_2 = res$Tsn_list_2, TsnTsn_list_1 = res$TsnTsn_list_1, TsnTsn_list_2 = res$TsnTsn_list_2)
+  output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma, Sigma=Sig, fitted.values = fitted.values, residuals = residuals, M_list = M_list, U_list = U_list, W0_list = W0_list, test_out_list = test_out_list, En = En, S_list_1 = res$S_list_1, S_list_2 = res$S_list_2, Tsn_list_1 = res$Tsn_list_1, Tsn_list_2 = res$Tsn_list_2, TsnTsn_list_1 = res$TsnTsn_list_1, TsnTsn_list_2 = res$TsnTsn_list_2, norm_list_1 = res$norm_list_1, norm_list_2 = res$norm_list_2)
   class(output) <- "Tenv"
   output
 }
