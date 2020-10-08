@@ -56,6 +56,8 @@ kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
   ##
   S_list_1 <- vector("list", maxiter)
   S_list_2 <- vector("list", maxiter)
+  Tsn_list_1 <- vector("list", maxiter)
+  Tsn_list_2 <- vector("list", maxiter)
   ##
 
   if (m > 1) {
@@ -70,6 +72,10 @@ kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
          idx <- c(1:(m+1))[-i]
          len <- length(idx)
          Tsn <- ttl(Tn, Sinvhalf[c(idx[1:(len-1)])], ms=idx[1:(len-1)])
+         ##
+         if(i == 1) Tsn_list_1[[iter]] <- Tsn
+         if(i == 2) Tsn_list_2[[iter]] <- Tsn
+         ##
          idxprod <- (r[i]/n)/prodr
          TsnTsn <- ttt(Tsn, Tsn, ms = idx)@data*idxprod
          S[[i]] <- TsnTsn/sqrt(sum(TsnTsn^2))
@@ -88,6 +94,6 @@ kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
 
   # list(lambda=lambda, S=S)
   ##
-  list(lambda=lambda, S=S, S_list_1 = S_list_1, S_list_2 = S_list_2)
+  list(lambda=lambda, S=S, S_list_1 = S_list_1, S_list_2 = S_list_2, Tsn_list_1 = Tsn_list_1, Tsn_list_2 = Tsn_list_2)
   ##
 }
