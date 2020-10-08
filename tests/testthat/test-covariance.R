@@ -3,6 +3,7 @@ context("Covariance matrix")
 test_that("Covariance matrix", {
   data("bat")
   fit_1d1 <- TRR.fit(bat$x, bat$y, u = c(14,14), method = "1D")
+  expect_match(as.character(packageVersion("pracma")), "2.2.9")
   expect_equal(fit_1d1$En@data[1:5], c(-0.3103211653025588,0.0023601755880206,0.1206545544608466,0.0466319358504608,-0.0399073247958657), 1e-16)
   expect_equal(fit_1d1$S_list_1[[2]][1:5], c(0.3478901322168588,0.0030047743893053,-0.1173551495169119,-0.0902720882477163,0.0311771021830225), 1e-16)
   expect_equal(fit_1d1$S_list_2[[2]][1:5], c(0.1971643109159085,0.1148500669048811,0.0007595006601286,-0.0340736443790221,0.0473902674225449), 1e-16)
