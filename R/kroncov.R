@@ -19,6 +19,7 @@
 #'
 #' @export
 #' @import rTensor
+#' @import pracma sqrtm
 kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
   ss <- dim(Tn)
   if(is.null(ss) || length(ss) <= 1) stop("The dimension of Tn should be larger than one.")
@@ -93,7 +94,7 @@ kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
          if(i == 1) norm_list_1[[iter]] <- sqrt(sum(TsnTsn^2))
          if(i == 2) norm_list_2[[iter]] <- sqrt(sum(TsnTsn^2))
          ##
-         Sinvhalf[[i]] <- pracma::sqrtm(S[[i]])$Binv
+         Sinvhalf[[i]] <- sqrtm(S[[i]])$Binv
          ##
          if(i == 1) Sinvhalf_list_1[[iter]] <- Sinvhalf[[i]]
          if(i == 2) Sinvhalf_list_2[[iter]] <- Sinvhalf[[i]]
