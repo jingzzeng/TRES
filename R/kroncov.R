@@ -64,9 +64,9 @@ kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
          idxprod <- (r[i]/n)/prodr
          TsnTsn <- ttt(Tsn, Tsn, ms = idx)@data*idxprod
          S[[i]] <- TsnTsn/sqrt(sum(TsnTsn^2))
-         # Sinvhalf[[i]] <- pracma::sqrtm(S[[i]])$Binv
+         Sinvhalf[[i]] <- pracma::sqrtm(S[[i]])$Binv
          ##
-         Sinvhalf[[i]] <- pracma::sqrtm(S[[i]], tol = 1e-8)$Binv
+         # Sinvhalf[[i]] <- pracma::sqrtm(S[[i]], tol = 1e-8)$Binv
          ##
          if(sqrt(sum((Si0 - S[[i]])^2)) < tol[i]){flag <- 1;break}
        }
