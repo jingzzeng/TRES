@@ -58,6 +58,8 @@ kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
   S_list_2 <- vector("list", maxiter)
   Tsn_list_1 <- vector("list", maxiter)
   Tsn_list_2 <- vector("list", maxiter)
+  TsnTsn_list_1 <- vector("list", maxiter)
+  TsnTsn_list_2 <- vector("list", maxiter)
   ##
 
   if (m > 1) {
@@ -78,6 +80,10 @@ kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
          ##
          idxprod <- (r[i]/n)/prodr
          TsnTsn <- ttt(Tsn, Tsn, ms = idx)@data*idxprod
+         ##
+         if(i == 1) TsnTsn_list_1[[iter]] <- TsnTsn
+         if(i == 2) TsnTsn_list_2[[iter]] <- TsnTsn
+         ##
          S[[i]] <- TsnTsn/sqrt(sum(TsnTsn^2))
          Sinvhalf[[i]] <- pracma::sqrtm(S[[i]])$Binv
          if(sqrt(sum((Si0 - S[[i]])^2)) < tol[i]){flag <- 1;break}
@@ -94,6 +100,6 @@ kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
 
   # list(lambda=lambda, S=S)
   ##
-  list(lambda=lambda, S=S, S_list_1 = S_list_1, S_list_2 = S_list_2, Tsn_list_1 = Tsn_list_1, Tsn_list_2 = Tsn_list_2)
+  list(lambda=lambda, S=S, S_list_1 = S_list_1, S_list_2 = S_list_2, Tsn_list_1 = Tsn_list_1, Tsn_list_2 = Tsn_list_2, TsnTsn_list_1 = TsnTsn_list_1, TsnTsn_list_2 = TsnTsn_list_2)
   ##
 }
