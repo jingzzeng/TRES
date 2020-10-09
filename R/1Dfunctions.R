@@ -7,10 +7,7 @@ fun1D <- function(W, M, U){
   f <- log(t(W) %*% M %*% W) + log(t(W) %*% chol2inv(chol(M+U)) %*% W)
   df <- 2*(M %*% W/(as.numeric(t(W) %*% M %*% W))+
              solve(M+U) %*% W/(as.numeric(t(W) %*% chol2inv(chol(M+U)) %*% W)))
-  # list(F = f, G = df)
-  ##
-  list(FF = f, G = df)
-  ##
+  list(F = f, G = df)
 }
 
 ##################################################
@@ -21,21 +18,13 @@ get_ini1D <- function(M, U){
   v1 <- eigen(M)$vectors
   v2 <- eigen(M+U)$vectors
   v <- cbind(v1, v2)
-  ##
   index <- v[1,] < 0
   v[,index] <- -v[,index]
-  ##
   W0 <- Re(v[, 1]) ## Ensure the real number
-  # Fw0 <- fun1D(W0, M, U)$F
-  ##
-  Fw0 <- fun1D(W0, M, U)$FF
-  ##
+  Fw0 <- fun1D(W0, M, U)$F
   for (i in 2:(2*p)) {
     W <- Re(v[, i])
-    # Fw <- fun1D(W, M, U)$F
-    ##
-    Fw <- fun1D(W, M, U)$FF
-    ##
+    Fw <- fun1D(W, M, U)$F
     if (Fw < Fw0) {
       W0 <- W
       Fw0 <- Fw
@@ -73,11 +62,8 @@ ballGBB1D <- function(M, U, ...) {
   # if (is.null(opts$record)) opts$record <- 0
   if (is.null(opts$eps)) opts$eps <- 1e-14
 
-  # X <- OptManiMulitBallGBB(W0, opts, fun1D, M, U)$X
   fit <- OptManiMulitBallGBB(W0, opts, fun1D, M, U)
-  X <- fit$X
-  # return(X)
-  list(X = X, W0 = W0, test_out = fit$test_out)
+  list(X = fit$X, out = fit$out)
 }
 
 ###########################################################################
@@ -160,8 +146,8 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   if (is.null(opts$STPEPS)) opts$STPEPS <- 1e-10
   if (is.null(opts$maxiter) || opts$maxiter < 0 || opts$maxiter > 2^20) opts$maxiter <- 800
   if (is.null(opts$nt) || opts$nt < 0 || opts$nt > 100) opts$nt <- 5
-  # if (is.null(opts$record)) opts$record <- 0
   if (is.null(opts$eps)) opts$eps <- 1e-14
+  if (is.null(opts$record)) opts$record <- 0
 
   # copy parameters
   xtol <- opts$xtol
@@ -175,17 +161,10 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   eps <- opts$eps
   nt <- opts$nt
   crit <- matrix(1, opts$maxiter, 3)
-  # record <- opts$record
+  record <- opts$record
 
   # normalize x so that ||x||_2 = 1
-  # nrmX <- colSums(X*X)
-  ##
   nrmX <- apply(X*X, 2, sum)
-  ##
-  ##
-  test_out <- NULL
-  test_out$nrmX <- nrmX
-  ##
   nrmX <- matrix(nrmX, 1, k)
   if (sqrt(sum((nrmX-1)^2)) > 1e-8) {
     X <- sweep(X, 2, sqrt(nrmX),"/")
@@ -193,55 +172,38 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   args = list(X, ...)
   eva <- do.call(fun, args)
   f <- eva$F; g <- as.matrix(eva$G)
-  ##
-  test_out$f <- f
-  test_out$g <- g
-  ##
   out <- c()
   out$nfe <- 1
 
 
-  # Xtg <- colSums(X*g)
-  ##
   Xtg <- apply(X*g, 2, sum)
-  ##
   Xtg <- matrix(Xtg, 1, k)
-  # gg <- colSums(g*g)
-  ##
   gg <- apply(g*g, 2, sum)
-  ##
   gg <- matrix(gg, 1, k)
-  # XX <- colSums(X*X)
-  ##
   XX <- apply(X*X, 2, sum)
-  ##
   XX <- matrix(XX, 1, k)
   XXgg <- XX*gg
   temp <- sweep(X, 2, Xtg, "*")
   dtX <- matrix(temp, n, k) - g
   nrmG <- sqrt(sum((dtX)^2))
 
-  ##
-  test_out$dtX <- dtX
-  test_out$nrmG <- nrmG
-  ##
-
   Q <- 1; Cval <- f; tau <- opts$tau
 
-  # ## print iteration header if debug == 1
-  # if (record >= 1){
-  #     cat(paste('------ Gradient Method with Line search ----- ',"\n"),
-  #         sprintf("%4s %8s %8s %10s %10s", 'Iter', 'tau', 'F(X)', 'nrmG', 'XDiff'))
-  # }
-  # if (record == 10) out$fvec = f
+  ## print iteration header if record >= 1
+  if (record >= 1){
+      cat(paste("\n", '------ Gradient Method with Line search ----- ',"\n"),
+          sprintf("%4s %8s %10s %9s %9s %3s", 'Iter', 'tau', 'F(X)', 'nrmG', 'XDiff', 'nls'), "\n")
+  }
+  if (record == 10) out$fvec = f
 
-  ##
-  X_list <- vector("list", opts$maxiter)
-  XDiff_list <- vector("list", opts$maxiter)
-  FDiff_list <- vector("list", opts$maxiter)
-  Q_list <- vector("list", opts$maxiter)
-  Cval_list <- vector("list", opts$maxiter)
-  ##
+  # ##
+  # X_list <- vector("list", opts$maxiter)
+  # XDiff_list <- vector("list", opts$maxiter)
+  # FDiff_list <- vector("list", opts$maxiter)
+  # Q_list <- vector("list", opts$maxiter)
+  # Cval_list <- vector("list", opts$maxiter)
+  # ##
+
   ##main iteration
   for (itr in 1:opts$maxiter) {
     Xp <- X; fp <- f; gp <- g; dtXP <- dtX
@@ -267,28 +229,15 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
       tau <- eta * tau
       nls <- nls + 1
     }
-    ##
-    X_list[[itr]] <- X
-    ##
 
-    # if (record == 10)
-    #   out$fvec <- rbind(out$fvec,f)
+    if (record == 10)
+      out$fvec <- rbind(out$fvec,f)
 
-    #Xtg <- sapply(1:k, function(d) sum(X[,d]*g[,d]))
-    # Xtg <- colSums(X*g)
-    ##
     Xtg <- apply(X*g, 2, sum)
-    ##
     Xtg <- matrix(Xtg, 1, k)
-    # gg <- colSums(g*g)
-    ##
     gg <- apply(g*g, 2, sum)
-    ##
     gg <- matrix(gg, 1, k)
-    # XX <- colSums(X*X)
-    ##
     XX <- apply(X*X, 2, sum)
-    ##
     XX <- matrix(XX, 1, k)
     XXgg <- XX*gg
     temp <- sweep(X, 2, Xtg, "*")
@@ -299,23 +248,16 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
     XDiff <- sqrt(sum(s^2))/sqrt(n)
     FDiff <- abs(fp - f)/(abs(fp) + 1)
 
-
-    ##
-    XDiff_list[[itr]] <- XDiff
-    FDiff_list[[itr]] <- FDiff
-    ##
-
-    # if (record >= 1)
-    #   cat(paste('------ Gradient Method with Line search ----- ',"\n"),
-    #       sprintf("%4s %8s %8s %10s %10s %10s", 'Iter', 'tau', 'F(X)', 'nrmG', 'XDiff','nls'))
+    if (record >= 1)
+      # cat(paste('------ Gradient Method with Line search ----- ',"\n"),
+      #     sprintf("%4s %8s %8s %10s %10s %10s", 'Iter', 'tau', 'F(X)', 'nrmG', 'XDiff','nls'))
+      cat(sprintf('%4d  %3.2e  %3.2e  %3.2e  %3.2e %2d',
+              itr, tau, f, nrmG, XDiff, nls), "\n")
 
     crit[itr,] <- cbind(nrmG, XDiff, FDiff)
     r <- length((itr - min(nt, itr)+1):itr)
     temp1 <- matrix(crit[(itr - min(nt, itr)+1):itr,], r, 3)
-    # mcrit <- colMeans(temp1)
-    ##
     mcrit <- apply(temp1, 2, mean)
-    ##
 
 
     if ((XDiff < xtol && FDiff < ftol) || nrmG < gtol
@@ -337,46 +279,23 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
     }
     Qp <- Q; Q <- gamma*Qp + 1
     Cval <- (gamma*Qp*Cval + f)/Q
-
-    ##
-    Q_list[[itr]] <- Q
-    Cval_list[[itr]] <- Cval
-    ##
   }
 
   if (itr >= opts$maxiter)
     out$msg <- "exceed max iteration"
 
-  # Xn <- colSums(X*X)
-  ##
   Xn <- apply(X*X, 2, sum)
-  ##
   Xn <- matrix(Xn, 1, k)
   out$feasi <- svd(Xn - 1)$d[1]
 
-  ##
-  test_out$X_list <- X_list
-  test_out$X <- X
-  test_out$XDiff_list <- XDiff_list
-  test_out$FDiff_list <- FDiff_list
-  test_out$Q_list <- Q_list
-  test_out$Cval_list <- Cval_list
-  ##
-
   if (out$feasi > eps) {
-    # nrmX <- colSums(X*X)
-    ##
     nrmX <- apply(X*X, 2, sum)
-    ##
     X <- sweep(X, 2, sqrt(nrmX),"/")
     args = list(X, ...)
     eva <- do.call(fun, args)
     f <- eva$F; g <- as.matrix(eva$G)
     out$nfe <- out$nfe + 1
-    # nrmX.n <- colSums(X*X)
-    ##
     nrmX.n <- apply(X*X, 2, sum)
-    ##
     out$feasi <- svd(nrmX.n - 1)$d[1]
   }
 
@@ -384,8 +303,5 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   out$fval <- f
   out$itr <- itr
 
-  # return(list(X = X, g = g, out = out))
-  ##
-  return(list(X = X, g = g, out = out, test_out = test_out))
-  ##
+  return(list(X = X, g = g, out = out))
 }

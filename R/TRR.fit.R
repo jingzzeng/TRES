@@ -179,12 +179,6 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
     if(method == "standard") {
       Bhat <- Btil
       Gamma <- NULL
-      ##
-      M_list <- NULL
-      U_list <- NULL
-      W0_list <- NULL
-      test_out_list <- NULL
-      ##
     }else{
       if(missing(u)){stop("A user-defined u is required.")}
       Sinvhalf <- vector("list", m)
@@ -192,12 +186,6 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
         Sinvhalf[[i]] <- pracma::sqrtm(Sig[[i]])$Binv
       }
       Gamma <- PGamma <- vector("list", m)
-      ##
-      M_list <- vector("list", 2)
-      U_list <- vector("list", 2)
-      W0_list <- vector("list", 2)
-      test_out_list <- vector("list", 2)
-      ##
       for (i in 1:m) {
         #one-step estimator
         M <- lambda*Sig[[i]]
@@ -211,18 +199,8 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
         idxprod <- (r[i]/n)/prodr
         YsnYsn <- ttt(Ysn, Ysn, ms=idx)@data*idxprod
         U <- YsnYsn - M
-        ##
-        M_list[[i]] <- M
-        U_list[[i]] <- U
-        ##
         if (method == "1D"){
-          # Gamma[[i]] <- OptM1D(M, U, u[i])
-          ##
-          fit <- OptM1D(M, U, u[i])
-          Gamma[[i]] <- fit$Gamma
-          W0_list[[i]] <- fit$W0_list
-          test_out_list[[i]] <- fit$test_out_list
-          ##
+          Gamma[[i]] <- OptM1D(M, U, u[i])
         }else if(method == "ECD"){
           Gamma[[i]] <- ECD(M, U, u[i])
         }else if(method == "PLS"){
@@ -238,8 +216,7 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
   }
   fitted.values <- rTensor::ttm(Bhat, t(x_old), m+1)
   residuals <- y_old - fitted.values
-  # output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma, Sigma=Sig, fitted.values = fitted.values, residuals = residuals)
-  output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma, Sigma=Sig, fitted.values = fitted.values, residuals = residuals, M_list = M_list, U_list = U_list, W0_list = W0_list, test_out_list = test_out_list, En = En, S_list_1 = res$S_list_1, S_list_2 = res$S_list_2, Tsn_list_1 = res$Tsn_list_1, Tsn_list_2 = res$Tsn_list_2, TsnTsn_list_1 = res$TsnTsn_list_1, TsnTsn_list_2 = res$TsnTsn_list_2, norm_list_1 = res$norm_list_1, norm_list_2 = res$norm_list_2, Sinvhalf_list_1 = res$Sinvhalf_list_1, Sinvhalf_list_2 = res$Sinvhalf_list_2)
+  output <- list(x = x_old, y = y_old, call = cl, method = method, coefficients=Bhat, Gamma=Gamma, Sigma=Sig, fitted.values = fitted.values, residuals = residuals)
   class(output) <- "Tenv"
   output
 }

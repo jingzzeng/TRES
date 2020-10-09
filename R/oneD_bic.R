@@ -58,7 +58,7 @@ oneD_bic <- function(M, U, n, C=1, maxdim=10, ...) {
   phi <- rep(0, p)
   for (k in 1:maxdim){
     if (k == p) break
-    gk <- ballGBB1D(Mnew, Unew, ...)
+    gk <- ballGBB1D(Mnew, Unew, ...)$X
     phi[k] <- n*(log(t(gk) %*% Mnew %*% gk)+ log(t(gk) %*% chol2inv(chol(Mnew+Unew)) %*% gk))+
       log(n)*C
     G[, k] <- G0 %*% gk
