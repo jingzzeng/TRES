@@ -2,8 +2,8 @@
 # TRES
 
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/leozeng15/TRES.svg?branch=master)](https://travis-ci.org/leozeng15/TRES)
-[![cran webpage](https://img.shields.io/badge/cran-1.1.2-blue)](https://CRAN.R-project.org/package=TRES)
+[![Build Status](https://travis-ci.com/leozeng15/TRES.svg?branch=master)](https://travis-ci.com/leozeng15/TRES)
+[![cran webpage](https://img.shields.io/badge/cran-1.1.3-blue)](https://CRAN.R-project.org/package=TRES)
 <!-- badges: end -->
 
 The package **TRES** implements the least squares and envelope estimation under the framework of tensor regression models. The general model-free envelope models can also be flexibly handled by the package via three types of envelope estimation algorithms: 
