@@ -5,5 +5,6 @@ setMethod(f="show",
             cat("Numeric Tensor of", object@num_modes, "Modes\n", sep=" ")
             cat("Modes: ", object@modes, "\n", sep=" ")
             cat("Data: \n")
-            print(head(as.vector(object@data), n = 6))
+            # print(head(as.vector(object@data), n = 6))
+            print(summary(c(object@data)))
           })

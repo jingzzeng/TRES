@@ -19,7 +19,7 @@
 #'
 #' @export
 #' @import rTensor
-#' @import pracma sqrtm
+#' @importFrom pracma sqrtm
 kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
   ss <- dim(Tn)
   if(is.null(ss) || length(ss) <= 1) stop("The dimension of Tn should be larger than one.")
@@ -54,51 +54,18 @@ kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
       if(length(tol) != m) stop("length(tol) must be 1 or length(dim(Tn))-1.")
     }
 
-  ##
-  S_list_1 <- vector("list", maxiter)
-  S_list_2 <- vector("list", maxiter)
-  Tsn_list_1 <- vector("list", maxiter)
-  Tsn_list_2 <- vector("list", maxiter)
-  TsnTsn_list_1 <- vector("list", maxiter)
-  TsnTsn_list_2 <- vector("list", maxiter)
-  norm_list_1 <- vector("list", maxiter)
-  norm_list_2 <- vector("list", maxiter)
-  Sinvhalf_list_1 <- vector("list", maxiter)
-  Sinvhalf_list_2 <- vector("list", maxiter)
-  ##
-
   if (m > 1) {
     flag <- 0
     for(iter in seq_len(maxiter)){
        for (i in 1:m){
          Si0 <- S[[i]]
-         ##
-         if(i == 1) S_list_1[[iter]] <- Si0
-         if(i == 2) S_list_2[[iter]] <- Si0
-         ##
          idx <- c(1:(m+1))[-i]
          len <- length(idx)
          Tsn <- ttl(Tn, Sinvhalf[c(idx[1:(len-1)])], ms=idx[1:(len-1)])
-         ##
-         if(i == 1) Tsn_list_1[[iter]] <- Tsn
-         if(i == 2) Tsn_list_2[[iter]] <- Tsn
-         ##
          idxprod <- (r[i]/n)/prodr
          TsnTsn <- ttt(Tsn, Tsn, ms = idx)@data*idxprod
-         ##
-         if(i == 1) TsnTsn_list_1[[iter]] <- TsnTsn
-         if(i == 2) TsnTsn_list_2[[iter]] <- TsnTsn
-         ##
          S[[i]] <- TsnTsn/sqrt(sum(TsnTsn^2))
-         ##
-         if(i == 1) norm_list_1[[iter]] <- sqrt(sum(TsnTsn^2))
-         if(i == 2) norm_list_2[[iter]] <- sqrt(sum(TsnTsn^2))
-         ##
          Sinvhalf[[i]] <- sqrtm(S[[i]])$Binv
-         ##
-         if(i == 1) Sinvhalf_list_1[[iter]] <- Sinvhalf[[i]]
-         if(i == 2) Sinvhalf_list_2[[iter]] <- Sinvhalf[[i]]
-         ##
          if(sqrt(sum((Si0 - S[[i]])^2)) < tol[i]){flag <- 1;break}
        }
       if(flag == 1) break
@@ -111,8 +78,5 @@ kroncov <- function(Tn, tol = 1e-6, maxiter = 10){
     S[[m]] <- ttt(Tn, Tn, ms = 2)@data*(1/n)
   }
 
-  # list(lambda=lambda, S=S)
-  ##
-  list(lambda=lambda, S=S, S_list_1 = S_list_1, S_list_2 = S_list_2, Tsn_list_1 = Tsn_list_1, Tsn_list_2 = Tsn_list_2, TsnTsn_list_1 = TsnTsn_list_1, TsnTsn_list_2 = TsnTsn_list_2, norm_list_1 = norm_list_1, norm_list_2 = norm_list_2, Sinvhalf_list_1 = Sinvhalf_list_1, Sinvhalf_list_2 = Sinvhalf_list_2)
-  ##
+  list(lambda=lambda, S=S)
 }

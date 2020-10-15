@@ -1,7 +1,11 @@
 # TRES 1.1.3
 
 ## Major changes
-- Replace the `base::norm()` function with more direct calculation, e.g., replace `norm(x, type = 'F')` with `sqrt(sum(x^2))`. 
+- Replace the `base::norm(x, 'F')` function with `sqrt(sum(x^2))` for some matrix `x`.
+- In the `Data` segment of the printout of the `tensor` object, instead of just the first few elements, the summarized results of all elements are printed.
+
+## Minor changes
+- Add more output information returned from `OptManiMulitBallGBB()` to the output of `ballGBB1D()`.
 
 ---
 
