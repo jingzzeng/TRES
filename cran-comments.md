@@ -10,4 +10,4 @@ There were no ERRORs, WARNINGs or NOTEs.
 No reverse dependence packages.
 
 ## Updates
-* This is the updated version of old package TRES_1.1.1. 
+* This is the updated version of old package TRES_1.1.2. 
