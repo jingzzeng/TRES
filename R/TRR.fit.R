@@ -162,8 +162,7 @@ TRR.fit <- function(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gam
   x_inv <- chol2inv(chol(tcrossprod(x))) %*% x
   Btil <- rTensor::ttm(y, x_inv, m+1)
   En <- y - rTensor::ttm(Btil, t(x), m+1)
-
-  res <- kroncov(En)
+  res <- try(kroncov(En))
   if(inherits(res, "try-error")){
     if(method == "standard") {
       message("Warning: The estimation of error covariance is unavailable, which may due to insufficient samples. The coefficient, fitted values and residuals are returned.")

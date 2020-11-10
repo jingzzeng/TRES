@@ -1,3 +1,9 @@
+# TRES 1.1.3.9000
+
+## Minor change
+- Revert `res <- kroncov(En)` to `res <- try(kroncov(En))`, which is forgotten to be reverted in last version.
+
+
 # TRES 1.1.3
 
 ## Major changes
