@@ -1,4 +1,4 @@
-#' Tensor Regression with Envelope Structure and Three Generic Envelope Estimation Approaches
+#' Tensor Regression with Envelope Structure
 #'
 #' Provides the ordinary least squares estimator and the three types of tensor envelope structured estimators for tensor response regression (TRR) and tensor predictor regression (TPR) models. The three types of tensor envelope structured approaches are generic and can be applied to any envelope estimation problems. The full Grassmannian (FG) optimization is often associated with likelihood-based estimation but requires heavy computation and good initialization; the one-directional optimization approaches (1D and ECD algorithms) are faster, stable and does not require carefully chosen initial values; the SIMPLS-type is motivated by the partial least squares regression and is computationally the least expensive.
 #'
@@ -44,7 +44,7 @@
 #' plot(fit_ols)
 #'
 #' ## 2. Fitting with 1D envelope algorithm. (time-consuming)
-#' \dontrun{
+#' \donttest{
 #' fit_1D <- TRR.fit(x, y, u = c(14,14), method="1D") # pass envelope rank (14,14)
 #' coef(fit_1D)
 #' summary(fit_1D)

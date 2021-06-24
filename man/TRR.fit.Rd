@@ -26,7 +26,17 @@ TRR.fit(x, y, u, method=c('standard', 'FG', '1D', 'ECD', 'PLS'), Gamma_init = NU
 \item{Gamma_init}{A list specifying the initial envelope subspace basis for "FG" method. By default, the estimators given by "1D" algorithm is used.}
 }
 \value{
-\item{x}{The original predictor dataset.}
+\code{TRR.fit} returns an object of class "Tenv".
+
+The function \code{\link{summary}} (i.e., \code{\link{summary.Tenv}}) is used to print the summary of the results, including additional information, e.g., the p-value and the standard error for coefficients, and the prediction mean squared error.
+
+The functions \code{coefficients}, \code{fitted.values} and \code{residuals} can be used to extract different features returned from \code{TRR.fit}.
+
+The function \code{\link{plot}} (i.e., \code{\link{plot.Tenv}}) plots the two-dimensional coefficients and p-value for object of class "Tenv".
+
+The function \code{\link{predict}} (i.e., \code{\link{predict.Tenv}}) predicts response for the object returned from \code{\link{TRR.fit}} function.
+
+ \item{x}{The original predictor dataset.}
  \item{y}{The original response dataset.}
  \item{call}{The matched call.}
  \item{method}{The implemented method.}

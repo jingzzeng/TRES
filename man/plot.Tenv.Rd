@@ -35,6 +35,9 @@
 
 \item{...}{Other parameters to be passed to the plotting functions.}
 }
+\value{
+No return value.
+}
 \description{
 Plot method for object returned from \code{TRR.fit} and \code{TPR.fit} functions.
 }

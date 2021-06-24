@@ -1,5 +1,8 @@
 # TRES 1.1.4
 
+## Major changes
+- We change the title from ``Tensor Regression with Envelope Structure and Three Generic Envelope Estimation Approaches'' to ``Tensor Regression with Envelope Structure''.
+
 ## Minor change
 - Revert `res <- kroncov(En)` to `res <- try(kroncov(En))` in function `TRR.fit`, which is forgotten to be reverted in last version.
 

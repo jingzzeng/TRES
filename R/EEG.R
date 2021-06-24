@@ -28,7 +28,7 @@
 #' x <- EEG$x
 #' y <- EEG$y
 #' ## Estimate the envelope dimension, the output should be c(1,1).
-#' \dontrun{
+#' \donttest{
 #' u <- TRRdim(x, y)$u}
 #' u <- c(1,1)
 #'

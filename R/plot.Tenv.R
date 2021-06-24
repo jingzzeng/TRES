@@ -22,6 +22,8 @@
 #' @param ask A logical value. If it is TRUE (default), user is prompted before the second plot is shown (if exists).
 #' @param ... Other parameters to be passed to the plotting functions.
 #'
+#' @return No return value.
+#'
 #' @seealso \code{\link{TRR.fit}, \link{TPR.fit}}
 #'
 #' @examples

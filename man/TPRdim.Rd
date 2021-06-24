@@ -46,7 +46,7 @@ y <- dat$y
 TPRdim(x, y, maxdim = 5)
 
 ## Use dataset square. (time-consuming)
-\dontrun{
+\donttest{
 data("square")
 x <- square$x
 y <- square$y
