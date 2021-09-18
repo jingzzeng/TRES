@@ -7,16 +7,16 @@
 OptStiefelGBB(X, fun, opts = NULL, ...)
 }
 \arguments{
-\item{X}{Initial value to start the optimization. A \eqn{n} by \eqn{k} matrix such that \eqn{X^T X = I}}
+\item{X}{Initial value to start the optimization. A \eqn{n} by \eqn{k} orthonormal matrix such that \eqn{X^T X = I_k}.}
 
 \item{fun}{The function that returns the objective function value and its gradient. The syntax for \code{fun} is \code{fun(X, data1, data2)} where \code{data1, data2} are additional data passed to \code{...}.}
 
-\item{opts}{A list specifying additional user-defined arguments for the curvilinear search algorithm:
+\item{opts}{A list specifying additional user-defined arguments for the curvilinear search algorithm. Some important ones are listed in the following:
 \itemize{
  \item \code{maxiter}: The maximal number of iterations.
- \item \code{xtol}: The convergence tolerance for \eqn{\Gamma}, e.g., \eqn{||\Gamma^{(k)} - \Gamma^{(k-1)}||_F/\sqrt{p}}
- \item \code{gtol}: The convergence tolerance for the projected gradient, e.g., \eqn{||G^{(k)} - \Gamma^{(k)} (G^{(t)})^T \Gamma^{(t)}||_F}
- \item \code{ftol}: The convergence tolerance for objective function \eqn{F}, e.g., \eqn{|F^{(k)} - F^{(k-1)}|/(1+|F^{(k-1)}|)}. Usually, \code{max{xtol, gtol} > ftol}
+ \item \code{xtol}: The convergence tolerance for \eqn{\Gamma}, e.g., \eqn{||X^{(t)} - X^{(t-1)}||_F/\sqrt{k}}.
+ \item \code{gtol}: The convergence tolerance for the projected gradient, e.g., \eqn{||G^{(t)} - X^{(t)} (G^{(t)})^T X^{(t)}||_F}.
+ \item \code{ftol}: The convergence tolerance for objective function \eqn{F}, e.g., \eqn{|F^{(t)} - F^{(t-1)}|/(1+|F^{(t-1)}|)}. Usually, \code{max{xtol, gtol} > ftol}.
 }
 The default values are: \code{maxiter=500; xtol=1e-08; gtol=1e-08; ftol=1e-12.}}
 
@@ -24,7 +24,15 @@ The default values are: \code{maxiter=500; xtol=1e-08; gtol=1e-08; ftol=1e-12.}}
 }
 \value{
 \item{X}{The converged solution of the optimization problem.}
-\item{Out}{Output information, including estimation error, function value, iteration times etc.}
+\item{out}{Output information, including estimation error, function value, iteration times etc.
+\itemize{
+\item{\code{nfe}}: The total number of line search attempts.
+\item{\code{msg}}: Message: "convergence" | "exceed max iteration".
+\item{\code{feasi}}: The feasibility of solution: \eqn{||X^TX - I_k||_F}.
+\item{\code{nrmG}}: The convergence criterion based on the projected gradient \eqn{||G - X G^T X||_F}.
+\item{\code{fval}}: The objective function value \eqn{F(X)} at termination.
+\item{\code{iter}}: The number of iterations.
+}}
 }
 \description{
 Curvilinear search algorithm for optimization on Stiefel manifold developed by Wen and Yin (2013).
@@ -32,11 +40,11 @@ Curvilinear search algorithm for optimization on Stiefel manifold developed by W
 \details{
 The calling syntax is \code{OptStiefelGBB(X, fun, opts, data1, data2)}, where \code{fun(X, data1, data2)} returns the objective function value and its gradient.
 
-For example, the optimization problem is
-\deqn{min -tr(X^T W X),}
-where \eqn{X} is \eqn{n} by \eqn{k} matrix such that \eqn{X^T X = I}. Then the objective function and its gradient are
-\deqn{F(X) = -tr(X^T W X), G(X) = - 2 W X.}
-See \strong{Examples} for details.
+For example, for \eqn{n} by \eqn{k} matrix \eqn{X}, the optimization problem is
+\deqn{min_{X} -tr(X^T W X), \mbox{ such that } X^T X = I_k.}
+The objective function and its gradient are
+\deqn{F(X) = -tr(X^T W X), \; G(X) = - 2 W X.}
+Then we need to provide the function \code{fun(X, W)} which returns \eqn{F(X)} and \eqn{G(X)}. See \strong{Examples} for details.
 }
 \examples{
 n <- 1000

@@ -1,3 +1,8 @@
+# TRES 1.1.4.9000
+
+## Major changes
+- Revise the help documentation for the function `OptStiefelGBB.R`.
+
 # TRES 1.1.4
 
 ## Major changes

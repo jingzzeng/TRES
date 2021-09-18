@@ -47,7 +47,7 @@ y <- dat$y
 
 TRRdim(x, y) # The estimated envelope dimensions are the same as u.
 
-## Use dataset bat, but it is time-consuming
+## Use dataset bat. (time-consuming)
 \donttest{
 data("bat")
 x <- bat$x

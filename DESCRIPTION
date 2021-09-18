@@ -1,7 +1,7 @@
 Package: TRES
 Type: Package
 Title: Tensor Regression with Envelope Structure
-Version: 1.1.4
+Version: 1.1.4.9000
 Date: 2021-06-24
 Authors@R: c(
     person("Wenjing", "Wang", email = "wenjing.wang@stat.fsu.edu", role = c("aut")),

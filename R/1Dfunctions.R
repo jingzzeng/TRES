@@ -69,7 +69,7 @@ ballGBB1D <- function(M, U, ...) {
 ###########################################################################
 #         Line search algorithm for optimization on manifold              #
 ###########################################################################
-OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
+OptManiMulitBallGBB <- function(X, fun, opts=NULL, ...) {
   # Line search algorithm for optimization on manifold:
   #
   #    min f(X), s.t., ||X_i||_2 = 1, where X \in R^{n,p}
@@ -81,23 +81,29 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   #    X --- initialization. ||X_i||_2 = 1, each column of X lies on a unit sphere
   #    opts --- option structure with fields:
   #       maxiter     max number of iterations
-  #       xtol        stop control for ||X_k - X_{k-1}||
+  #       xtol        stop control for ||X^(t) - X^(t-1)||_F/sqrt(k)
   #       gtol        stop control for the projected gradient
   #       ftol        stop control for |F_k - F_{k-1}|/(1+|F_{k-1}|)
   #       usually, max{xtol, gtol} > ftol
   #    fun --- objective function and its gradient:
-  #    [F, G] = fun(X, data1, data2)
+  #    [X, g, out] = fun(X, data1, data2)
   #
-  #    F, G are the objective function value and gradient, repectively
+  #    X and g are the objective function value and gradient, repectively
+  #    out is the additional iteration information
   #    data1, data2 are addtional data, and can be more.
   #
   # Calling syntax:
   #    OptManiMulitBallGBB(X0, opts, fun, data1, data2);
   #
   # Output:
-  #     x --- solution
-  #     g --- gradient of x
-  #     Out --- output information
+  #     X --- solution
+  #     g --- gradient of X
+  #     out --- output information:
+  #               nfe: The total number of line search attempts.
+  #               msg: "convergence" | "exceed max iteration"
+  #               feasi: ||(||X_1||_2^2-1), ..., (||X_k||_2^2 - 1)||_2,
+  #               nrmG: ||X_1*<X_1, g_1> - g_1, ..., X_k*<X_k, g_k> - g_k||_F
+  #               fval: the objective function value at termination
   #
   # For example, consider the maxcut SDP:
   #     X is n by n matrix
@@ -118,16 +124,18 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   #     OptManiMulitBallGBB(x0, opts, maxcut_quad, C);
   #
   #
-  #
   #     Reference: Z. Wen and W. Yin (2013), A feasible method for optimization
   #       with orthogonality constraints
   #
 
   ##Size information
   X <- as.matrix(X)
-  if (length(X) == 0)
-    print("input X is an empty") else {
-      n <- dim(X)[1]; k <- dim(X)[2]}
+  if(length(X) == 0){
+    print("input X is an empty matrix")
+  }else{
+    n <- dim(X)[1]
+    k <- dim(X)[2]
+  }
 
   if (is.null(opts$xtol) || opts$xtol < 0 || opts$xtol > 1) opts$xtol <- 1e-8
   if (is.null(opts$gtol) || opts$gtol < 0 || opts$gtol > 1) opts$gtol <- 1e-8
@@ -135,13 +143,15 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   # parameters for control the linear approximation in line search
   if (is.null(opts$rho) || opts$rho < 0 || opts$rho > 1) opts$rho <- 1e-04
   # factor for decreasing the step size in the backtracking line search
-  if (is.null(opts$eta))
-    opts$eta <- 0.2 else if (opts$eta < 0 || opts$eta > 1)
-      opts$eta <- 0.1
+  if (is.null(opts$eta)){
+    opts$eta <- 0.2
+  }else if (opts$eta < 0 || opts$eta > 1){
+    opts$eta <- 0.1
+  }
   # parameters for updating C by HongChao, Zhang
   if (is.null(opts$gamma) || opts$gamma < 0 || opts$gamma > 1) opts$gamma <- 0.85
   if (is.null(opts$tau) || opts$tau < 0 || opts$tau > 1) opts$tau <- 1e-03
-  # parameters for the  nonmontone line search by Raydan
+  # parameters for the nonmontone line search by Raydan
   if (is.null(opts$m)) opts$m <- 10
   if (is.null(opts$STPEPS)) opts$STPEPS <- 1e-10
   if (is.null(opts$maxiter) || opts$maxiter < 0 || opts$maxiter > 2^20) opts$maxiter <- 800
@@ -163,11 +173,11 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   crit <- matrix(1, opts$maxiter, 3)
   record <- opts$record
 
-  # normalize x so that ||x||_2 = 1
+  # normalize x such that ||x||_2 = 1
   nrmX <- apply(X*X, 2, sum)
-  nrmX <- matrix(nrmX, 1, k)
+  nrmX <- matrix(nrmX, 1, k)  # nrmX = (||X_1||_2^2, .... ||X_k||_2^2)
   if (sqrt(sum((nrmX-1)^2)) > 1e-8) {
-    X <- sweep(X, 2, sqrt(nrmX),"/")
+    X <- sweep(X, 2, sqrt(nrmX),"/")  # ||X_i||_2 = 1, i = 1, ..., k
   }
   args = list(X, ...)
   eva <- do.call(fun, args)
@@ -177,22 +187,22 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
 
 
   Xtg <- apply(X*g, 2, sum)
-  Xtg <- matrix(Xtg, 1, k)
+  Xtg <- matrix(Xtg, 1, k)  # Xtg = (<X_1, g_1>, ..., <X_k, g_k>)
   gg <- apply(g*g, 2, sum)
-  gg <- matrix(gg, 1, k)
+  gg <- matrix(gg, 1, k)  # gg = (||g_1||_2^2, ..., |g_k||_2^2)
   XX <- apply(X*X, 2, sum)
-  XX <- matrix(XX, 1, k)
+  XX <- matrix(XX, 1, k)  # XX = (||X_1||_2^2, .... ||X_k||_2^2)
   XXgg <- XX*gg
-  temp <- sweep(X, 2, Xtg, "*")
-  dtX <- matrix(temp, n, k) - g
-  nrmG <- sqrt(sum((dtX)^2))
+  temp <- sweep(X, 2, Xtg, "*")  # temp = (X_1*<X_1, g_1>, ..., X_k*<X_k, g_k>)
+  dtX <- matrix(temp, n, k) - g   # dtX = (X_1*<X_1, g_1> - g_1, ..., X_k*<X_k, g_k> - g_k)
+  nrmG <- sqrt(sum((dtX)^2))  # nrmG = ||X_1*<X_1, g_1> - g_1, ..., X_k*<X_k, g_k> - g_k||_F
 
   Q <- 1; Cval <- f; tau <- opts$tau
 
   ## print iteration header if record >= 1
   if (record >= 1){
-      cat(paste("\n", '------ Gradient Method with Line search ----- ',"\n"),
-          sprintf("%4s %8s %10s %9s %9s %3s", 'Iter', 'tau', 'F(X)', 'nrmG', 'XDiff', 'nls'), "\n")
+    cat(paste("\n", '------ Gradient Method with Line search ----- ',"\n"),
+        sprintf("%4s %8s %10s %9s %9s %3s", 'Iter', 'tau', 'F(X)', 'nrmG', 'XDiff', 'nls'), "\n")
   }
   if (record == 10) out$fvec = f
 
@@ -206,27 +216,26 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
 
   ##main iteration
   for (itr in 1:opts$maxiter) {
-    Xp <- X; fp <- f; gp <- g; dtXP <- dtX
+    Xp <- X; fp <- f; gp <- g; dtXP <- dtX   # Record the values from the last step.
+    nls <- 1  # The number of line search attempts in each iteration.
+    deriv <- rho*nrmG^2
 
-    nls <- 1; deriv = rho*nrmG^2
-
+    # Update X via line search
     while (TRUE) {
-      ## calculate g, f
       tau2 <- tau/2
       beta <- (1 + (tau2^2)*(-(Xtg^2) + XXgg))
       a1 <- ((1 + tau2*Xtg)^2 - (tau2^2)*XXgg)/beta
       a2 <- -tau*XX/beta
-      X <- sweep(Xp, 2, a1, "*") + sweep(gp, 2, a2, "*")
-
+      X <- sweep(Xp, 2, a1, "*") + sweep(gp, 2, a2, "*")   # The update of X
 
       args = list(X, ...)
       eva <- do.call(fun, args)
       f <- eva$F; g <- as.matrix(eva$G)
-      out$nfe <- out$nfe + 1
+      out$nfe <- out$nfe + 1    # The total number of line search attempts.
 
       if (f <= Cval - tau*deriv || nls >= 5)
         break
-      tau <- eta * tau
+      tau <- eta * tau   # Adjust the step size "tau"
       nls <- nls + 1
     }
 
@@ -245,14 +254,14 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
 
     nrmG <- sqrt(sum(dtX^2))
     s <- X - Xp
-    XDiff <- sqrt(sum(s^2))/sqrt(n)
-    FDiff <- abs(fp - f)/(abs(fp) + 1)
+    XDiff <- sqrt(sum(s^2))/sqrt(n)    # The change of X: ||X^(t) - X^(t-1)||_F/sqrt(k)
+    FDiff <- abs(fp - f)/(abs(fp) + 1)  # The relative change of the objective function f: |f^(t) - f^(t-1)|/(|f^(t-1)| + 1)
 
     if (record >= 1)
       # cat(paste('------ Gradient Method with Line search ----- ',"\n"),
       #     sprintf("%4s %8s %8s %10s %10s %10s", 'Iter', 'tau', 'F(X)', 'nrmG', 'XDiff','nls'))
       cat(sprintf('%4d  %3.2e  %3.2e  %3.2e  %3.2e %2d',
-              itr, tau, f, nrmG, XDiff, nls), "\n")
+                  itr, tau, f, nrmG, XDiff, nls), "\n")
 
     crit[itr,] <- cbind(nrmG, XDiff, FDiff)
     r <- length((itr - min(nt, itr)+1):itr)
@@ -284,11 +293,11 @@ OptManiMulitBallGBB <- function(X, opts=NULL, fun, ...) {
   if (itr >= opts$maxiter)
     out$msg <- "exceed max iteration"
 
-  Xn <- apply(X*X, 2, sum)
+  Xn <- apply(X*X, 2, sum)   # Xn = (||X_1||_2^2, ..., ||X_k||_2^2)
   Xn <- matrix(Xn, 1, k)
-  out$feasi <- svd(Xn - 1)$d[1]
+  out$feasi <- svd(Xn - 1)$d[1]    # The feasibility of the solution: feasi = ||X_n - 1||_2
 
-  if (out$feasi > eps) {
+  if (out$feasi > eps) { # If columns of Xn are not all close to zero, then do one more step
     nrmX <- apply(X*X, 2, sum)
     X <- sweep(X, 2, sqrt(nrmX),"/")
     args = list(X, ...)

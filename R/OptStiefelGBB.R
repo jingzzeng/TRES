@@ -2,14 +2,14 @@
 #'
 #' Curvilinear search algorithm for optimization on Stiefel manifold developed by Wen and Yin (2013).
 #'
-#' @param X Initial value to start the optimization. A \eqn{n} by \eqn{k} matrix such that \eqn{X^T X = I}
+#' @param X Initial value to start the optimization. A \eqn{n} by \eqn{k} orthonormal matrix such that \eqn{X^T X = I_k}.
 #' @param fun The function that returns the objective function value and its gradient. The syntax for \code{fun} is \code{fun(X, data1, data2)} where \code{data1, data2} are additional data passed to \code{...}.
-#' @param opts A list specifying additional user-defined arguments for the curvilinear search algorithm:
+#' @param opts A list specifying additional user-defined arguments for the curvilinear search algorithm. Some important ones are listed in the following:
 #' \itemize{
 #'  \item \code{maxiter}: The maximal number of iterations.
-#'  \item \code{xtol}: The convergence tolerance for \eqn{\Gamma}, e.g., \eqn{||\Gamma^{(k)} - \Gamma^{(k-1)}||_F/\sqrt{p}}
-#'  \item \code{gtol}: The convergence tolerance for the projected gradient, e.g., \eqn{||G^{(k)} - \Gamma^{(k)} (G^{(t)})^T \Gamma^{(t)}||_F}
-#'  \item \code{ftol}: The convergence tolerance for objective function \eqn{F}, e.g., \eqn{|F^{(k)} - F^{(k-1)}|/(1+|F^{(k-1)}|)}. Usually, \code{max{xtol, gtol} > ftol}
+#'  \item \code{xtol}: The convergence tolerance for \eqn{\Gamma}, e.g., \eqn{||X^{(t)} - X^{(t-1)}||_F/\sqrt{k}}.
+#'  \item \code{gtol}: The convergence tolerance for the projected gradient, e.g., \eqn{||G^{(t)} - X^{(t)} (G^{(t)})^T X^{(t)}||_F}.
+#'  \item \code{ftol}: The convergence tolerance for objective function \eqn{F}, e.g., \eqn{|F^{(t)} - F^{(t-1)}|/(1+|F^{(t-1)}|)}. Usually, \code{max{xtol, gtol} > ftol}.
 #' }
 #' The default values are: \code{maxiter=500; xtol=1e-08; gtol=1e-08; ftol=1e-12.}
 #'
@@ -17,15 +17,23 @@
 #'
 #' @return
 #' \item{X}{The converged solution of the optimization problem.}
-#' \item{Out}{Output information, including estimation error, function value, iteration times etc.}
+#' \item{out}{Output information, including estimation error, function value, iteration times etc.
+#' \itemize{
+#' \item{\code{nfe}}: The total number of line search attempts.
+#' \item{\code{msg}}: Message: "convergence" | "exceed max iteration".
+#' \item{\code{feasi}}: The feasibility of solution: \eqn{||X^TX - I_k||_F}.
+#' \item{\code{nrmG}}: The convergence criterion based on the projected gradient \eqn{||G - X G^T X||_F}.
+#' \item{\code{fval}}: The objective function value \eqn{F(X)} at termination.
+#' \item{\code{iter}}: The number of iterations.
+#' }}
 #'
 #' @details The calling syntax is \code{OptStiefelGBB(X, fun, opts, data1, data2)}, where \code{fun(X, data1, data2)} returns the objective function value and its gradient.
 #'
-#' For example, the optimization problem is
-#' \deqn{min -tr(X^T W X),}
-#' where \eqn{X} is \eqn{n} by \eqn{k} matrix such that \eqn{X^T X = I}. Then the objective function and its gradient are
-#' \deqn{F(X) = -tr(X^T W X), G(X) = - 2 W X.}
-#' See \strong{Examples} for details.
+#' For example, for \eqn{n} by \eqn{k} matrix \eqn{X}, the optimization problem is
+#' \deqn{min_{X} -tr(X^T W X), \mbox{ such that } X^T X = I_k.}
+#' The objective function and its gradient are
+#' \deqn{F(X) = -tr(X^T W X), \; G(X) = - 2 W X.}
+#' Then we need to provide the function \code{fun(X, W)} which returns \eqn{F(X)} and \eqn{G(X)}. See \strong{Examples} for details.
 #'
 #' @references Wen, Z. and Yin, W., 2013. A feasible method for optimization with orthogonality constraints. Mathematical Programming, 142(1-2), pp.397-434.
 #'
@@ -57,6 +65,7 @@
 #' out <- output$out
 #'
 #' @export
+
 OptStiefelGBB <- function(X, fun, opts=NULL, ...){
   # Note: The notations follow the ones in algorithm described in Z. Wen and W. Yin. (2013)
   X <- as.matrix(X)
@@ -114,7 +123,7 @@ OptStiefelGBB <- function(X, fun, opts=NULL, ...){
   eva <- do.call(fun, args)
   F <- eva$F; G <- eva$G
   out <- c()
-  out$nfe <- 1
+  out$nfe <- 1    # The total number of line search attempts.
   GX <- crossprod(G, X)
 
   if (invH == TRUE) {
@@ -134,8 +143,8 @@ OptStiefelGBB <- function(X, fun, opts=NULL, ...){
     }
     VX <- crossprod(V, X)
   }
-  dtX <- G - X %*% GX
-  nrmG <- sqrt(sum(dtX^2))
+  dtX <- G - X %*% GX   # dtX = g - X %*% g^T %*% X
+  nrmG <- sqrt(sum(dtX^2))   # nrmG = ||g - X %*% g^T %*% X||_F
 
   Q <- 1
   Cval <- F
@@ -149,45 +158,47 @@ OptStiefelGBB <- function(X, fun, opts=NULL, ...){
 
   ## main iteration
   for (itr in 1:opts$maxiter) {
+    # Record the values from the last step
     XP <- X
     FP <- F
     GP <- G
     dtXP <- dtX
 
-    #scale step size
-    nls <- 1
+    # line search: scale step size
+    nls <- 1   # The number of line search attempts in each iteration
     deriv <- rho*nrmG^2
-    while (1 > 0) {
-      if (invH == TRUE) {
-        X <- solve(diag(n) + tau*H, XP - tau*RX) } else {
-          aa <- solve(eye2k + (0.5*tau)*VU, VX)
-          X <- XP - U %*% (tau*aa)
-        }
-      if (iscomplex == 0 && is.complex(X) == 1 )
-        cat("error: X is complex")
+    while (TRUE) {
+      if (invH == TRUE){
+        X <- solve(diag(n) + tau*H, XP - tau*RX)
+      } else {
+        aa <- solve(eye2k + (0.5*tau)*VU, VX)
+        X <- XP - U %*% (tau*aa)
+      }
+      if(iscomplex == 0 && is.complex(X) == 1) cat("error: X is complex")
 
       args <- list(X, ...)
       eva <- do.call(fun, args)
       F <- eva$F
       G <- eva$G
-      out$nfe <- out$nfe + 1
+      out$nfe <- out$nfe + 1     # The total number of line search attempts.
 
       if (F <= Cval - tau*deriv || nls >= 5)
         break
       tau <- eta*tau
       nls <- nls + 1
     }
+
     GX <- crossprod(G, X)
-    if (invH == TRUE) {
+    if(invH == TRUE){
       GXT <- tcrossprod(G, X)
       H <- 0.5*(GXT - t(GXT))
       RX <- H %*% X
-    } else {
-      if (opts$projG == 1) {
+    }else{
+      if(opts$projG == 1){
         U <- cbind(G, X)
         V <- cbind(X, -G)
         VU <- crossprod(V, U)
-      } else if (opts$projG == 2) {
+      }else if (opts$projG == 2){
         GB <- G - 0.5 * tcrossprod(X) %*% G
         U <- cbind(GB, X)
         V <- cbind(X, -GB)
@@ -195,12 +206,12 @@ OptStiefelGBB <- function(X, fun, opts=NULL, ...){
       }
       VX <- crossprod(V, X)
     }
-    dtX <- G - X %*% GX
-    nrmG <- sqrt(sum(dtX^2))
+    dtX <- G - X %*% GX    # dtX = g - X %*% g^T %*% X
+    nrmG <- sqrt(sum(dtX^2))   # nrmG = ||g - X %*% g^T %*% X||_F
     S <- X - XP
-    XDiff <- sqrt(sum(S^2))/sqrt(n)
+    XDiff <- sqrt(sum(S^2))/sqrt(n)    # The change of X: ||X^(t) - X^(t-1)||_F/sqrt(k)
     tau <- opts$tau
-    FDiff <- abs(FP - F)/(abs(FP) + 1)
+    FDiff <- abs(FP - F)/(abs(FP) + 1)     # The relative change of the objective function f: |f^(t) - f^(t-1)|/(|f^(t-1)| + 1)
 
     if (iscomplex == 1) {
       Y <- dtX - dtXP; SY <- abs(sum(Conj(S)*Y))
@@ -249,8 +260,8 @@ OptStiefelGBB <- function(X, fun, opts=NULL, ...){
   if (itr >= opts$maxiter)
     out$msg = "exceed max iteration"
 
-  out$feasi <- sqrt(sum((crossprod(X)- diag(k))^2))
-  if (out$feasi > 1e-13) {
+  out$feasi <- sqrt(sum((crossprod(X)- diag(k))^2))    # Check the feasibility of X (i.e., the orthogonality) feasi = ||X^T X - I_k||_F.
+  if (out$feasi > 1e-13) {  # If X is not close to identity, then do one more step
     X <- qr.Q(qr(X))
     args <- list(X, ...)
     eva <- do.call(fun, args)
