@@ -14,8 +14,8 @@ OptStiefelGBB(X, fun, opts = NULL, ...)
 \item{opts}{A list specifying additional user-defined arguments for the curvilinear search algorithm. Some important ones are listed in the following:
 \itemize{
  \item \code{maxiter}: The maximal number of iterations.
- \item \code{xtol}: The convergence tolerance for \eqn{\Gamma}, e.g., \eqn{||X^{(t)} - X^{(t-1)}||_F/\sqrt{k}}.
- \item \code{gtol}: The convergence tolerance for the projected gradient, e.g., \eqn{||G^{(t)} - X^{(t)} (G^{(t)})^T X^{(t)}||_F}.
+ \item \code{xtol}: The convergence tolerance for \eqn{X}, e.g., \eqn{||X^{(t)} - X^{(t-1)}||_F/\sqrt{k}}.
+ \item \code{gtol}: The convergence tolerance for the gradient of the Lagrangian function, e.g., \eqn{||G^{(t)} - X^{(t)} (G^{(t)})^T X^{(t)}||_F}.
  \item \code{ftol}: The convergence tolerance for objective function \eqn{F}, e.g., \eqn{|F^{(t)} - F^{(t-1)}|/(1+|F^{(t-1)}|)}. Usually, \code{max{xtol, gtol} > ftol}.
 }
 The default values are: \code{maxiter=500; xtol=1e-08; gtol=1e-08; ftol=1e-12.}}
@@ -45,6 +45,8 @@ For example, for \eqn{n} by \eqn{k} matrix \eqn{X}, the optimization problem is
 The objective function and its gradient are
 \deqn{F(X) = -tr(X^T W X), \; G(X) = - 2 W X.}
 Then we need to provide the function \code{fun(X, W)} which returns \eqn{F(X)} and \eqn{G(X)}. See \strong{Examples} for details.
+
+For more details of the termination rules and the tolerances, we refer the interested readers to Section 5.1 of Wen and Yin (2013).
 }
 \examples{
 n <- 1000
