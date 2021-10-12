@@ -2,7 +2,6 @@
 # TRES
 
 <!-- badges: start -->
-[![Build Status](https://travis-ci.com/leozeng15/TRES.svg?branch=master)](https://travis-ci.com/leozeng15/TRES)
 [![cran webpage](https://img.shields.io/badge/cran-1.1.4-blue)](https://CRAN.R-project.org/package=TRES)
 <!-- badges: end -->
 
