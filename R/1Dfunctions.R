@@ -62,7 +62,7 @@ ballGBB1D <- function(M, U, ...) {
   # if (is.null(opts$record)) opts$record <- 0
   if (is.null(opts$eps)) opts$eps <- 1e-14
 
-  fit <- OptManiMulitBallGBB(W0, opts, fun1D, M, U)
+  fit <- OptManiMulitBallGBB(W0, fun1D, opts, M, U)
   list(X = fit$X, out = fit$out)
 }
 
@@ -93,7 +93,7 @@ OptManiMulitBallGBB <- function(X, fun, opts=NULL, ...) {
   #    data1, data2 are addtional data, and can be more.
   #
   # Calling syntax:
-  #    OptManiMulitBallGBB(X0, opts, fun, data1, data2);
+  #    OptManiMulitBallGBB(X0, fun, opts, data1, data2);
   #
   # Output:
   #     X --- solution
@@ -121,7 +121,7 @@ OptManiMulitBallGBB <- function(X, fun, opts=NULL, ...) {
   #     }
   #
   #     # Call function OptManiMulitBallGBB
-  #     OptManiMulitBallGBB(x0, opts, maxcut_quad, C);
+  #     OptManiMulitBallGBB(x0, maxcut_quad, opts, C);
   #
   #
   #     Reference: Z. Wen and W. Yin (2013), A feasible method for optimization
