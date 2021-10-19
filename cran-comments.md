@@ -1,31 +1,37 @@
 ## Test environments
-* macOS 10.13.6 High Sierra, R 3.6.3, R 4.0.5, R 4.1.0
+* macOS 10.13.6 High Sierra, R 3.6.3, R 4.1.0
 * Ubuntu 16.04.6 LTS (on travis-ci), (devel, release and oldrelease)
 * win-builder (devel, release and oldrelease)
 
 ## R CMD check results
 There were no ERRORs and WARNINGs. But there is a NOTE as following:
+* Possibly misspelled words in DESCRIPTION:
 
-- New submission. Package was archived on CRAN. CRAN repository db overrides:
+  Zeng (10:1045)
 
-- Possibly mis-spelled words in DESCRIPTION:
-  - ECD (10:464, 10:939)
-  - FG (10:286)
-  - Grassmannian (10:272)
-  - SIMPLS (10:557)
-  - TPR (10:110, 10:763)
-  - TRR (10:72, 10:681)
-  - Zhang (10:696, 10:772, 10:872, 10:967)
+*Respones*: The spell is correct.
 
-- X-CRAN-Comment: Archived on 2021-05-05 as requires archived package
-    'rTensor'.
+* Found the following (possibly) invalid DOIs:
 
-**Responses**:
-- `TRES 1.1.3` was archived on 2021-05-05 as the import package `rTensor` was archived. Since the `rTensor` passes its build checks on CRAN and was released on 2021-05-15, we aim to submit `TRES` package to bring it back online.
-- We checked the words and verified that all the spellings are legitimate.
+  DOI: 10.18637/jss.v099.i12
 
-## Downstream dependencies
-No reverse dependence packages.
+  From: DESCRIPTION
+  
+  inst/CITATION
+
+  Status: Not Found
+
+  Message: 404
+
+*Response*: The DOI in the CITATION is for a new JSS publication that will be registered after publication on CRAN.
+
+
+## revdepcheck results
+
+We checked 1 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+
+ * We saw 0 new problems
+ * We failed to check 0 packages
 
 ## Updates
-This is the updated version of old package TRES 1.1.3. 
+This is the updated version of old package TRES 1.1.4. 
