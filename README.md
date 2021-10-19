@@ -1,5 +1,5 @@
 
-# TRES
+# TRES <img src="man/figures/TRES_logo.png" align="right" />
 
 <!-- badges: start -->
 [![cran webpage](https://img.shields.io/badge/cran-1.1.4-blue)](https://CRAN.R-project.org/package=TRES)
