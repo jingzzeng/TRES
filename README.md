@@ -88,15 +88,15 @@ G[[6]] <- OptMFG(M, U, u)
 
 ## References
 
-*1D algorithm*: Cook, R.D. and Zhang, X., 2016. Algorithms for envelope estimation. Journal of Computational and Graphical Statistics, 25(1), pp.284-300.
+*1D algorithm*: Cook, R.D. and Zhang, X., 2016. Algorithms for envelope estimation. *Journal of Computational and Graphical Statistics*, 25(1), pp.284-300.
 
-*TRR*: Li, L. and Zhang, X., 2017. Parsimonious tensor response regression. Journal of the American Statistical Association, 112(519), pp.1131-1146.
+*TRR*: Li, L. and Zhang, X., 2017. Parsimonious tensor response regression. *Journal of the American Statistical Association*, 112(519), pp.1131-1146.
 
-*TPR*: Zhang, X. and Li, L., 2017. Tensor envelope partial least-squares regression. Technometrics, 59(4), pp.426-436.
+*TPR*: Zhang, X. and Li, L., 2017. Tensor envelope partial least-squares regression. *Technometrics*, 59(4), pp.426-436.
 
 
-*ECD algorithm*: Cook, R.D. and Zhang, X., 2018. Fast envelope algorithms. Statistica Sinica, 28(3), pp.1179-1197.
+*ECD algorithm*: Cook, R.D. and Zhang, X., 2018. Fast envelope algorithms. *Statistica Sinica*, 28(3), pp.1179-1197.
 
 ## Journal of Statistical Software paper
-Zeng J., Wang W., Zhang X. (2021) TRES: An R Package for Tensor Regression and Envelope Algorithms. Journal of Statistical Software, 99(12), 1-31. doi:10.18637/jss.v099.i12
+Zeng J., Wang W., Zhang X. (2021) TRES: An R Package for Tensor Regression and Envelope Algorithms. *Journal of Statistical Software*, 99(12), 1-31. doi:10.18637/jss.v099.i12
 
