@@ -3,6 +3,7 @@
 
 <!-- badges: start -->
 [![cran webpage](https://img.shields.io/badge/cran-1.1.5-blue)](https://CRAN.R-project.org/package=TRES)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/grand-total/TRES?color=green)](https://r-pkg.org/pkg/TRES)
 <!-- badges: end -->
 
 The package **TRES** implements the least squares and envelope estimation under the framework of tensor regression models. The general model-free envelope models can also be flexibly handled by the package via three types of envelope estimation algorithms: 
